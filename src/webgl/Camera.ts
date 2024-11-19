@@ -32,7 +32,7 @@ export default class Camera {
     const projection = m4.perspective(verticalFov, this.aspect, 0.1, 200)
 
     // A constant "up" vector, here +Y is up
-    const up = [0, 1, 0]
+    const up = [0, 0, 1]
 
     // Create the view transformation used to place objects in the camera's line of sight
     this.view = m4.inverse(m4.lookAt(position, target, up))
