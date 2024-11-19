@@ -42,6 +42,7 @@ export default class HomeScene extends Scene {
 
     this.createParticles()
 
+    this.camera.target = [0, 0, 4]
     this.camera.distance = 34.5
   }
 

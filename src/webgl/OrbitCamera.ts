@@ -10,9 +10,9 @@ export default class OrbitCamera extends Camera {
 
   public render(gl: WebGLRenderingContext) {
     this.position = [
-      this.distance * Math.cos(this.altitude) * Math.sin(this.azimuth),
-      this.distance * Math.cos(this.altitude) * Math.cos(this.azimuth),
-      this.distance * Math.sin(this.altitude),
+      this.target[0] + this.distance * Math.cos(this.altitude) * Math.sin(this.azimuth),
+      this.target[1] + this.distance * Math.cos(this.altitude) * Math.cos(this.azimuth),
+      this.target[2] + this.distance * Math.sin(this.altitude),
     ]
 
     super.render(gl)
