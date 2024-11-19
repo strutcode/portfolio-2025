@@ -17,8 +17,10 @@ import Scene from '../../Scene'
 import vs from './particle.vs.glsl?raw'
 import fs from './particle.fs.glsl?raw'
 
-import points from './test2.json'
+import points from './ship.json'
 import OrbitCamera from '../../OrbitCamera'
+
+console.log(new TextEncoder().encode(points))
 
 /** A fancy sparkling shimmery effect for the home page */
 export default class HomeScene extends Scene {
@@ -26,6 +28,7 @@ export default class HomeScene extends Scene {
 
   private particles = 10000
   private shape = new Float32Array(points)
+  // private shape = new Float32Array(new TextEncoder().encode(points).buffer, 0, this.particles * 3)
   private data: Record<any, any> = {}
   private totalTime = 0
 
@@ -39,7 +42,7 @@ export default class HomeScene extends Scene {
 
     this.createParticles()
 
-    this.camera.distance = 4.5
+    this.camera.distance = 34.5
   }
 
   public dispose() {
@@ -65,7 +68,6 @@ export default class HomeScene extends Scene {
 
     for (let i = 0; i < numInstances; ++i) {
       // Extract the world matrix of the current particle as a buffer view
-      const mat = new Float32Array(instanceWorlds.buffer, i * 16 * 4, 16)
       const pos = new Float32Array(instanceWorlds.buffer, i * 3 * 4, 3)
 
       // Randomize the position and rotation of the particle
@@ -76,7 +78,7 @@ export default class HomeScene extends Scene {
     }
 
     // Create the vertex arrays for the particles
-    const arrays = primitives.createCubeVertices(0.01)
+    const arrays = primitives.createCubeVertices(0.05)
 
     // Add the instance world matrix as an attribute
     Object.assign(arrays, {
@@ -113,7 +115,7 @@ export default class HomeScene extends Scene {
 
   public updateCamera(deltaSeconds: number) {
     this.camera.azimuth += deltaSeconds * 0.1
-    this.camera.altitude = Math.sin(this.totalTime * 0.1)
+    // this.camera.altitude = Math.sin(this.totalTime * 0.1)
   }
 
   private updateParticles(deltaSeconds: number) {
