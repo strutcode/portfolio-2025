@@ -83,9 +83,14 @@ export default class HomeScene extends Scene {
 
     // Add the instance world matrix as an attribute
     Object.assign(arrays, {
-      instanceWorld: {
-        numComponents: 16,
-        data: instanceWorlds,
+      instancePosition: {
+        numComponents: 3,
+        data: instancePositions,
+        divisor: 1,
+      },
+      instanceRotation: {
+        numComponents: 1,
+        data: instanceRotations,
         divisor: 1,
       },
     })
@@ -150,9 +155,13 @@ export default class HomeScene extends Scene {
       m4.rotateZ(mat, instanceRotations[i], mat)
     }
 
-    // Update the buffer with the new world matrices
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.data.bufferInfo.attribs.instanceWorld.buffer)
-    gl.bufferSubData(gl.ARRAY_BUFFER, 0, instanceWorlds)
+    // Update the buffer with the new positions
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.data.bufferInfo.attribs.instancePosition.buffer)
+    gl.bufferSubData(gl.ARRAY_BUFFER, 0, instancePositions)
+
+    // Update the buffer for rotations
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.data.bufferInfo.attribs.instanceRotation.buffer)
+    gl.bufferSubData(gl.ARRAY_BUFFER, 0, instanceRotations)
   }
 
   private renderParticles() {
