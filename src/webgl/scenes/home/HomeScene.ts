@@ -8,6 +8,7 @@ import {
   primitives,
   setBuffersAndAttributes,
   setUniforms,
+  v3,
 } from 'twgl.js'
 
 import Scene from '../../Scene'
@@ -26,6 +27,7 @@ export default class HomeScene extends Scene {
   private particles = 10000
   private shape = new Float32Array(points)
   private data: Record<any, any> = {}
+  private totalTime = 0
 
   public constructor(canvas: HTMLCanvasElement) {
     super(canvas)
@@ -37,7 +39,7 @@ export default class HomeScene extends Scene {
 
     this.createParticles()
 
-    this.camera.distance = 2.5
+    this.camera.distance = 4.5
   }
 
   public dispose() {
@@ -50,6 +52,10 @@ export default class HomeScene extends Scene {
 
     /** The total number of particles */
     const numInstances = this.particles
+    /** The position of each particle */
+    const instancePositions = new Float32Array(numInstances * 3) // 3 components per particle
+    /** The rotation of each particle around its axis */
+    const instanceRotations = new Float32Array(numInstances)
     /** The world matrices of each particle as a flat array of mat4 */
     const instanceWorlds = new Float32Array(numInstances * 16) // 4x4 = 16 floats per particle
     /** Get a random float between `x` and `y` */
@@ -60,14 +66,13 @@ export default class HomeScene extends Scene {
     for (let i = 0; i < numInstances; ++i) {
       // Extract the world matrix of the current particle as a buffer view
       const mat = new Float32Array(instanceWorlds.buffer, i * 16 * 4, 16)
+      const pos = new Float32Array(instanceWorlds.buffer, i * 3 * 4, 3)
 
       // Randomize the position and rotation of the particle
-      m4.translation(
-        [randfRange(-range, range), randfRange(-range, range), randfRange(0, range)],
-        mat,
-      )
-      m4.rotateZ(mat, randfRange(0, Math.PI * 2), mat)
-      m4.rotateX(mat, randfRange(0, Math.PI * 2), mat)
+      pos[0] = randfRange(-range, range)
+      pos[1] = randfRange(-range, range)
+      pos[2] = randfRange(0, range)
+      instanceRotations[i] = randfRange(0, Math.PI * 2)
     }
 
     // Create the vertex arrays for the particles
@@ -93,11 +98,14 @@ export default class HomeScene extends Scene {
       bufferInfo,
       vertexArrayInfo,
       instanceWorlds,
+      instancePositions,
+      instanceRotations,
     }
   }
 
   /** Called by the base Scene class on render */
   public animate(deltaSeconds: number) {
+    this.totalTime += deltaSeconds
     this.updateCamera(deltaSeconds)
     this.updateParticles(deltaSeconds)
     this.renderParticles()
@@ -105,26 +113,38 @@ export default class HomeScene extends Scene {
 
   public updateCamera(deltaSeconds: number) {
     this.camera.azimuth += deltaSeconds * 0.1
+    this.camera.altitude = Math.sin(this.totalTime * 0.1)
   }
 
   private updateParticles(deltaSeconds: number) {
     const gl = this.getContext()
-    const { instanceWorlds } = this.data
+    const { instanceWorlds, instancePositions, instanceRotations } = this.data
+    const diff = [0, 0, 0]
 
     // Iterate every particle and rotate it slightly
     for (let i = 0; i < this.particles; ++i) {
       const mat = new Float32Array(instanceWorlds.buffer, i * 16 * 4, 16)
+      const pos = new Float32Array(instancePositions.buffer, i * 3 * 4, 3)
       const target = new Float32Array(this.shape.buffer, i * 3 * 4, 3)
-      const diff = [target[0] - mat[12], target[1] - mat[13], target[2] - mat[14]]
 
+      // Get the relative distance to the target location
+      v3.subtract(target, pos, diff)
+
+      // Scale the delta movement by the frame rate
       diff[0] *= deltaSeconds * 2
       diff[1] *= deltaSeconds * 2
       diff[2] *= deltaSeconds * 2
 
-      m4.translate(mat, diff, mat)
+      // Move the particle towards the target
+      v3.add(pos, diff, pos)
 
-      // Rotate the particle around the X axis by a random amount between 0.0 and 1.0 scaled to the frame rate (deltaSeconds)
-      m4.rotateX(mat, deltaSeconds * Math.random(), mat)
+      // Rotate the particle
+      instanceRotations[i] += deltaSeconds * 4 * Math.random()
+
+      // Update the matrix with the new position and rotation
+      m4.translation(pos, mat)
+      m4.rotateX(mat, instanceRotations[i], mat)
+      m4.rotateZ(mat, instanceRotations[i], mat)
     }
 
     // Update the buffer with the new world matrices
