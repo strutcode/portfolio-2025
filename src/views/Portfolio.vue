@@ -6,21 +6,31 @@
     </nav>
 
     <div class="carousel">
-      <div class="slide">
-        <h2>Project 1</h2>
-        <img src="../assets/placeholder.jpg" alt="Project 1" />
-      </div>
-      <div class="slide">
-        <h2>Project 2</h2>
-        <img src="../assets/placeholder.jpg" alt="Project 2" />
-      </div>
-      <div class="slide">
-        <h2>Project 3</h2>
-        <img src="../assets/placeholder.jpg" alt="Project 3" />
+      <div v-for="img in entries" class="slide">
+        <div class="preview">
+          <img :src="img" />
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+  import { ref } from 'vue'
+
+  // Dynamically import all view components
+  const modules = import.meta.glob('../assets/portfolio/*.(jpg|png)', { eager: true })
+
+  const entries = ref(
+    Object.keys(modules)
+      .map((filepath) => {
+        const isImage = !!filepath.match(/\.(png|jpg)$/)
+
+        return isImage ? modules[filepath].default : undefined
+      })
+      .filter((v) => v),
+  )
+</script>
 
 <style scoped>
   .carousel {
@@ -41,9 +51,14 @@
     margin: 0 1rem;
   }
 
+  .preview {
+    border-radius: 10px;
+    max-height: 300px;
+    overflow: hidden;
+  }
+
   img {
     width: 100%;
-    border-radius: 10px;
   }
 
   nav {
