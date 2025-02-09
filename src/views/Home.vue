@@ -2,18 +2,17 @@
   <div>
     <canvas ref="canvas"></canvas>
     <div class="content">
-      <h1>Building Awesome Stuff</h1>
+      <!-- <h1>Building Awesome Stuff</h1> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { onMounted, onUnmounted, useTemplateRef } from 'vue'
-  import HomeScene from '../webgl/scenes/home/HomeScene'
-  import type Scene from '../webgl/Scene'
+  import HomeScene from '../babylon/scenes/home/HomeScene'
 
   const canvas = useTemplateRef('canvas')
-  let scene: Scene | null = null
+  let scene: any = null
 
   onMounted(() => {
     if (!canvas.value) return
