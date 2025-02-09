@@ -10,6 +10,9 @@ export default abstract class Scene {
   private boundRender = this.render.bind(this)
   private renderHandle?: number
   private previousTime = performance.now()
+  private frameCount = 0
+  private frameTime = performance.now()
+  private frameRate = 0
 
   public constructor(canvas: HTMLCanvasElement) {
     // Initialize WebGL
@@ -30,6 +33,8 @@ export default abstract class Scene {
 
     // Start the render loop
     requestAnimationFrame(this.boundRender)
+
+    setInterval(this.captureFramerate.bind(this), 1000)
   }
 
   public getContext() {
@@ -73,6 +78,7 @@ export default abstract class Scene {
     this.animate(deltaSeconds)
 
     this.previousTime = presentTime
+    this.frameCount++
 
     this.renderHandle = requestAnimationFrame(this.boundRender)
   }
@@ -98,4 +104,13 @@ export default abstract class Scene {
   }
 
   protected abstract animate(deltaSeconds: number): void
+
+  private captureFramerate() {
+    const now = performance.now()
+    const delta = now - this.frameTime
+
+    this.frameRate = (this.frameCount * 1000) / delta
+    this.frameCount = 0
+    this.frameTime = performance.now()
+  }
 }

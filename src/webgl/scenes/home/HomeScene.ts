@@ -20,8 +20,6 @@ import fs from './particle.fs.glsl?raw'
 import points from './ship.json'
 import OrbitCamera from '../../OrbitCamera'
 
-console.log(new TextEncoder().encode(points))
-
 /** A fancy sparkling shimmery effect for the home page */
 export default class HomeScene extends Scene {
   public camera: OrbitCamera
@@ -60,8 +58,6 @@ export default class HomeScene extends Scene {
     const instancePositions = new Float32Array(numInstances * 3) // 3 components per particle
     /** The rotation of each particle around its axis */
     const instanceRotations = new Float32Array(numInstances)
-    /** The world matrices of each particle as a flat array of mat4 */
-    const instanceWorlds = new Float32Array(numInstances * 16) // 4x4 = 16 floats per particle
     /** Get a random float between `x` and `y` */
     const randfRange = (x: number, y: number) => x + Math.random() * (y - x)
     /** The spread range of particles on initial spawn */
@@ -69,7 +65,7 @@ export default class HomeScene extends Scene {
 
     for (let i = 0; i < numInstances; ++i) {
       // Extract the world matrix of the current particle as a buffer view
-      const pos = new Float32Array(instanceWorlds.buffer, i * 3 * 4, 3)
+      const pos = new Float32Array(instancePositions.buffer, i * 3 * 4, 3)
 
       // Randomize the position and rotation of the particle
       pos[0] = randfRange(-range, range)
@@ -105,7 +101,6 @@ export default class HomeScene extends Scene {
       programInfo,
       bufferInfo,
       vertexArrayInfo,
-      instanceWorlds,
       instancePositions,
       instanceRotations,
     }
@@ -121,17 +116,16 @@ export default class HomeScene extends Scene {
 
   public updateCamera(deltaSeconds: number) {
     this.camera.azimuth += deltaSeconds * 0.1
-    // this.camera.altitude = Math.sin(this.totalTime * 0.1)
+    this.camera.altitude = Math.sin(this.totalTime * 0.1)
   }
 
   private updateParticles(deltaSeconds: number) {
     const gl = this.getContext()
-    const { instanceWorlds, instancePositions, instanceRotations } = this.data
+    const { instancePositions, instanceRotations } = this.data
     const diff = [0, 0, 0]
 
     // Iterate every particle and rotate it slightly
     for (let i = 0; i < this.particles; ++i) {
-      const mat = new Float32Array(instanceWorlds.buffer, i * 16 * 4, 16)
       const pos = new Float32Array(instancePositions.buffer, i * 3 * 4, 3)
       const target = new Float32Array(this.shape.buffer, i * 3 * 4, 3)
 
@@ -139,20 +133,15 @@ export default class HomeScene extends Scene {
       v3.subtract(target, pos, diff)
 
       // Scale the delta movement by the frame rate
-      diff[0] *= deltaSeconds * 2
-      diff[1] *= deltaSeconds * 2
-      diff[2] *= deltaSeconds * 2
+      diff[0] *= deltaSeconds * 4
+      diff[1] *= deltaSeconds * 4
+      diff[2] *= deltaSeconds * 4
 
       // Move the particle towards the target
       v3.add(pos, diff, pos)
 
       // Rotate the particle
-      instanceRotations[i] += deltaSeconds * 4 * Math.random()
-
-      // Update the matrix with the new position and rotation
-      m4.translation(pos, mat)
-      m4.rotateX(mat, instanceRotations[i], mat)
-      m4.rotateZ(mat, instanceRotations[i], mat)
+      instanceRotations[i] += deltaSeconds * 8 * Math.random()
     }
 
     // Update the buffer with the new positions
