@@ -27,12 +27,14 @@ export default class HomeScene {
 
     // Create a basic default lighting
     const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene)
+    light.intensity = 1.7
 
     // Create a basic default camera
-    const camera = new ArcRotateCamera('camera', Math.PI / 2, Math.PI / 2, 8, Vector3.Zero(), scene)
+    // const camera = new ArcRotateCamera('camera', Math.PI / 2, Math.PI / 2, 8, Vector3.Zero(), scene)
+    const camera = new ArcRotateCamera('camera', Math.PI / 2, Math.PI / 2, 4, Vector3.Zero(), scene)
 
     // Attach the camera to the canvas
-    camera.attachControl(canvas, true)
+    // camera.attachControl(canvas, true)
 
     // this.createParticleSystem(scene)
 
@@ -46,7 +48,7 @@ export default class HomeScene {
 
         flower.material = this.createCustomMaterial(scene)
 
-        camera.setTarget(new Vector3(0, 1, 0))
+        camera.setTarget(new Vector3(1, 1, 0))
       }
     })
     this.scene = scene
