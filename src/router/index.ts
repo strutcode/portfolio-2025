@@ -11,19 +11,6 @@ const routes: RouteRecordRaw[] = [
     name: 'about',
     path: '/about',
     component: () => import('@/views/About.vue'),
-    redirect: { name: 'about-summary' },
-    children: [
-      {
-        name: 'about-summary',
-        path: 'summary',
-        component: () => import('@/views/AboutSummary.vue'),
-      },
-      {
-        name: 'about-confidences',
-        path: 'confidences',
-        component: () => import('@/views/AboutConfidences.vue'),
-      },
-    ],
   },
   {
     name: 'portfolio',
