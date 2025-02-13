@@ -53,6 +53,10 @@ export default class HomeScene {
     })
     this.scene = scene
 
+    window.addEventListener('resize', () => {
+      engine.resize()
+    })
+
     // Run the engine
     engine.runRenderLoop(() => {
       scene.render()
