@@ -1,4 +1,5 @@
 <template>
+  <img class="logo" src="@/assets/logo.svg" alt="Logo" />
   <Navigation />
   <div class="body">
     <RouterView v-slot="{ Component }">
@@ -17,6 +18,14 @@
 <style scoped>
   .body {
     padding: 8rem 5rem;
+  }
+
+  .logo {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    height: 70px;
+    z-index: 1;
   }
 
   .fade-enter-active,

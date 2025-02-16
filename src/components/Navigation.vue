@@ -1,8 +1,7 @@
 <template>
-  <nav class="header">
+  <nav>
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/about">About</RouterLink>
-    <img src="@/assets/logo.svg" alt="Logo" />
     <RouterLink to="/portfolio">Portfolio</RouterLink>
     <RouterLink to="/contact">Contact</RouterLink>
   </nav>
@@ -11,14 +10,21 @@
 <style scoped>
   nav {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    top: 20%;
+    right: 1rem;
     display: flex;
-    justify-content: space-around;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    gap: 1rem;
     align-items: center;
     padding: 1.5rem 0;
-    z-index: +10;
+    z-index: +1;
+    text-shadow:
+      1px 0 #000,
+      -1px 0 #000,
+      0 1px #000,
+      0 -1px #000,
+      0 0 4px #000;
 
     img {
       height: 70px;
@@ -26,7 +32,7 @@
   }
 
   :deep(a) {
-    font-size: 2.1em;
+    font-size: 2rem;
     color: #ccc;
     text-decoration: none;
   }
