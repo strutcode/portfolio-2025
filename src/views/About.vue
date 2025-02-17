@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="about">
     <div class="container">
       <div class="left">
         <img class="heroImage" :src="activeImage" alt="Profile photograph of me" />
@@ -165,6 +165,10 @@
 </script>
 
 <style scoped>
+  .about {
+    margin-top: 4rem;
+  }
+
   .container {
     display: flex;
     justify-content: space-between;

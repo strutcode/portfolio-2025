@@ -2,22 +2,24 @@
   <img class="logo" src="@/assets/logo.svg" alt="Logo" />
   <Navigation />
   <div class="body">
-    <RouterView v-slot="{ Component }">
-      <transition name="fade" mode="out-in">
-        <component :is="Component" />
-      </transition>
-    </RouterView>
+    <Home />
+    <About />
+    <Portfolio />
+    <Contact />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { RouterView } from 'vue-router'
   import Navigation from './components/Navigation.vue'
+  import Home from './views/Home.vue'
+  import About from './views/About.vue'
+  import Portfolio from './views/Portfolio.vue'
+  import Contact from './views/Contact.vue'
 </script>
 
 <style scoped>
   .body {
-    padding: 8rem 5rem;
+    margin: 0 4rem;
   }
 
   .logo {
