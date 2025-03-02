@@ -547,7 +547,7 @@
 
     &:hover {
       transition-delay: 0s;
-      transform: perspective(100vh) translateZ(10vh) rotate3d(1, 0, 0.1, 15deg);
+      transform: perspective(100vh) translateZ(10vh) rotate3d(1, 0, -0.1, 15deg);
     }
 
     svg {
@@ -643,12 +643,14 @@
       height: 200%;
       background: linear-gradient(0deg, transparent, transparent 30%, rgba(255, 255, 255, 0.15));
       transform: rotate(-45deg);
-      transition: all 0.2s ease;
       opacity: 0;
+      transition: all 0.2s ease;
+      transition-delay: 0.1s;
     }
 
     &:hover ::before {
       opacity: 1;
+      transition-delay: 0s;
       transform: rotate(-45deg) translateY(100%);
     }
   }
