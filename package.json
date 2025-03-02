@@ -13,6 +13,7 @@
     "@babylonjs/loaders": "^7.43.0",
     "@babylonjs/materials": "^7.43.0",
     "@babylonjs/serializers": "^7.48.3",
+    "@iconify/vue": "^4.3.0",
     "twgl.js": "^5.5.4",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"

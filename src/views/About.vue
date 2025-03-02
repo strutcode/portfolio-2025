@@ -16,7 +16,8 @@
         </div>
       </div>
       <div class="right">
-        <h1>About Me</h1>
+        <h1>Tristan Shelton</h1>
+        <h2 class="subtitle">Web Developer Extraordinaire</h2>
 
         <div class="summary">
           <p>
@@ -37,6 +38,326 @@
             mollit anim id est laborum.
           </p>
         </div>
+      </div>
+    </div>
+
+    <div class="banner purple">Core Strengths</div>
+    <div class="skills">
+      <div class="skill">
+        <Icon icon="devicon:typescript" />
+        <div class="title">Typescript</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:javascript" />
+        <div class="title">Javascript</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:html5" />
+        <div class="title">HTML</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:css3" />
+        <div class="title">CSS</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:sass" />
+        <div class="title">Sass</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon-plain:less-wordmark" />
+        <div class="title">Less</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:postcss" />
+        <div class="title">PostCSS</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:vuejs" />
+        <div class="title">Vue 2.x/3.x</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:npm" />
+        <div class="title">NPM</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:yarn" />
+        <div class="title">Yarn</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:git" />
+        <div class="title">Git</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:github" />
+        <div class="title">GitHub</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:nodejs" />
+        <div class="title">Node</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:linux" />
+        <div class="title">Linux</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:vscode" />
+        <div class="title">VS Code</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon-plain:bash" />
+        <div class="title">Shell Script</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:vitest" />
+        <div class="title">Vitest</div>
+      </div>
+      <div class="skill">
+        <Icon icon="logos:ava" />
+        <div class="title">Ava</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:mocha" />
+        <div class="title">Mocha</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:jasmine" />
+        <div class="title">Jasmine</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:vite" />
+        <div class="title">Vite</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:webpack" />
+        <div class="title">Webpack</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:cypressio" />
+        <div class="title">Cypress</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:puppeteer" />
+        <div class="title">Puppeteer</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:playwright" />
+        <div class="title">Playwright</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:docker" />
+        <div class="title">Docker</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon-plain:circleci" />
+        <div class="title">CircleCI</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:webgpu" />
+        <div class="title">WebGL</div>
+      </div>
+      <div class="skill">
+        <Icon icon="logos:graphql" />
+        <div class="title">GraphQL</div>
+      </div>
+    </div>
+
+    <div class="banner red">Notable Skills</div>
+    <div class="notable">
+      <div class="skill">
+        <Icon icon="devicon:elasticsearch" />
+        <div class="title">ElasticSearch</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:express" />
+        <div class="title">Express.js</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:denojs" />
+        <div class="title">Deno</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:bun" />
+        <div class="title">Bun</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:c" />
+        <div class="title">C</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:embeddedc" />
+        <div class="title">Embedded C</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:cmake" />
+        <div class="title">CMake</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:cplusplus" />
+        <div class="title">C++</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:svelte" />
+        <div class="title">Svelte</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:chartjs" />
+        <div class="title">Chart.js</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:react" />
+        <div class="title">React</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:redux" />
+        <div class="title">Redux</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:rxjs" />
+        <div class="title">RX.js</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:mongodb" />
+        <div class="title">Mongo</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:godot" />
+        <div class="title">Godot</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:unity" />
+        <div class="title">Unity</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:unrealengine" />
+        <div class="title">Unreal 5</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:blender" />
+        <div class="title">Blender</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:dart" />
+        <div class="title">Dart</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:capacitor" />
+        <div class="title">Capacitor</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:digitalocean" />
+        <div class="title">DigitalOcean</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:azure" />
+        <div class="title">Azure</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:amazonwebservices-wordmark" />
+        <div class="title">AWS</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:googlecloud" />
+        <div class="title">Google Cloud</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:bootstrap" />
+        <div class="title">Bootstrap</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:jquery" />
+        <div class="title">jQuery</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:browserstack" />
+        <div class="title">BrowserStack</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:babel" />
+        <div class="title">BabelJS</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:figma" />
+        <div class="title">Figma</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:firebase" />
+        <div class="title">Firebase</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:eslint" />
+        <div class="title">ESLint</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:csharp" />
+        <div class="title">C#</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:heroku" />
+        <div class="title">Heroku</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:ifttt" />
+        <div class="title">IFTTT</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:laravel" />
+        <div class="title">Laravel</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:php" />
+        <div class="title">PHP</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:lodash" />
+        <div class="title">Lodash</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:go" />
+        <div class="title">Go</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:pixijs" />
+        <div class="title">Pixi.js</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:python" />
+        <div class="title">Python</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:ruby" />
+        <div class="title">Ruby</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:flutter" />
+        <div class="title">Flutter</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:redis" />
+        <div class="title">Redis</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:nginx" />
+        <div class="title">nginx</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:flask" />
+        <div class="title">Flask</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:markdown" />
+        <div class="title">Markdown</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:githubactions" />
+        <div class="title">Github Actions</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:arduino" />
+        <div class="title">Arduino</div>
+      </div>
+      <div class="skill">
+        <Icon icon="devicon:pnpm" />
+        <div class="title">pnpm</div>
       </div>
     </div>
 
@@ -153,6 +474,7 @@
 
 <script setup>
   import { ref } from 'vue'
+  import { Icon } from '@iconify/vue'
 
   const images = [
     'https://companionpetvet.com/wp-content/uploads/2015/09/fall-kittens.jpg',
@@ -167,6 +489,126 @@
 <style scoped>
   .about {
     margin-top: 4rem;
+  }
+
+  .subtitle {
+    font-size: 1.2em;
+    color: #ccc;
+    opacity: 0.6;
+    margin-top: -1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 5rem;
+    font-size: 2em;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-shadow:
+      0.1rem 0 #000,
+      -0.1rem 0 #000,
+      0 0.1rem #000,
+      0 -0.1rem #000;
+    border-style: solid;
+    border-width: 0.5rem 0;
+    margin: 4rem 0;
+
+    &.purple {
+      background-color: rgba(111, 66, 194, 0.25);
+      border-color: rgba(111, 66, 194, 0.75);
+    }
+
+    &.red {
+      background-color: rgba(207, 60, 143, 0.25);
+      border-color: rgba(207, 60, 143, 0.75);
+    }
+  }
+
+  .skill {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 10vw;
+    height: 11vw;
+    background: #556;
+    border-radius: 0.5em;
+    text-align: center;
+    box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.5);
+    border: 2px outset #556;
+    box-sizing: border-box;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: perspective(100vh) translateZ(10vh) rotate3d(1, 0, 0.1, 15deg);
+    }
+
+    svg {
+      width: 5.5rem;
+      height: 5.5rem;
+    }
+
+    .title {
+      font-size: 1.5em;
+      color: #cce;
+      text-shadow:
+        0 0.1rem 0.1rem rgba(0, 0, 0, 0.2),
+        0 -0.1rem 0.1rem rgba(0, 0, 0, 0.2),
+        0.1rem 0 0.1rem rgba(0, 0, 0, 0.2),
+        -0.1rem 0 0.1rem rgba(0, 0, 0, 0.2);
+      font-weight: 600;
+    }
+  }
+
+  .skills {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: space-between;
+    margin: 4rem auto;
+    gap: 1rem;
+
+    svg {
+      margin-top: 1rem;
+      filter: drop-shadow(0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.5));
+    }
+
+    .title {
+      margin-top: 1rem;
+    }
+  }
+
+  .notable {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: space-between;
+    margin: 4rem auto;
+    gap: 1rem;
+
+    .skill {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      width: 12vw;
+      height: 3vw;
+
+      svg {
+        margin-left: 0.75rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        filter: drop-shadow(0.05rem 0.05rem 0.05rem rgba(0, 0, 0, 0.5));
+      }
+
+      .title {
+        margin-left: 0.75rem;
+        font-size: 1.1em;
+      }
+    }
   }
 
   .container {
