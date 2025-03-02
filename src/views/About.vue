@@ -43,119 +43,119 @@
 
     <div class="banner purple">Core Strengths</div>
     <div class="skills">
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:typescript" />
         <div class="title">Typescript</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:javascript" />
         <div class="title">Javascript</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:html5" />
         <div class="title">HTML</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:css3" />
         <div class="title">CSS</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:sass" />
         <div class="title">Sass</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon-plain:less-wordmark" />
         <div class="title">Less</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:postcss" />
         <div class="title">PostCSS</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:vuejs" />
         <div class="title">Vue 2.x/3.x</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:npm" />
         <div class="title">NPM</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:yarn" />
         <div class="title">Yarn</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:git" />
         <div class="title">Git</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:github" />
         <div class="title">GitHub</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:nodejs" />
         <div class="title">Node</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:linux" />
         <div class="title">Linux</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:vscode" />
         <div class="title">VS Code</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon-plain:bash" />
         <div class="title">Shell Script</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:vitest" />
         <div class="title">Vitest</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="logos:ava" />
         <div class="title">Ava</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:mocha" />
         <div class="title">Mocha</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:jasmine" />
         <div class="title">Jasmine</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:vite" />
         <div class="title">Vite</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:webpack" />
         <div class="title">Webpack</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:cypressio" />
         <div class="title">Cypress</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:puppeteer" />
         <div class="title">Puppeteer</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:playwright" />
         <div class="title">Playwright</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:docker" />
         <div class="title">Docker</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon-plain:circleci" />
         <div class="title">CircleCI</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:webgpu" />
         <div class="title">WebGL</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="logos:graphql" />
         <div class="title">GraphQL</div>
       </div>
@@ -163,199 +163,199 @@
 
     <div class="banner red">Notable Skills</div>
     <div class="notable">
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:elasticsearch" />
         <div class="title">ElasticSearch</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:express" />
         <div class="title">Express.js</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:denojs" />
         <div class="title">Deno</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:bun" />
         <div class="title">Bun</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:c" />
         <div class="title">C</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:embeddedc" />
         <div class="title">Embedded C</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:cmake" />
         <div class="title">CMake</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:cplusplus" />
         <div class="title">C++</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:svelte" />
         <div class="title">Svelte</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:chartjs" />
         <div class="title">Chart.js</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:react" />
         <div class="title">React</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:redux" />
         <div class="title">Redux</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:rxjs" />
         <div class="title">RX.js</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:mongodb" />
         <div class="title">Mongo</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:godot" />
         <div class="title">Godot</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:unity" />
         <div class="title">Unity</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:unrealengine" />
         <div class="title">Unreal 5</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:blender" />
         <div class="title">Blender</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:dart" />
         <div class="title">Dart</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:capacitor" />
         <div class="title">Capacitor</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:digitalocean" />
         <div class="title">DigitalOcean</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:azure" />
         <div class="title">Azure</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:amazonwebservices-wordmark" />
         <div class="title">AWS</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:googlecloud" />
         <div class="title">Google Cloud</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:bootstrap" />
         <div class="title">Bootstrap</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:jquery" />
         <div class="title">jQuery</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:browserstack" />
         <div class="title">BrowserStack</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:babel" />
         <div class="title">BabelJS</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:figma" />
         <div class="title">Figma</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:firebase" />
         <div class="title">Firebase</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:eslint" />
         <div class="title">ESLint</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:csharp" />
         <div class="title">C#</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:heroku" />
         <div class="title">Heroku</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:ifttt" />
         <div class="title">IFTTT</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:laravel" />
         <div class="title">Laravel</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:php" />
         <div class="title">PHP</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:lodash" />
         <div class="title">Lodash</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:go" />
         <div class="title">Go</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:pixijs" />
         <div class="title">Pixi.js</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:python" />
         <div class="title">Python</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:ruby" />
         <div class="title">Ruby</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:flutter" />
         <div class="title">Flutter</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:redis" />
         <div class="title">Redis</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:nginx" />
         <div class="title">nginx</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:flask" />
         <div class="title">Flask</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:markdown" />
         <div class="title">Markdown</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:githubactions" />
         <div class="title">Github Actions</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:arduino" />
         <div class="title">Arduino</div>
       </div>
-      <div class="skill">
+      <div class="skill shiny">
         <Icon icon="devicon:pnpm" />
         <div class="title">pnpm</div>
       </div>
@@ -472,7 +472,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue'
   import { Icon } from '@iconify/vue'
 
@@ -534,8 +534,8 @@
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    width: 10vw;
-    height: 11vw;
+    width: 10em;
+    height: 11em;
     background: #556;
     border-radius: 0.5em;
     text-align: center;
@@ -543,8 +543,10 @@
     border: 2px outset #556;
     box-sizing: border-box;
     transition: transform 0.2s;
+    transition-delay: 0.1s;
 
     &:hover {
+      transition-delay: 0s;
       transform: perspective(100vh) translateZ(10vh) rotate3d(1, 0, 0.1, 15deg);
     }
 
@@ -572,13 +574,23 @@
     margin: 4rem auto;
     gap: 1rem;
 
-    svg {
-      margin-top: 1rem;
-      filter: drop-shadow(0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.5));
-    }
+    .skill {
+      svg {
+        margin-top: 1rem;
+        filter: drop-shadow(0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.5));
+      }
 
-    .title {
-      margin-top: 1rem;
+      .title {
+        margin-top: 1rem;
+      }
+
+      ::before {
+        transform: rotate(-45deg);
+      }
+
+      &:hover ::before {
+        transform: rotate(-45deg) translateY(50%);
+      }
     }
   }
 
@@ -594,8 +606,8 @@
       flex-flow: row nowrap;
       justify-content: flex-start;
       align-items: center;
-      width: 12vw;
-      height: 3vw;
+      width: 12em;
+      height: 3em;
 
       svg {
         margin-left: 0.75rem;
@@ -608,6 +620,36 @@
         margin-left: 0.75rem;
         font-size: 1.1em;
       }
+
+      ::before {
+        transform: rotate(-10deg);
+      }
+
+      &:hover ::before {
+        transform: rotate(-10deg) translateY(40%);
+      }
+    }
+  }
+
+  .shiny {
+    overflow: hidden;
+
+    ::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(0deg, transparent, transparent 30%, rgba(255, 255, 255, 0.15));
+      transform: rotate(-45deg);
+      transition: all 0.2s ease;
+      opacity: 0;
+    }
+
+    &:hover ::before {
+      opacity: 1;
+      transform: rotate(-45deg) translateY(100%);
     }
   }
 
