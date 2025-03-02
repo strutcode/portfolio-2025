@@ -24,9 +24,9 @@
 
   .logo {
     position: fixed;
-    top: 1rem;
-    left: 1rem;
-    height: 70px;
+    top: 4rem;
+    left: 4rem;
+    height: 6rem;
     z-index: 1;
   }
 

@@ -17,14 +17,15 @@
     justify-content: space-between;
     gap: 1rem;
     align-items: center;
-    padding: 1.5rem 0;
+    padding: 2rem;
     z-index: +1;
+    box-shadow: 0 0 2vh 2vh rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.4);
     text-shadow:
-      1px 0 #000,
-      -1px 0 #000,
-      0 1px #000,
-      0 -1px #000,
-      0 0 4px #000;
+      0.1rem 0 #000,
+      -0.1rem 0 #000,
+      0 0.1rem #000,
+      0 -0.1rem #000;
 
     img {
       height: 70px;
