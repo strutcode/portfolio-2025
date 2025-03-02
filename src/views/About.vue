@@ -506,7 +506,7 @@
     width: 100%;
     height: 5rem;
     font-size: 2em;
-    color: #fff;
+    color: #eee;
     text-transform: uppercase;
     font-weight: 700;
     text-shadow:
@@ -514,18 +514,42 @@
       -0.1rem 0 #000,
       0 0.1rem #000,
       0 -0.1rem #000;
-    border-style: solid;
-    border-width: 0.5rem 0;
     margin: 4rem 0;
+    padding: 1rem 0;
 
     &.purple {
-      background-color: rgba(111, 66, 194, 0.25);
-      border-color: rgba(111, 66, 194, 0.75);
+      background: linear-gradient(
+          90deg,
+          hsl(224, 35%, 8%),
+          rgba(111, 66, 194, 0.25) 40%,
+          rgba(111, 66, 194, 0.25) 60%,
+          hsl(224, 35%, 8%)
+        ),
+        linear-gradient(
+          0deg,
+          rgba(111, 66, 194, 0.5),
+          transparent 10%,
+          transparent 90%,
+          rgba(111, 66, 194, 0.5)
+        );
     }
 
     &.red {
-      background-color: rgba(207, 60, 143, 0.25);
-      border-color: rgba(207, 60, 143, 0.75);
+      background: rgba(207, 60, 143, 0.25);
+      background: linear-gradient(
+          90deg,
+          hsl(224, 35%, 8%),
+          rgba(207, 60, 143, 0.25) 40%,
+          rgba(207, 60, 143, 0.25) 60%,
+          hsl(224, 35%, 8%)
+        ),
+        linear-gradient(
+          0deg,
+          rgba(207, 60, 143, 0.5),
+          transparent 10%,
+          transparent 90%,
+          rgba(207, 60, 143, 0.5)
+        );
     }
   }
 
@@ -536,11 +560,11 @@
     align-items: center;
     width: 10em;
     height: 11em;
-    background: #556;
+    background: hsl(240, 20%, 67%);
     border-radius: 0.5em;
     text-align: center;
     box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.5);
-    border: 2px outset #556;
+    border: 2px outset hsl(240, 20%, 67%);
     box-sizing: border-box;
     transition: transform 0.2s;
     transition-delay: 0.1s;
@@ -557,12 +581,12 @@
 
     .title {
       font-size: 1.5em;
-      color: #cce;
-      text-shadow:
+      color: #333;
+      /* text-shadow:
         0 0.1rem 0.1rem rgba(0, 0, 0, 0.2),
         0 -0.1rem 0.1rem rgba(0, 0, 0, 0.2),
         0.1rem 0 0.1rem rgba(0, 0, 0, 0.2),
-        -0.1rem 0 0.1rem rgba(0, 0, 0, 0.2);
+        -0.1rem 0 0.1rem rgba(0, 0, 0, 0.2); */
       font-weight: 600;
     }
   }
@@ -641,7 +665,7 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: linear-gradient(0deg, transparent, transparent 30%, rgba(255, 255, 255, 0.15));
+      background: linear-gradient(0deg, transparent, transparent 30%, rgba(255, 255, 255, 0.25));
       transform: rotate(-45deg);
       opacity: 0;
       transition: all 0.2s ease;
