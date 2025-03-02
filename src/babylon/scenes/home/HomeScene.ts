@@ -1,14 +1,10 @@
-import {
-  Color4,
-  Engine,
-  LoadSceneAsync,
-  AppendSceneAsync,
-  SceneLoaderFlags,
-  PointLight,
-  Scene,
-} from '@babylonjs/core'
+import { Scene } from '@babylonjs/core/scene'
+import { Engine } from '@babylonjs/core/Engines/engine'
+import { Color4 } from '@babylonjs/core/Maths/math.color'
+import { AppendSceneAsync } from '@babylonjs/core/Loading/sceneLoader'
+import { SceneLoaderFlags } from '@babylonjs/core/Loading/sceneLoaderFlags'
+import { PointLight } from '@babylonjs/core/Lights/pointLight'
 import '@babylonjs/loaders/glTF'
-import { Inspector } from '@babylonjs/inspector'
 
 import flare from '@/assets/textures/flare.png'
 
@@ -51,11 +47,15 @@ export default class HomeScene {
       // Set a themed background color
       scene.clearColor = new Color4(13 / 255, 17 / 255, 28 / 255, 1)
 
-      if (this.useInspector) {
-        Inspector.Show(scene, {
-          globalRoot: document.getElementById('inspector')!,
-          overlay: true,
-        })
+      if (import.meta.env.MODE === 'development') {
+        const { Inspector } = await import('@babylonjs/inspector')
+
+        if (this.useInspector) {
+          Inspector.Show(scene, {
+            globalRoot: document.getElementById('inspector')!,
+            overlay: true,
+          })
+        }
       }
     })()
 

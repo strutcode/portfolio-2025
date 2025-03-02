@@ -15,6 +15,10 @@ export default defineConfig({
     },
   },
 
+  esbuild: {
+    sourcemap: process.env.NODE_ENV !== 'production',
+  },
+
   // Build options
   build: {
     outDir: 'dist',
@@ -24,6 +28,7 @@ export default defineConfig({
         index: './index.html',
         app: './src/index.ts',
       },
+      external: process.env.NODE_ENV === 'production' ? ['@babylonjs/inspector'] : [],
     },
   },
 
