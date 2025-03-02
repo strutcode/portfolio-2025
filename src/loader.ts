@@ -3,6 +3,9 @@
  * to pre-warm data for the rest of the site.
  */
 
+// Load this statically to ensure it's part of the initial bundle
+import logo from '@/assets/logo.svg?raw'
+
 /** Augment the window object with custom data */
 declare global {
   interface Window {
@@ -34,7 +37,7 @@ async function trackProgress(response: Response): Promise<Blob> {
     loaded += value?.byteLength ?? 0
 
     // Update the progress bar
-    bar.style.width = `${(loaded / total) * 75}%`
+    bar.style.width = `${(loaded / total) * 85}%`
 
     // Copy the bytes into the buffer
     buffer.set(new Uint8Array(value), loaded - value.byteLength)
@@ -49,12 +52,16 @@ function createLoader() {
   const loader = document.createElement('div')
   loader.id = 'loader'
   loader.innerHTML = `
-    <div class="loader">
-      <div class="loadingBar">
-        <div class="progress"></div>
-      </div>
+    <div class="loadingBar">
+      <div class="progress"></div>
     </div>
   `
+
+  // Use the raw SVG data to create an image element
+  const loaderLogo = document.createElement('img')
+  loaderLogo.src = `data:image/svg+xml,${encodeURIComponent(logo)}`
+  loader.prepend(loaderLogo)
+
   document.body.appendChild(loader)
 }
 
