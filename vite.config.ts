@@ -19,6 +19,12 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
+    rollupOptions: {
+      input: {
+        index: './index.html',
+        app: './src/index.ts',
+      },
+    },
   },
 
   // Server options

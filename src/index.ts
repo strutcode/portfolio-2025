@@ -2,11 +2,13 @@ import { createApp } from 'vue'
 import router from './router'
 import App from './App.vue'
 
-// Create the Vue app
-const app = createApp(App)
+export function start() {
+  // Create the Vue app
+  const app = createApp(App)
 
-// Mount the router
-app.use(router)
+  // Mount the router
+  app.use(router)
 
-// Mount the main component
-app.mount('#app')
+  // Mount the main component
+  app.mount('#app')
+}

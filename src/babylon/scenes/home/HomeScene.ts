@@ -1,4 +1,12 @@
-import { Color4, Engine, LoadSceneAsync, PointLight, Scene } from '@babylonjs/core'
+import {
+  Color4,
+  Engine,
+  LoadSceneAsync,
+  AppendSceneAsync,
+  SceneLoaderFlags,
+  PointLight,
+  Scene,
+} from '@babylonjs/core'
 import '@babylonjs/loaders/glTF'
 import { Inspector } from '@babylonjs/inspector'
 
@@ -10,32 +18,41 @@ export default class HomeScene {
 
   public constructor(canvas: HTMLCanvasElement) {
     const engine = new Engine(canvas)
+    const scene = new Scene(engine)
+    this.scene = scene
 
     // Load the gltf file
     ;(async () => {
-      this.scene = await LoadSceneAsync('/models/meteor.glb', engine)
+      if (!window.sceneBlob) {
+        throw new Error('No scene blob found')
+      }
 
-      const camera = this.scene.cameras[0]
-      this.scene.activeCamera = camera
-      this.scene.beginAnimation(camera.parent, 1, 1250, true)
+      SceneLoaderFlags.ShowLoadingScreen = false
+      await AppendSceneAsync(window.sceneBlob, scene, {
+        pluginExtension: '.glb',
+      })
 
-      for (const mesh of this.scene.meshes) {
+      const camera = scene.cameras[0]
+      scene.activeCamera = camera
+      scene.beginAnimation(camera.parent, 1, 1250, true)
+
+      for (const mesh of scene.meshes) {
         if (mesh.animations.length > 0) {
-          this.scene.beginAnimation(mesh, 1, 1250, true)
+          scene.beginAnimation(mesh, 1, 1250, true)
         }
       }
 
-      for (const light of this.scene.lights) {
+      for (const light of scene.lights) {
         if (light instanceof PointLight) {
           light.intensity **= 0.5
         }
       }
 
       // Set a themed background color
-      this.scene.clearColor = new Color4(13 / 255, 17 / 255, 28 / 255, 1)
+      scene.clearColor = new Color4(13 / 255, 17 / 255, 28 / 255, 1)
 
       if (this.useInspector) {
-        Inspector.Show(this.scene, {
+        Inspector.Show(scene, {
           globalRoot: document.getElementById('inspector')!,
           overlay: true,
         })
