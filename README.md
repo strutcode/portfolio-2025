@@ -28,19 +28,22 @@ I like to be clean even with personal projects, which means having good formatti
 
 Similarly, Prettier provides pretty good formatting with just enough available configuration for smaller code bases.
 
-**WebGL/TWGL**
+**Babylon.js**
 
-WebGL is fun and makes for visually interesting effects, and TWGL is the fastest, lightest weight library for taking full advantage of the raw power of WebGL. Libraries like Three.js or the very excellent Babylon.js provide powerful higher level APIs but with a fairly massive footprint that just didn't seem necessary here.
+WebGL is fun and makes for some very visually interesting effects.
+Babylon is one of my favorite frameworks to use for the purpose as it
+provides a lot of out of the box features while maintaining enough raw
+power to not bog down on less capable devices.
 
 # Usage
 
-| Command           | Description                                             |
-| ----------------- | ------------------------------------------------------- |
-| `bun install`     | Installs all the dependencies required for the project. |
-| `bun run dev`     | Starts the development server.                          |
-| `bun run build`   | Builds the project for production.                      |
-| `bun run preview` | Previews the production build locally.                  |
-| `./server.sh`     | Starts the companion server.                            |
+| Command         | Description                                             |
+| --------------- | ------------------------------------------------------- |
+| `bun install`   | Installs all the dependencies required for the project. |
+| `bun run dev`   | Starts the development server.                          |
+| `bun run build` | Builds the project for production.                      |
+| `bun run serve` | Previews the production build locally.                  |
+| `./server.sh`   | Starts the companion server.                            |
 
 # Deployment Strategy
 
