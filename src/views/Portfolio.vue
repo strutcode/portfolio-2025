@@ -88,23 +88,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-  import { ref } from 'vue'
-
-  // Dynamically import all portfolio entries
-  const modules = import.meta.glob('../assets/portfolio/*.(jpg|png)', { eager: true })
-
-  const entries = ref(
-    Object.keys(modules)
-      .map((filepath) => {
-        const isImage = !!filepath.match(/\.(png|jpg)$/)
-
-        return isImage ? modules[filepath].default : undefined
-      })
-      .filter((v) => v),
-  )
-</script>
-
 <style scoped>
   .carousel {
     display: flex;
