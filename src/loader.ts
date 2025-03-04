@@ -24,16 +24,19 @@ class ProgressIndicator {
 
   constructor(private element: HTMLElement) {}
 
+  /** Adds N bytes to the total expected size. */
   public track(bytesToAdd: number) {
     this.bytesTotal += bytesToAdd
     this.update()
   }
 
+  /** Adds N bytes of progress to the progress meter. */
   public load(bytesToAdd: number) {
     this.bytesLoaded += bytesToAdd
     this.update()
   }
 
+  /** Updates the visual progress bar. */
   update() {
     this.element.style.width = `${(this.bytesLoaded / this.bytesTotal) * 100}%`
   }

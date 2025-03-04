@@ -35,15 +35,16 @@ h1, h2, h3, h4, h5, h6, .header {
     width: 35%;
     height: 4px;
     border-radius: 2px;
-    border: thin solid #eee;
+    border: thin solid rgba(238, 238, 238, 0.5);
     padding: 2px;
     overflow: hidden;
     margin-top: 4rem;
-
+    
     .progress {
       width: 0;
       height: 100%;
       background: #eee;
+      transition: width 0.1s ease-out;
     }
   }
 }
