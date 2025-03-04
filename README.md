@@ -4,6 +4,16 @@ I'm a motivated self-started with over two decades of combined experience in a w
 
 # About This Project
 
+While making this site, one of the key aspects I kept in mind was
+the overall usability and the recruiter's experience when landing
+on it for the first and likely only time.
+
+This meant features like a robust preloader were absolutely essential.
+Ensuring that I maintain a responsive "feel" even under less thank ideal conditions by providing the most "wow" for the fewest bytes possible and displaying visual progress when necessary were at the forefront of my
+mind.
+
+## Technology
+
 This portfolio represents a collection of a few of my favorite technologies that I felt suit the purpose well. Below is a short list with explanation of my reasoning for each.
 
 **Bun**
