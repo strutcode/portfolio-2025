@@ -582,11 +582,6 @@
     .title {
       font-size: 1.5em;
       color: #333;
-      /* text-shadow:
-        0 0.1rem 0.1rem rgba(0, 0, 0, 0.2),
-        0 -0.1rem 0.1rem rgba(0, 0, 0, 0.2),
-        0.1rem 0 0.1rem rgba(0, 0, 0, 0.2),
-        -0.1rem 0 0.1rem rgba(0, 0, 0, 0.2); */
       font-weight: 600;
     }
   }
@@ -670,6 +665,7 @@
       opacity: 0;
       transition: all 0.2s ease;
       transition-delay: 0.1s;
+      pointer-events: none;
     }
 
     &:hover ::before {
