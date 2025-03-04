@@ -11,36 +11,71 @@ declare global {
   interface Window {
     sceneBlob?: string
   }
+
+  interface ImportMeta {
+    bundle: Record<string, string>
+  }
+}
+
+/** A simple progress indicator class */
+class ProgressIndicator {
+  private bytesLoaded = 0
+  private bytesTotal = 0
+
+  constructor(private element: HTMLElement) {}
+
+  public track(bytesToAdd: number) {
+    this.bytesTotal += bytesToAdd
+    this.update()
+  }
+
+  public load(bytesToAdd: number) {
+    this.bytesLoaded += bytesToAdd
+    this.update()
+  }
+
+  update() {
+    this.element.style.width = `${(this.bytesLoaded / this.bytesTotal) * 100}%`
+  }
 }
 
 /**
  * Manually executes the body reader on a fetch object
  * to track progress.
  */
-async function trackProgress(response: Response): Promise<Blob> {
-  const total = Number(response.headers.get('content-length'))
-  const buffer = new Uint8Array(total)
+async function trackProgress(response: Response, progress: ProgressIndicator): Promise<Blob> {
+  const size = Number(response.headers.get('content-length'))
   const reader = response.body?.getReader()
 
   if (!reader) throw new Error('Failed to create a reader')
 
-  const bar = document.querySelector('.progress') as HTMLElement
+  let buffer = new Uint8Array(size)
   let loaded = 0
+
+  progress.track(size)
 
   while (true) {
     const { done, value } = await reader.read()
+    const length = value?.byteLength ?? 0
 
     // If the reader reports done, exit the loops
     if (done) break
 
-    // Update the total bytes loaded
-    loaded += value?.byteLength ?? 0
-
     // Update the progress bar
-    bar.style.width = `${(loaded / total) * 85}%`
+    progress.load(length)
+
+    // Expand the buffer if needed (bad content-size header)
+    if (loaded + length > buffer.byteLength) {
+      const newBuffer = new Uint8Array(loaded + length)
+      newBuffer.set(buffer)
+      buffer = newBuffer
+    }
 
     // Copy the bytes into the buffer
-    buffer.set(new Uint8Array(value), loaded - value.byteLength)
+    buffer.set(new Uint8Array(value), loaded)
+
+    // Update the total bytes loaded
+    loaded += length
   }
 
   // Return the buffer as a blob to fulfill the type contract
@@ -73,10 +108,16 @@ function cleanupLoader() {
   }
 }
 
-async function preloadScene() {
-  const buffer = await fetch('/models/meteor.glb').then(trackProgress)
+async function preloadScene(progress: ProgressIndicator) {
+  const buffer = await fetch('/models/meteor.glb').then((res) => trackProgress(res, progress))
   const blobUrl = URL.createObjectURL(buffer)
   window.sceneBlob = blobUrl
+}
+
+async function preloadBundle(progress: ProgressIndicator) {
+  const bundleUrl = import.meta.bundle.app ?? import.meta.resolve('./index.ts')
+
+  await fetch(bundleUrl).then((res) => trackProgress(res, progress))
 }
 
 /** The main loading function responsible for prelaoding the app. */
@@ -84,8 +125,11 @@ async function preload() {
   // Create the loader screen
   createLoader()
 
-  // Preload the 3d scene
-  await preloadScene()
+  // Create a progress indicator
+  const progress = new ProgressIndicator(document.querySelector('.progress') as HTMLElement)
+
+  // Preload the scene and scripts concurrently
+  await Promise.all([preloadScene(progress), preloadBundle(progress)])
 
   // Load the main app using Vite's module loader
   const { start } = await import('./index')

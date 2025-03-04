@@ -26,9 +26,16 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: './index.html',
+        loader: './src/loader.ts',
         app: './src/index.ts',
       },
-      external: process.env.NODE_ENV === 'production' ? ['@babylonjs/inspector'] : [],
+      output: {
+        manualChunks: {
+          index: ['./index.html'],
+          loader: ['./src/loader.ts'],
+          app: ['./src/index.ts', '@babylonjs/core', '@babylonjs/loaders/glTF/2.0'],
+        },
+      },
     },
   },
 
@@ -38,5 +45,8 @@ export default defineConfig({
   },
 
   // Plugins
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    metaBundlePlugin,
+  ],
 })
