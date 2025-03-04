@@ -4,7 +4,7 @@ import { Color4 } from '@babylonjs/core/Maths/math.color'
 import { AppendSceneAsync } from '@babylonjs/core/Loading/sceneLoader'
 import { SceneLoaderFlags } from '@babylonjs/core/Loading/sceneLoaderFlags'
 import { PointLight } from '@babylonjs/core/Lights/pointLight'
-import '@babylonjs/loaders/glTF'
+import '@babylonjs/loaders/glTF/2.0'
 
 import flare from '@/assets/textures/flare.png'
 
@@ -48,9 +48,9 @@ export default class HomeScene {
       scene.clearColor = new Color4(13 / 255, 17 / 255, 28 / 255, 1)
 
       if (import.meta.env.MODE === 'development') {
-        const { Inspector } = await import('@babylonjs/inspector')
-
         if (this.useInspector) {
+          const { Inspector } = await import('@babylonjs/inspector')
+
           Inspector.Show(scene, {
             globalRoot: document.getElementById('inspector')!,
             overlay: true,
