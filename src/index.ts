@@ -10,6 +10,7 @@ export function start() {
   // Mount the router
   app.use(router)
 
+  // Load the custom split directive plugin
   app.use(splitDirective)
 
   // Mount the main component

@@ -145,4 +145,5 @@ async function preload() {
   cleanupLoader()
 }
 
+// Kick off the whole process
 preload()
