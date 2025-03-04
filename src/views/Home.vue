@@ -2,7 +2,7 @@
   <div>
     <canvas ref="canvas"></canvas>
     <div class="content">
-      <div class="catchline">
+      <div class="catchline" v-split="catchlineSplitSettings" @click="resetAnimation">
         To make a big <span class="big">impact</span> you need<br /><span class="big">talent</span>
         that can keep pace with your vision
       </div>
@@ -17,17 +17,40 @@
   const canvas = useTemplateRef('canvas')
   let scene: any = null
 
-  onMounted(() => {
-    if (!canvas.value) return
+  const catchlineSplitSettings = {
+    className: 'print',
+    iterate: (el: HTMLElement, i: number) => {
+      const t = 0.03
+      // Delay each character by `t` compared to the last using its index
+      el.style.animationDelay = `${i * t}s`
+    },
+  }
 
+  const resetAnimation = (ev: MouseEvent) => {
+    // This function is manually assigned so we can cast safely
+    const catchline = ev.target as HTMLElement
+
+    // Remove the class to clear animation state
+    catchline.classList.remove('catchline')
+
+    // Force a recalculation of styles or this will have no effect
+    // See: https://gist.github.com/paulirish/5d52fb081b3570c81e3a
+    void catchline.offsetWidth
+
+    // Re-add the class to restart the animation
+    catchline.classList.add('catchline')
+  }
+
+  onMounted(() => {
+    if (!canvas.value) throw new Error('Canvas not found')
+
+    // Set up the 3D scene
     scene = new HomeScene(canvas.value)
   })
 
   onUnmounted(() => {
     // Cleanup
-    if (scene) {
-      scene.dispose()
-    }
+    if (scene) scene.dispose()
   })
 </script>
 
@@ -53,20 +76,45 @@
     left: 50%;
     width: 70%;
     transform: translate(-50%, -50%);
-    font-size: 5vh;
+    font-size: 4.5vh;
     color: #eee;
     text-align: left;
     font-weight: 300;
+    text-transform: uppercase;
     text-shadow:
       0.25rem 0 0.25rem rgba(0, 0, 0, 0.25),
       -0.25rem 0 0.25rem rgba(0, 0, 0, 0.25),
       0 0.25rem 0.25rem rgba(0, 0, 0, 0.25),
       0 -0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    counter-reset: delay;
+
+    .print {
+      position: relative;
+      top: 2vh;
+      left: 2vh;
+      opacity: 0;
+      animation-name: catchline-in;
+      animation-duration: 0.1s;
+      animation-fill-mode: forwards;
+    }
 
     .big {
       font-size: 6vh;
       color: #fff;
       font-weight: 400;
+    }
+  }
+
+  @keyframes catchline-in {
+    from {
+      top: 2vh;
+      left: 2vh;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      left: 0;
+      opacity: 1;
     }
   }
 </style>
