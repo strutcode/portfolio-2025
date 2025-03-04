@@ -85,7 +85,7 @@ async function preload() {
   createLoader()
 
   // Preload the 3d scene
-  preloadScene()
+  await preloadScene()
 
   // Load the main app using Vite's module loader
   const { start } = await import('./index')
