@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import metaBundlePlugin from './build/metaBundlePlugin'
 
 export default defineConfig({
   // Base public path when served in development or production.
