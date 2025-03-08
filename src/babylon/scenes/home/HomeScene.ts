@@ -1,6 +1,6 @@
 import { Scene } from '@babylonjs/core/scene'
 import { Engine } from '@babylonjs/core/Engines/engine'
-import { Color4 } from '@babylonjs/core/Maths/math.color'
+import { Color3, Color4 } from '@babylonjs/core/Maths/math.color'
 import { AppendSceneAsync } from '@babylonjs/core/Loading/sceneLoader'
 import { SceneLoaderFlags } from '@babylonjs/core/Loading/sceneLoaderFlags'
 import { PointLight } from '@babylonjs/core/Lights/pointLight'
@@ -9,6 +9,13 @@ import { Vector3 } from '@babylonjs/core/Maths/math.vector'
 import '@babylonjs/loaders/glTF/2.0'
 
 import flare from '@/assets/textures/flare.png'
+import {
+  CreatePlane,
+  CreateSphere,
+  Mesh,
+  StandardMaterial,
+  VolumetricLightScatteringPostProcess,
+} from '@babylonjs/core'
 
 export default class HomeScene {
   private engine: Engine
@@ -76,6 +83,13 @@ export default class HomeScene {
       // Set a themed background color
       scene.clearColor = new Color4(13 / 255, 17 / 255, 28 / 255, 1)
 
+      // Set up post processing
+      const { PassPostProcess, BlackAndWhitePostProcess, VolumetricLightScatteringPostProcess } =
+        await import('@babylonjs/core/PostProcesses')
+      // camera.attachPostProcess(new PassPostProcess('PassPostProcess', 1.0, camera))
+      // camera.attachPostProcess(new BlackAndWhitePostProcess('bw', 1.0, camera))
+      camera.attachPostProcess(this.createLightRayPostProcess(scene, camera))
+
       // Load the inspector if requested
       if (import.meta.env.MODE === 'development') {
         if (this.useInspector) {
@@ -110,5 +124,47 @@ export default class HomeScene {
   private getMousePosition(event: PointerEvent): void {
     this.mouse.x = event.clientX / window.innerWidth
     this.mouse.y = event.clientY / window.innerHeight
+  }
+
+  private createRayMesh() {
+    var rad1 = CreatePlane('rad1', undefined, this.scene)
+    // var rad1 = BABYLON.Mesh.CreateSphere("rad1", 8, 16, scene);
+    // var rad1 = BABYLON.Mesh.CreateCylinder("rad1", 10, 5, 5, 8, 8, scene);
+    rad1.visibility = 1
+
+    const mat = new StandardMaterial('bmat', this.scene)
+    // mat.diffuseColor = new Color3(0.0, 0.0, 0.0)
+    mat.emissiveColor = new Color3(1.0, 0.0, 0.0)
+    // mat.emissiveColor = new Color3(1.0, 1.0, 1.0)
+    // mat.emissiveColor = new Color3(0.1, 0.0, 0.1)
+    // mat.emissiveColor = new Color3(0.3, 0.1, 0.1)
+    mat.backFaceCulling = false
+    rad1.material = mat
+
+    rad1.billboardMode = Mesh.BILLBOARDMODE_ALL
+
+    // rad1.position = new BABYLON.Vector3(10, 5, 0);
+    rad1.position = Vector3.Zero()
+    rad1.scalingDeterminant *= 200
+
+    return rad1
+  }
+
+  private createLightRayPostProcess(scene: Scene, camera: FreeCamera) {
+    const vl = new VolumetricLightScatteringPostProcess('vl', 1.0, camera)
+    vl.exposure = 0.5
+    vl.decay = 0.96815
+    vl.weight = 0.98767
+    vl.density = 0.996
+    const mat = vl.mesh.material as StandardMaterial
+    mat.emissiveColor = new Color3(0.277, 0.066, 1.0)
+    mat.specularColor = new Color3(0, 0, 0)
+    mat.disableLighting = true
+    mat.alpha = 0.1
+    vl.mesh.billboardMode = Mesh.BILLBOARDMODE_ALL
+    vl.mesh.position = new Vector3(8.269518852233887, 7.952142238616943, -6.513382434844971)
+    vl.mesh.scalingDeterminant = 200
+
+    return vl
   }
 }
