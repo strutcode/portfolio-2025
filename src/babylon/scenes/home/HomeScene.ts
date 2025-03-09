@@ -10,10 +10,14 @@ import '@babylonjs/loaders/glTF/2.0'
 
 import flare from '@/assets/textures/flare.png'
 import {
+  Camera,
   CreatePlane,
   CreateSphere,
+  Effect,
   Mesh,
+  PostProcess,
   StandardMaterial,
+  Texture,
   VolumetricLightScatteringPostProcess,
 } from '@babylonjs/core'
 
@@ -84,11 +88,7 @@ export default class HomeScene {
       scene.clearColor = new Color4(13 / 255, 17 / 255, 28 / 255, 1)
 
       // Set up post processing
-      const { PassPostProcess, BlackAndWhitePostProcess, VolumetricLightScatteringPostProcess } =
-        await import('@babylonjs/core/PostProcesses')
-      // camera.attachPostProcess(new PassPostProcess('PassPostProcess', 1.0, camera))
-      // camera.attachPostProcess(new BlackAndWhitePostProcess('bw', 1.0, camera))
-      camera.attachPostProcess(this.createLightRayPostProcess(scene, camera))
+      new TimeStopPostEffect(camera)
 
       // Load the inspector if requested
       if (import.meta.env.MODE === 'development') {
@@ -125,46 +125,53 @@ export default class HomeScene {
     this.mouse.x = event.clientX / window.innerWidth
     this.mouse.y = event.clientY / window.innerHeight
   }
+}
 
-  private createRayMesh() {
-    var rad1 = CreatePlane('rad1', undefined, this.scene)
-    // var rad1 = BABYLON.Mesh.CreateSphere("rad1", 8, 16, scene);
-    // var rad1 = BABYLON.Mesh.CreateCylinder("rad1", 10, 5, 5, 8, 8, scene);
-    rad1.visibility = 1
+class TimeStopPostEffect extends PostProcess {
+  constructor(camera: Camera) {
+    Effect.ShadersStore['timestopFragmentShader'] = `
+    #ifdef GL_ES
+        precision highp float;
+    #endif
 
-    const mat = new StandardMaterial('bmat', this.scene)
-    // mat.diffuseColor = new Color3(0.0, 0.0, 0.0)
-    mat.emissiveColor = new Color3(1.0, 0.0, 0.0)
-    // mat.emissiveColor = new Color3(1.0, 1.0, 1.0)
-    // mat.emissiveColor = new Color3(0.1, 0.0, 0.1)
-    // mat.emissiveColor = new Color3(0.3, 0.1, 0.1)
-    mat.backFaceCulling = false
-    rad1.material = mat
+    // Samplers
+    varying vec2 vUV;
+    uniform sampler2D textureSampler;
 
-    rad1.billboardMode = Mesh.BILLBOARDMODE_ALL
+    // Parameters
+    uniform float amount;
+    uniform float step;
 
-    // rad1.position = new BABYLON.Vector3(10, 5, 0);
-    rad1.position = Vector3.Zero()
-    rad1.scalingDeterminant *= 200
+    void main(void) 
+    {
+      vec4 baseColor = texture2D(textureSampler, vUV);
+      vec4 result = vec4(0.0);
+      float factor = 1.0 / 10.0;
 
-    return rad1
-  }
+      for (int i = 0; i < 10; i++) {
+        vec2 offset = (vUV - vec2(0.5)) * (float(i) * step);
+        vec4 color = texture2D(textureSampler, vUV + offset);
 
-  private createLightRayPostProcess(scene: Scene, camera: FreeCamera) {
-    const vl = new VolumetricLightScatteringPostProcess('vl', 1.0, camera)
-    vl.exposure = 0.5
-    vl.decay = 0.96815
-    vl.weight = 0.98767
-    vl.density = 0.996
-    const mat = vl.mesh.material as StandardMaterial
-    mat.emissiveColor = new Color3(0.277, 0.066, 1.0)
-    mat.specularColor = new Color3(0, 0, 0)
-    mat.disableLighting = true
-    mat.alpha = 0.1
-    vl.mesh.billboardMode = Mesh.BILLBOARDMODE_ALL
-    vl.mesh.position = new Vector3(8.269518852233887, 7.952142238616943, -6.513382434844971)
-    vl.mesh.scalingDeterminant = 200
+        result += color * factor;
+      }
 
-    return vl
+      gl_FragColor = baseColor + result;
+    }
+    `
+
+    super(
+      'TimeStop',
+      'timestop',
+      ['amount', 'step'],
+      null,
+      1.0,
+      camera,
+      Texture.BILINEAR_SAMPLINGMODE,
+    )
+
+    this.onApply = (effect: Effect) => {
+      effect.setFloat('amount', 1.0)
+      effect.setFloat('step', 0.03)
+    }
   }
 }
