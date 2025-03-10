@@ -4,7 +4,9 @@
     <div class="fadeOut"></div>
     <div class="content">
       <div class="catchline" v-split="catchlineSplitSettings" @click="resetAnimation">
-        To make a big <span class="big">impact</span> you need<br /><span class="big">talent</span>
+        If you want to make an <span class="big">impact</span> you need<br /><span class="big"
+          >talent</span
+        >
         that can keep pace with your vision
       </div>
     </div>
@@ -93,10 +95,10 @@
     font-weight: 300;
     text-transform: uppercase;
     text-shadow:
-      0.25rem 0 0.25rem rgba(0, 0, 0, 0.25),
-      -0.25rem 0 0.25rem rgba(0, 0, 0, 0.25),
-      0 0.25rem 0.25rem rgba(0, 0, 0, 0.25),
-      0 -0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+      0.25rem 0 0.25rem rgba(0, 0, 0, 0.5),
+      -0.25rem 0 0.25rem rgba(0, 0, 0, 0.5),
+      0 0.25rem 0.25rem rgba(0, 0, 0, 0.5),
+      0 -0.25rem 0.25rem rgba(0, 0, 0, 0.5);
     counter-reset: delay;
 
     .print {
