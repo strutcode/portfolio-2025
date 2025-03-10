@@ -140,29 +140,30 @@ class TimeStopPostEffect extends PostProcess {
 
     // Parameters
     uniform float amount;
-    uniform float step;
+    uniform int steps;
+    uniform float stepSize;
 
     void main(void) 
     {
       vec4 baseColor = texture2D(textureSampler, vUV);
       vec4 result = vec4(0.0);
-      float factor = 1.0 / 10.0;
+      float factor = 1.0 / float(steps);
 
-      for (int i = 0; i < 10; i++) {
-        vec2 offset = (vUV - vec2(0.5)) * (float(i) * step);
+      for (int i = 0; i < steps; i++) {
+        vec2 offset = (vUV - vec2(0.5)) * (float(i) * stepSize);
         vec4 color = texture2D(textureSampler, vUV + offset);
 
         result += color * factor;
       }
 
-      gl_FragColor = baseColor + result;
+      gl_FragColor = mix(baseColor, result, amount);
     }
     `
 
     super(
       'TimeStop',
       'timestop',
-      ['amount', 'step'],
+      ['amount', 'steps', 'stepSize'],
       null,
       1.0,
       camera,
@@ -170,8 +171,9 @@ class TimeStopPostEffect extends PostProcess {
     )
 
     this.onApply = (effect: Effect) => {
-      effect.setFloat('amount', 1.0)
-      effect.setFloat('step', 0.03)
+      effect.setFloat('amount', 0.5)
+      effect.setInt('steps', 20)
+      effect.setFloat('stepSize', 0.03)
     }
   }
 }
