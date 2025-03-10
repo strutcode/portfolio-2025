@@ -31,7 +31,7 @@
 
   const resetAnimation = (ev: MouseEvent) => {
     // This function is manually assigned so we can cast safely
-    const catchline = ev.target as HTMLElement
+    const catchline = ev.currentTarget as HTMLElement
 
     // Remove the class to clear animation state
     catchline.classList.remove('catchline')
