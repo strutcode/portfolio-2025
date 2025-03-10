@@ -10,6 +10,13 @@ Effect.ShadersStore['timestopFragmentShader'] = fragmentShader
 
 /** A radial blur effect using the frame buffer. */
 export default class TimeStopPostProcess extends PostProcess {
+  /** The blend amount between the original frame and the effect. */
+  public intensity = 0.5
+  /** The number of steps to take in the blur; affects performance. */
+  public steps = 20
+  /** The size of the texel step, this dictates the size and inversely the smoothness of the blur. */
+  public stepSize = 0.03
+
   constructor(camera: Camera) {
     // Initialize the base PostProcess
     super(
@@ -31,9 +38,9 @@ export default class TimeStopPostProcess extends PostProcess {
 
     // Called every frame to set the uniforms
     this.onApply = (effect: Effect) => {
-      effect.setFloat('amount', 0.5)
-      effect.setInt('steps', 20)
-      effect.setFloat('stepSize', 0.03)
+      effect.setFloat('amount', this.intensity)
+      effect.setInt('steps', this.steps)
+      effect.setFloat('stepSize', this.stepSize)
     }
   }
 }

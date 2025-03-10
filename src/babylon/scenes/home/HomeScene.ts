@@ -10,11 +10,16 @@ import '@babylonjs/loaders/glTF/2.0'
 
 import flare from '@/assets/textures/flare.png'
 import TimeStopPostProcess from './TimeStopPostProcess'
+import { Animation } from '@babylonjs/core'
 
 export default class HomeScene {
+  /** The amount to move the camera with the mouse */
+  public panAmount = 1
+  /** Whether or not to initialize the Babylon inspector */
+  public useInspector = false
+
   private engine: Engine
   private scene: Scene
-  private useInspector = false
   private mouse = { x: 0, y: 0 }
   private boundMousePosition = this.getMousePosition.bind(this)
 
@@ -29,14 +34,13 @@ export default class HomeScene {
     window.addEventListener('pointermove', this.boundMousePosition)
 
     const monitorUserInteraction = () => {
-      const pan = 1
-      camera.position.x = -pan + this.mouse.x * (2 * pan)
-      camera.position.y = pan + this.mouse.y * -(2 * pan)
+      camera.position.x = -this.panAmount + this.mouse.x * (2 * this.panAmount)
+      camera.position.y = this.panAmount + this.mouse.y * -(2 * this.panAmount)
 
       camera.position.y -= (window.scrollY / window.innerHeight) * 10
     }
 
-    // Load the gltf file
+    // Load the gltf file from memory
     ;(async () => {
       if (!window.sceneBlob) {
         throw new Error('No scene blob found')
@@ -78,7 +82,10 @@ export default class HomeScene {
       scene.clearColor = new Color4(13 / 255, 17 / 255, 28 / 255, 1)
 
       // Set up post processing
-      new TimeStopPostProcess(camera)
+      const postProcess = new TimeStopPostProcess(camera)
+
+      // Animation the post process
+      this.createBlurAnimation(postProcess)
 
       // Load the inspector if requested
       if (import.meta.env.MODE === 'development') {
@@ -114,5 +121,32 @@ export default class HomeScene {
   private getMousePosition(event: PointerEvent): void {
     this.mouse.x = event.clientX / window.innerWidth
     this.mouse.y = event.clientY / window.innerHeight
+  }
+
+  private createBlurAnimation(target: TimeStopPostProcess): void {
+    // Create a blur animation
+    const blurAnimation = new Animation(
+      'blur',
+      'intensity',
+      30,
+      Animation.ANIMATIONTYPE_FLOAT,
+      Animation.ANIMATIONLOOPMODE_CONSTANT,
+    )
+
+    // Set the keyframes for the animation
+    const keys = [
+      { frame: 0, value: 0 },
+      { frame: 30, value: 0 },
+      { frame: 60, value: 0.3 },
+      { frame: 500, value: 0.5 },
+    ]
+
+    blurAnimation.setKeys(keys)
+
+    // Add the animation to the camera
+    target.animations.push(blurAnimation)
+
+    // Start the animation
+    this.scene.beginAnimation(target, 0, 500, true)
   }
 }
