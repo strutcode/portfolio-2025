@@ -1,6 +1,6 @@
 import { Scene } from '@babylonjs/core/scene'
 import { Engine } from '@babylonjs/core/Engines/engine'
-import { Color3, Color4 } from '@babylonjs/core/Maths/math.color'
+import { Color4 } from '@babylonjs/core/Maths/math.color'
 import { AppendSceneAsync } from '@babylonjs/core/Loading/sceneLoader'
 import { SceneLoaderFlags } from '@babylonjs/core/Loading/sceneLoaderFlags'
 import { PointLight } from '@babylonjs/core/Lights/pointLight'
@@ -9,17 +9,7 @@ import { Vector3 } from '@babylonjs/core/Maths/math.vector'
 import '@babylonjs/loaders/glTF/2.0'
 
 import flare from '@/assets/textures/flare.png'
-import {
-  Camera,
-  CreatePlane,
-  CreateSphere,
-  Effect,
-  Mesh,
-  PostProcess,
-  StandardMaterial,
-  Texture,
-  VolumetricLightScatteringPostProcess,
-} from '@babylonjs/core'
+import TimeStopPostProcess from './TimeStopPostProcess'
 
 export default class HomeScene {
   private engine: Engine
@@ -60,7 +50,7 @@ export default class HomeScene {
       // Set up the camera
       scene.activeCamera = camera
       const baseCamera = scene.getCameraByName('Camera')
-      if (baseCamera) {
+      if (baseCamera instanceof FreeCamera) {
         scene.beginAnimation(baseCamera.parent, 1, 1250, true)
         camera.parent = baseCamera.parent
         camera.position = baseCamera.position
@@ -88,7 +78,7 @@ export default class HomeScene {
       scene.clearColor = new Color4(13 / 255, 17 / 255, 28 / 255, 1)
 
       // Set up post processing
-      new TimeStopPostEffect(camera)
+      new TimeStopPostProcess(camera)
 
       // Load the inspector if requested
       if (import.meta.env.MODE === 'development') {
@@ -124,56 +114,5 @@ export default class HomeScene {
   private getMousePosition(event: PointerEvent): void {
     this.mouse.x = event.clientX / window.innerWidth
     this.mouse.y = event.clientY / window.innerHeight
-  }
-}
-
-class TimeStopPostEffect extends PostProcess {
-  constructor(camera: Camera) {
-    Effect.ShadersStore['timestopFragmentShader'] = `
-    #ifdef GL_ES
-        precision highp float;
-    #endif
-
-    // Samplers
-    varying vec2 vUV;
-    uniform sampler2D textureSampler;
-
-    // Parameters
-    uniform float amount;
-    uniform int steps;
-    uniform float stepSize;
-
-    void main(void) 
-    {
-      vec4 baseColor = texture2D(textureSampler, vUV);
-      vec4 result = vec4(0.0);
-      float factor = 1.0 / float(steps);
-
-      for (int i = 0; i < steps; i++) {
-        vec2 offset = (vUV - vec2(0.5)) * (float(i) * stepSize);
-        vec4 color = texture2D(textureSampler, vUV + offset);
-
-        result += color * factor;
-      }
-
-      gl_FragColor = mix(baseColor, result, amount);
-    }
-    `
-
-    super(
-      'TimeStop',
-      'timestop',
-      ['amount', 'steps', 'stepSize'],
-      null,
-      1.0,
-      camera,
-      Texture.BILINEAR_SAMPLINGMODE,
-    )
-
-    this.onApply = (effect: Effect) => {
-      effect.setFloat('amount', 0.5)
-      effect.setInt('steps', 20)
-      effect.setFloat('stepSize', 0.03)
-    }
   }
 }
