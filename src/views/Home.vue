@@ -1,6 +1,7 @@
 <template>
   <div>
     <canvas ref="canvas"></canvas>
+    <div class="fadeOut"></div>
     <div class="content">
       <div class="catchline" v-split="catchlineSplitSettings" @click="resetAnimation">
         To make a big <span class="big">impact</span> you need<br /><span class="big">talent</span>
@@ -56,10 +57,20 @@
 
 <style scoped>
   canvas {
+    position: relative;
     width: 100vw;
-    height: 100vh;
+    height: 110vh;
     margin: 0 -4rem;
     background-color: rgb(13, 17, 28);
+  }
+
+  .fadeOut {
+    position: absolute;
+    top: 100vh;
+    left: 0;
+    width: 100vw;
+    height: 10vh;
+    background: linear-gradient(transparent, rgb(13, 17, 28));
   }
 
   .content {
