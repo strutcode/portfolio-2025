@@ -49,5 +49,16 @@ export default defineConfig({
   plugins: [
     vue(),
     metaBundlePlugin,
+    {
+      name: 'vite-plugin-glsl',
+      transform(code, id) {
+        if (id.endsWith('.glsl')) {
+          return {
+            code: `export default ${JSON.stringify(code)}`,
+            map: null,
+          }
+        }
+      },
+    },
   ],
 })
