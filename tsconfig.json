@@ -108,6 +108,7 @@
     "skipLibCheck": true,                                /* Skip type checking all .d.ts files. */
     "paths": {
       "@/*": ["./src/*"],
+      "three/addons/*": ["./node_modules/@types/three/examples/jsm/*"],
     }
   },
   "include": ["src/**/*.ts"],

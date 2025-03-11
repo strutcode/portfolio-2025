@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
   import { onMounted, onUnmounted, useTemplateRef } from 'vue'
-  import HomeScene from '../babylon/scenes/home/HomeScene'
+  import HomeScene from '../threejs/scenes/home/HomeScene'
 
   const canvas = useTemplateRef('canvas')
   let scene: any = null
@@ -124,6 +124,7 @@
       left: 2vh;
       opacity: 0;
     }
+
     to {
       top: 0;
       left: 0;
