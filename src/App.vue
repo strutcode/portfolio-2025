@@ -28,6 +28,7 @@
     left: 4rem;
     height: 6rem;
     z-index: 1;
+    filter: drop-shadow(0.25rem 0.25rem 0.5rem rgba(0, 0, 0, 1));
   }
 
   .fade-enter-active,
