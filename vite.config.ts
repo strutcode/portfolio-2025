@@ -16,14 +16,10 @@ export default defineConfig({
     },
   },
 
-  esbuild: {
-    sourcemap: process.env.NODE_ENV !== 'production',
-  },
-
   // Build options
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: process.env.NODE_ENV !== 'production',
     rollupOptions: {
       input: {
         index: './index.html',
