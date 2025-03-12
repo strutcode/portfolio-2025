@@ -18,7 +18,6 @@
     gap: 1rem;
     align-items: center;
     padding: 2rem;
-    z-index: +1;
     box-shadow: 0 0 2vh 2vh rgba(0, 0, 0, 0.4);
     background: rgba(0, 0, 0, 0.4);
     text-shadow:

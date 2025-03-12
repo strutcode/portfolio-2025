@@ -1,16 +1,19 @@
 <template>
-  <img class="logo" src="@/assets/logo.svg" alt="Logo" />
-  <Navigation />
+  <SpotLights />
   <div class="body">
     <Home />
     <About />
     <Portfolio />
     <Contact />
   </div>
+  <Navigation />
+  <img class="logo" src="@/assets/logo.svg" alt="Logo" />
 </template>
 
 <script setup lang="ts">
   import Navigation from './components/Navigation.vue'
+  import SpotLights from './components/SpotLights.vue'
+
   import Home from './views/Home.vue'
   import About from './views/About.vue'
   import Portfolio from './views/Portfolio.vue'
@@ -20,6 +23,7 @@
 <style scoped>
   .body {
     margin: 0 4rem;
+    z-index: +1;
   }
 
   .logo {
