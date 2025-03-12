@@ -6,8 +6,8 @@ export default {
   uniforms: {
     tDiffuse: { value: null },
     amount: { value: 0.5 },
-    steps: { value: 15 },
-    stepSize: { value: 0.03 },
+    steps: { value: 10 },
+    stepSize: { value: 0.02 },
   },
   vertexShader,
   fragmentShader,

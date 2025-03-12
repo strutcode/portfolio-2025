@@ -99,6 +99,19 @@ export default class HomeScene extends Scene {
       }
     }
 
+    // Update materials for the heat trail
+    const trail = scene.getObjectByName('Trail')
+    if (trail instanceof THREE.Mesh) {
+      const trailMaterial = trail.material as THREE.MeshStandardMaterial
+      trailMaterial.transparent = true
+      trailMaterial.opacity = 0.1
+
+      // Set the blend mode for raw alpha
+      trailMaterial.blendSrc = THREE.SrcAlphaFactor
+      trailMaterial.blendDst = THREE.OneMinusSrcAlphaFactor
+      trailMaterial.blendEquation = THREE.AddEquation
+    }
+
     // Start all animations
     const mixers: THREE.AnimationMixer[] = []
     gltf.animations.forEach((clip) => {
