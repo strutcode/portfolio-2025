@@ -33,9 +33,9 @@ export default class HomeScene {
       (gltf) => {
         scene.add(gltf.scene)
 
-        this.camera = gltf.cameras[0] as THREE.PerspectiveCamera
-        this.camera.aspect = canvas.width / canvas.height
-        this.camera.updateProjectionMatrix()
+        // Set background to transparent
+        renderer.setClearColor(0x000000, 0)
+
 
         // Set up lights
         for (const obj of gltf.scene.children) {
