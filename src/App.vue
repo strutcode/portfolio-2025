@@ -23,7 +23,6 @@
 <style scoped>
   .body {
     margin: 0 4rem;
-    z-index: +1;
   }
 
   .logo {

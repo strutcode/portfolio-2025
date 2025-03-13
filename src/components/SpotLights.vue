@@ -59,13 +59,14 @@
     width: 100vw;
     height: 100vw;
     transform: translate(-50%, -50%);
+    opacity: 0.2;
   }
 
   .redLight {
-    background: radial-gradient(circle, rgba(192, 0, 64, 0.2), rgba(255, 0, 0, 0) 66%);
+    background: radial-gradient(circle, var(--colors-red), transparent 66%);
   }
 
   .purpleLight {
-    background: radial-gradient(circle, rgba(128, 0, 128, 0.2), rgba(128, 0, 128, 0) 66%);
+    background: radial-gradient(circle, var(--colors-purple), transparent 66%);
   }
 </style>
