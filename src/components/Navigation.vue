@@ -4,8 +4,26 @@
     <RouterLink to="/about">About</RouterLink>
     <RouterLink to="/portfolio">Portfolio</RouterLink>
     <RouterLink to="/contact">Contact</RouterLink>
+
+    <button @click="toggleDarkMode">{{ lightDarkLabel }}</button>
   </nav>
 </template>
+
+<script setup lang="ts">
+  import { ref } from 'vue'
+  import lightDark from '@/util/lightDarkMode'
+
+  const getLightDarkLabel = () => {
+    return lightDark.isDarkMode ? 'Light Mode' : 'Dark Mode'
+  }
+
+  const lightDarkLabel = ref(getLightDarkLabel())
+
+  const toggleDarkMode = () => {
+    lightDark.toggle()
+    lightDarkLabel.value = getLightDarkLabel()
+  }
+</script>
 
 <style scoped>
   nav {

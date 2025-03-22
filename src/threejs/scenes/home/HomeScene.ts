@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import lightDark from '@/util/lightDarkMode'
 import { GLTF, GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer'
 import { RenderPass } from 'three/addons/postprocessing/RenderPass'
@@ -82,6 +83,8 @@ export default class HomeScene extends Scene {
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()
 
+    this.initializeLightDarkToggle(scene)
+
     // Set up lights
     for (const obj of gltf.scene.children) {
       if (obj instanceof THREE.Mesh) {
@@ -134,6 +137,34 @@ export default class HomeScene extends Scene {
 
       // Run render pipeline
       composer.render(delta)
+    })
+  }
+
+  private initializeLightDarkToggle(scene: THREE.Scene) {
+    // Create a light to use for adjusting scene colors
+    const ambient = new THREE.AmbientLight(0x404040, 1)
+    scene.add(ambient)
+
+    /** Alters the scene based on the current state of classes on the root element. */
+    const applyLightDarkMode = () => {
+      if (lightDark.isDarkMode) {
+        ambient.intensity = 0
+      } else {
+        ambient.intensity = 1
+      }
+    }
+
+    // Apply initial state
+    applyLightDarkMode()
+
+    // Observe changes to the light/dark mode
+    const observer = lightDark.observe(() => {
+      applyLightDarkMode()
+    })
+
+    // Clean up after ourselves
+    this.onDispose(() => {
+      observer.disconnect()
     })
   }
 

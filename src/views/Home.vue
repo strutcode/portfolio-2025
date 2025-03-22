@@ -63,7 +63,7 @@
     width: 100vw;
     height: 110vh;
     margin: 0 -4rem;
-    background-color: rgb(13, 17, 28);
+    background-color: var(--colors-background);
   }
 
   .fadeOut {
@@ -72,7 +72,7 @@
     left: 0;
     width: 100vw;
     height: 10vh;
-    background: linear-gradient(transparent, rgb(13, 17, 28));
+    background: linear-gradient(transparent, var(--colors-background));
   }
 
   .content {
