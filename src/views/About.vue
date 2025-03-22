@@ -188,18 +188,28 @@
 
     /* Text gradient effect */
     color: transparent;
-    background-image: linear-gradient(rgb(255, 0, 132) 30%, rgb(72, 0, 255) 40%);
+    background-image: linear-gradient(rgb(165, 209, 239) 30%, rgb(92, 131, 241) 40%);
     -webkit-background-clip: text;
     background-clip: text;
   }
 
   .subtitle {
-    font-size: 1.4em;
-    color: #ccc;
+    font-size: 1.2em;
+    color: var(--colors-text);
     opacity: 0.6;
     margin-top: -1.5rem;
     margin-bottom: 2rem;
-    margin-left: 1rem;
+    margin-left: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .summary {
+    h1 {
+      margin-top: 2em;
+      font-size: 1.4em;
+      font-weight: 700;
+      border-bottom: 4px solid var(--colors-purple);
+    }
   }
 
   .banner {
@@ -207,32 +217,27 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 5rem;
+    height: 3rem;
     font-size: 2em;
-    color: #eee;
+    color: var(--colors-text);
     text-transform: uppercase;
     font-weight: 700;
-    text-shadow:
-      0.1rem 0 #000,
-      -0.1rem 0 #000,
-      0 0.1rem #000,
-      0 -0.1rem #000;
     margin: 4rem 0;
     padding: 1rem 0;
 
     &.purple {
       background: linear-gradient(
           90deg,
-          hsl(224, 35%, 8%),
+          rgba(111, 66, 194, 0),
           rgba(111, 66, 194, 0.25) 40%,
           rgba(111, 66, 194, 0.25) 60%,
-          hsl(224, 35%, 8%)
+          rgba(111, 66, 194, 0)
         ),
         linear-gradient(
           0deg,
           rgba(111, 66, 194, 0.5),
-          transparent 10%,
-          transparent 90%,
+          transparent 15%,
+          transparent 85%,
           rgba(111, 66, 194, 0.5)
         );
     }
@@ -241,16 +246,16 @@
       background: rgba(207, 60, 143, 0.25);
       background: linear-gradient(
           90deg,
-          hsl(224, 35%, 8%),
+          rgba(207, 60, 143, 0),
           rgba(207, 60, 143, 0.25) 40%,
           rgba(207, 60, 143, 0.25) 60%,
-          hsl(224, 35%, 8%)
+          rgba(207, 60, 143, 0)
         ),
         linear-gradient(
           0deg,
           rgba(207, 60, 143, 0.5),
-          transparent 10%,
-          transparent 90%,
+          transparent 15%,
+          transparent 85%,
           rgba(207, 60, 143, 0.5)
         );
     }
@@ -263,11 +268,11 @@
     align-items: center;
     width: 10em;
     height: 11em;
-    background: hsl(240, 20%, 67%);
+    background: var(--colors-card);
     border-radius: 0.5em;
     text-align: center;
     box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.5);
-    border: 2px outset hsl(240, 20%, 67%);
+    border: 2px outset var(--colors-card);
     box-sizing: border-box;
     transition: transform 0.2s;
     transition-delay: 0.1s;
@@ -284,7 +289,7 @@
 
     .skillTitle {
       font-size: 1.5em;
-      color: #333;
+      color: var(--colors-text);
       font-weight: 600;
     }
   }
@@ -298,7 +303,7 @@
 
     .skill {
       svg {
-        margin-top: 1rem;
+        margin-bottom: 1rem;
         filter: drop-shadow(0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.5));
       }
 
@@ -418,50 +423,7 @@
 
   a {
     font-size: 1.5em;
-    color: #ccc;
+    color: var(--colors-text);
     text-decoration: none;
-  }
-
-  .confidences {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-    gap: 2rem;
-    margin: 4rem auto;
-
-    & > div {
-      flex: 1 1 100%;
-    }
-
-    ul {
-      padding: 0;
-      list-style: circle inside;
-      line-height: 150%;
-    }
-
-    .skillTitle {
-      padding: 0.5rem 0;
-      text-transform: uppercase;
-      font-weight: 700;
-      border-style: solid;
-      border-width: 2px 0;
-      text-align: center;
-
-      &.strong {
-        border-color: #40b782;
-        background-color: rgba(64, 183, 130, 0.5);
-      }
-
-      &.medium {
-        border-color: #52a3e0;
-        background-color: rgba(82, 163, 224, 0.5);
-      }
-
-      &.light {
-        border-color: #ce7449;
-        background-color: rgba(206, 116, 73, 0.5);
-      }
-    }
   }
 </style>

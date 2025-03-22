@@ -2,12 +2,16 @@ html.dark {
   --colors-background: hsl(224, 35%, 8%);
   --colors-red: rgb(207, 60, 143);
   --colors-purple: rgb(111, 66, 194);
+  --colors-text: #eee;
+  --colors-card: hsl(240, 6%, 24%);
 }
 
 html.light {
   --colors-background: hsl(224, 35%, 88%);
   --colors-red: rgb(207, 60, 143);
   --colors-purple: rgb(111, 66, 194);
+  --colors-text: #333;
+  --colors-card: hsl(240, 6%, 88%);
 }
 
 html, body {
@@ -15,7 +19,7 @@ html, body {
   padding: 0;
   font-family: 'Inter', sans-serif;
   font-size: 16px;
-  color: #ccc;
+  color: var(--colors-text);
   background-color: var(--colors-background);
   overflow-x: hidden;
   overflow-y: auto;
