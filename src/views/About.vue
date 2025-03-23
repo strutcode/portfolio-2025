@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="right">
-        <h1 class="title">Tristan Shelton</h1>
+        <h1 class="title"><span>Tristan</span> <span>Shelton</span></h1>
         <h2 class="subtitle">Web Developer Extraordinaire</h2>
 
         <div class="summary">
@@ -187,10 +187,12 @@
     margin-bottom: 1.5rem;
 
     /* Text gradient effect */
-    color: transparent;
-    background-image: linear-gradient(rgb(165, 209, 239) 30%, rgb(92, 131, 241) 40%);
-    -webkit-background-clip: text;
-    background-clip: text;
+    span {
+      color: transparent;
+      background-image: linear-gradient(rgb(165, 209, 239) 30%, rgb(92, 131, 241) 40%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
   }
 
   .subtitle {
@@ -368,7 +370,13 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: linear-gradient(0deg, transparent, transparent 30%, rgba(255, 255, 255, 0.25));
+      background: linear-gradient(
+        0deg,
+        transparent,
+        transparent 50%,
+        var(--colors-gloss) 98%,
+        transparent
+      );
       transform: rotate(-45deg);
       opacity: 0;
       transition: all 0.2s ease;

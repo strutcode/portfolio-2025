@@ -6,6 +6,9 @@
 // Load this statically to ensure it's part of the initial bundle
 import logo from '@/assets/logo.svg?raw'
 
+// Embed minimal loader styles into this bundle
+import './loader.css'
+
 /** Augment the window object with custom data */
 declare global {
   interface Window {
@@ -18,7 +21,7 @@ declare global {
 }
 
 /** A simple progress indicator class */
-class ProgressIndicator {
+export class ProgressIndicator {
   private bytesLoaded = 0
   private bytesTotal = 0
 
@@ -46,7 +49,10 @@ class ProgressIndicator {
  * Manually executes the body reader on a fetch object
  * to track progress.
  */
-async function trackProgress(response: Response, progress: ProgressIndicator): Promise<Blob> {
+export async function trackProgress(
+  response: Response,
+  progress: ProgressIndicator,
+): Promise<Blob> {
   const size = Number(response.headers.get('content-length'))
   const reader = response.body?.getReader()
 
@@ -86,7 +92,7 @@ async function trackProgress(response: Response, progress: ProgressIndicator): P
 }
 
 /** Creates the loading screen DOM and utilities. */
-function createLoader() {
+export function createLoader() {
   const loader = document.createElement('div')
   loader.id = 'loader'
   loader.innerHTML = `
@@ -104,27 +110,27 @@ function createLoader() {
 }
 
 /** Tears down the loading screen and its associated objects. */
-function cleanupLoader() {
+export function cleanupLoader() {
   const loader = document.getElementById('loader')
   if (loader) {
     loader.remove()
   }
 }
 
-async function preloadScene(progress: ProgressIndicator) {
+export async function preloadScene(progress: ProgressIndicator) {
   const buffer = await fetch('/models/meteor.glb').then((res) => trackProgress(res, progress))
   const blobUrl = URL.createObjectURL(buffer)
   window.sceneBlob = blobUrl
 }
 
-async function preloadBundle(progress: ProgressIndicator) {
+export async function preloadBundle(progress: ProgressIndicator) {
   const bundleUrl = import.meta.bundle.app ?? import.meta.resolve('./index.ts')
 
   await fetch(bundleUrl).then((res) => trackProgress(res, progress))
 }
 
 /** The main loading function responsible for prelaoding the app. */
-async function preload() {
+export async function preload() {
   // Create the loader screen
   createLoader()
 
@@ -146,4 +152,4 @@ async function preload() {
 }
 
 // Kick off the whole process
-preload()
+if (process.env.NODE_ENV !== 'test') preload()

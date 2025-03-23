@@ -3,6 +3,8 @@ import router from './router'
 import App from './App.vue'
 import splitDirective from './util/splitDirective'
 
+import './global.css'
+
 export function start() {
   // Create the Vue app
   const app = createApp(App)
