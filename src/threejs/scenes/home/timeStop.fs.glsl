@@ -19,9 +19,16 @@ void main(void)
 
   for (int i = 0; i < steps; i++) {
     vec2 offset = (vUv - vec2(0.5)) * (float(i) * stepSize);
-    vec4 color = texture2D(tDiffuse, vUv + offset);
+    vec2 fUv = vUv + offset;
 
-    result += color * factor;
+    // Check if the UV coordinates are within bounds
+    if (fUv.x >= 0.0 && fUv.x <= 1.0 && fUv.y >= 0.0 && fUv.y <= 1.0) {
+      vec4 color = texture2D(tDiffuse, fUv);
+      result += color * factor;
+    }
+    else {
+      result += vec4(0.0); // Add black if out of bounds
+    }
   }
 
   gl_FragColor = mix(baseColor, result, amount);
