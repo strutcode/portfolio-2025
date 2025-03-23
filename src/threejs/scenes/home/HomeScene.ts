@@ -11,13 +11,19 @@ import Scene from '@/threejs/Scene'
 export default class HomeScene extends Scene {
   public constructor(canvas: HTMLCanvasElement) {
     super()
+    this.setup(canvas)
+  }
 
+  private async setup(canvas: HTMLCanvasElement) {
     if (!window.sceneBlob) {
       throw new Error('Scene blob not found')
     }
 
     const renderer = this.setupRenderer(canvas)
-    this.setupScene(window.sceneBlob, renderer)
+
+    // Wait for the scene to load before starting to render
+    await this.setupScene(window.sceneBlob, renderer)
+
     this.runRenderLoop()
   }
 
@@ -30,16 +36,15 @@ export default class HomeScene extends Scene {
     // Set pixel ratio
     renderer.setPixelRatio(window.devicePixelRatio)
 
-    // Set size
-    const rect = canvas.getBoundingClientRect()
-    renderer.setSize(rect.width, rect.height)
-
     // Set background to transparent
     renderer.setClearColor(0x000000, 0)
 
+    // Set up shadow mapping
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFSoftShadowMap
-    renderer.toneMapping = THREE.ReinhardToneMapping
+
+    // Set tone map for the scene
+    renderer.toneMapping = THREE.CineonToneMapping
     renderer.outputColorSpace = THREE.SRGBColorSpace
 
     this.onDispose(() => {
@@ -80,40 +85,11 @@ export default class HomeScene extends Scene {
     scene.add(gltf.scene)
 
     const camera = gltf.cameras[0] as THREE.PerspectiveCamera
-    camera.aspect = window.innerWidth / window.innerHeight
-    camera.updateProjectionMatrix()
 
+    this.initializeViewport(camera, renderer)
     this.initializeLightDarkToggle(scene)
-
-    // Set up lights
-    for (const obj of gltf.scene.children) {
-      if (obj instanceof THREE.Mesh) {
-        obj.castShadow = true
-        obj.receiveShadow = true
-      }
-
-      if (obj instanceof THREE.Light) {
-        obj.castShadow = true
-        obj.shadow.radius = 4
-        obj.shadow.mapSize.width = 256
-        obj.shadow.mapSize.height = 256
-        obj.shadow.camera.near = 0.5
-        obj.shadow.camera.far = 50
-      }
-    }
-
-    // Update materials for the heat trail
-    const trail = scene.getObjectByName('Trail')
-    if (trail instanceof THREE.Mesh) {
-      const trailMaterial = trail.material as THREE.MeshStandardMaterial
-      trailMaterial.transparent = true
-      trailMaterial.opacity = 0.1
-
-      // Set the blend mode for raw alpha
-      trailMaterial.blendSrc = THREE.SrcAlphaFactor
-      trailMaterial.blendDst = THREE.OneMinusSrcAlphaFactor
-      trailMaterial.blendEquation = THREE.AddEquation
-    }
+    this.initializeLighting(scene)
+    this.initializeEffects(scene)
 
     // Start all animations
     const mixers: THREE.AnimationMixer[] = []
@@ -138,6 +114,72 @@ export default class HomeScene extends Scene {
       // Run render pipeline
       composer.render(delta)
     })
+  }
+
+  private initializeViewport(camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) {
+    const resizeViewport = () => {
+      // Set size
+      const canvas = renderer.domElement
+      if (canvas instanceof HTMLCanvasElement) {
+        // Remove any styles previously set by Three.js
+        canvas.removeAttribute('style')
+        canvas.removeAttribute('width')
+        canvas.removeAttribute('height')
+
+        const rect = canvas.getBoundingClientRect()
+        renderer.setSize(rect.width, rect.height)
+      }
+
+      // Set up camera
+      camera.aspect = window.innerWidth / window.innerHeight
+      camera.updateProjectionMatrix()
+    }
+
+    // Initialize Viewport
+    resizeViewport()
+
+    // Handle resizing
+    window.addEventListener('resize', () => {
+      resizeViewport()
+    })
+  }
+
+  private initializeLighting(scene: THREE.Scene) {
+    // Set up lights
+    for (const obj of scene.children) {
+      if (obj instanceof THREE.AmbientLight) {
+        continue
+      }
+
+      if (obj instanceof THREE.Mesh) {
+        obj.castShadow = true
+        obj.receiveShadow = true
+      }
+
+      if (obj instanceof THREE.Light) {
+        obj.castShadow = true
+        obj.shadow.radius = 4
+        obj.shadow.mapSize.width = 256
+        obj.shadow.mapSize.height = 256
+        obj.shadow.camera.near = 0.5
+        obj.shadow.camera.far = 50
+      }
+    }
+  }
+
+  private initializeEffects(scene: THREE.Scene) {
+    // Update materials for the heat trail
+    const trail = scene.getObjectByName('Trail')
+    if (trail instanceof THREE.Mesh) {
+      const trailMaterial = trail.material as THREE.MeshStandardMaterial
+      trailMaterial.transparent = true
+      trailMaterial.opacity = 0.1
+
+      // Set the blend mode for raw alpha
+      trailMaterial.blendSrc = THREE.SrcAlphaFactor
+      trailMaterial.blendDst = THREE.OneMinusSrcAlphaFactor
+      trailMaterial.blendEquation = THREE.AddEquation
+    }
   }
 
   private initializeLightDarkToggle(scene: THREE.Scene) {
