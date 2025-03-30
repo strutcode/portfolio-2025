@@ -45,111 +45,110 @@ export class ProgressIndicator {
   }
 }
 
-/**
- * Manually executes the body reader on a fetch object
- * to track progress.
- */
-export async function trackProgress(
-  response: Response,
-  progress: ProgressIndicator,
-): Promise<Blob> {
-  const size = Number(response.headers.get('content-length'))
-  const reader = response.body?.getReader()
+export class Preloader {
+  /** The main loading function responsible for prelaoding the app. */
+  public async start() {
+    // Create the loader screen
+    this.createLoader()
 
-  if (!reader) throw new Error('Failed to create a reader')
+    // Create a progress indicator
+    const progress = new ProgressIndicator(document.querySelector('.progress') as HTMLElement)
 
-  let buffer = new Uint8Array(size)
-  let loaded = 0
+    // Preload the scene and scripts concurrently
+    await Promise.all([this.preloadScene(progress), this.preloadBundle(progress)])
 
-  progress.track(size)
+    // Load the main app using Vite's module loader
+    const { start } = await import('./index')
 
-  while (true) {
-    const { done, value } = await reader.read()
-    const length = value?.byteLength ?? 0
+    // Manually run the start function from the app
+    // once the module requirements are all satisfied
+    start()
 
-    // If the reader reports done, exit the loops
-    if (done) break
+    // Remove the loader after the app is officially loaded
+    this.cleanupLoader()
+  }
 
-    // Update the progress bar
-    progress.load(length)
+  /**
+   * Manually executes the body reader on a fetch object
+   * to track progress.
+   */
+  protected async trackProgress(response: Response, progress: ProgressIndicator): Promise<Blob> {
+    const size = Number(response.headers.get('content-length'))
+    const reader = response.body?.getReader()
 
-    // Expand the buffer if needed (bad content-size header)
-    if (loaded + length > buffer.byteLength) {
-      const newBuffer = new Uint8Array(loaded + length)
-      newBuffer.set(buffer)
-      buffer = newBuffer
+    if (!reader) throw new Error('Failed to create a reader')
+
+    let buffer = new Uint8Array(size)
+    let loaded = 0
+
+    progress.track(size)
+
+    while (true) {
+      const { done, value } = await reader.read()
+      const length = value?.byteLength ?? 0
+
+      // If the reader reports done, exit the loops
+      if (done) break
+
+      // Update the progress bar
+      progress.load(length)
+
+      // Expand the buffer if needed (bad content-size header)
+      if (loaded + length > buffer.byteLength) {
+        const newBuffer = new Uint8Array(loaded + length)
+        newBuffer.set(buffer)
+        buffer = newBuffer
+      }
+
+      // Copy the bytes into the buffer
+      buffer.set(new Uint8Array(value), loaded)
+
+      // Update the total bytes loaded
+      loaded += length
     }
 
-    // Copy the bytes into the buffer
-    buffer.set(new Uint8Array(value), loaded)
-
-    // Update the total bytes loaded
-    loaded += length
+    // Return the buffer as a blob to fulfill the type contract
+    return new Blob([buffer])
   }
 
-  // Return the buffer as a blob to fulfill the type contract
-  return new Blob([buffer])
-}
+  /** Creates the loading screen DOM and utilities. */
+  protected createLoader() {
+    const loader = document.createElement('div')
+    loader.id = 'loader'
+    loader.innerHTML = `
+      <div class="loadingBar">
+        <div class="progress"></div>
+      </div>
+    `
 
-/** Creates the loading screen DOM and utilities. */
-export function createLoader() {
-  const loader = document.createElement('div')
-  loader.id = 'loader'
-  loader.innerHTML = `
-    <div class="loadingBar">
-      <div class="progress"></div>
-    </div>
-  `
+    // Use the raw SVG data to create an image element
+    const loaderLogo = document.createElement('img')
+    loaderLogo.src = `data:image/svg+xml,${encodeURIComponent(logo)}`
+    loader.prepend(loaderLogo)
 
-  // Use the raw SVG data to create an image element
-  const loaderLogo = document.createElement('img')
-  loaderLogo.src = `data:image/svg+xml,${encodeURIComponent(logo)}`
-  loader.prepend(loaderLogo)
-
-  document.body.appendChild(loader)
-}
-
-/** Tears down the loading screen and its associated objects. */
-export function cleanupLoader() {
-  const loader = document.getElementById('loader')
-  if (loader) {
-    loader.remove()
+    document.body.appendChild(loader)
   }
-}
 
-export async function preloadScene(progress: ProgressIndicator) {
-  const buffer = await fetch('/models/meteor.glb').then((res) => trackProgress(res, progress))
-  const blobUrl = URL.createObjectURL(buffer)
-  window.sceneBlob = blobUrl
-}
+  /** Tears down the loading screen and its associated objects. */
+  protected cleanupLoader() {
+    const loader = document.getElementById('loader')
+    if (loader) {
+      loader.remove()
+    }
+  }
 
-export async function preloadBundle(progress: ProgressIndicator) {
-  const bundleUrl = import.meta.bundle.app ?? import.meta.resolve('./index.ts')
+  protected async preloadScene(progress: ProgressIndicator) {
+    const buffer = await fetch('/models/meteor.glb').then((res) => trackProgress(res, progress))
+    const blobUrl = URL.createObjectURL(buffer)
+    window.sceneBlob = blobUrl
+  }
 
-  await fetch(bundleUrl).then((res) => trackProgress(res, progress))
-}
+  protected async preloadBundle(progress: ProgressIndicator) {
+    const bundleUrl = import.meta.bundle?.app ?? import.meta.resolve('./index.ts')
 
-/** The main loading function responsible for prelaoding the app. */
-export async function preload() {
-  // Create the loader screen
-  createLoader()
-
-  // Create a progress indicator
-  const progress = new ProgressIndicator(document.querySelector('.progress') as HTMLElement)
-
-  // Preload the scene and scripts concurrently
-  await Promise.all([preloadScene(progress), preloadBundle(progress)])
-
-  // Load the main app using Vite's module loader
-  const { start } = await import('./index')
-
-  // Manually run the start function from the app
-  // once the module requirements are all satisfied
-  start()
-
-  // Remove the loader after the app is officially loaded
-  cleanupLoader()
+    await fetch(bundleUrl).then((res) => trackProgress(res, progress))
+  }
 }
 
 // Kick off the whole process
-if (process.env.NODE_ENV !== 'test') preload()
+if (process.env.NODE_ENV !== 'test') new Preloader().start()
