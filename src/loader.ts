@@ -138,7 +138,9 @@ export class Preloader {
   }
 
   protected async preloadScene(progress: ProgressIndicator) {
-    const buffer = await fetch('/models/meteor.glb').then((res) => trackProgress(res, progress))
+    const buffer = await fetch('/models/meteor.glb').then((res) =>
+      this.trackProgress(res, progress),
+    )
     const blobUrl = URL.createObjectURL(buffer)
     window.sceneBlob = blobUrl
   }
@@ -146,7 +148,7 @@ export class Preloader {
   protected async preloadBundle(progress: ProgressIndicator) {
     const bundleUrl = import.meta.bundle?.app ?? import.meta.resolve('./index.ts')
 
-    await fetch(bundleUrl).then((res) => trackProgress(res, progress))
+    await fetch(bundleUrl).then((res) => this.trackProgress(res, progress))
   }
 }
 
