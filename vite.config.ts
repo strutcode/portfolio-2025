@@ -20,6 +20,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: process.env.NODE_ENV !== 'production',
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       input: {
         index: './index.html',
