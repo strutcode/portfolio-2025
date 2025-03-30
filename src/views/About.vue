@@ -1,5 +1,6 @@
 <template>
   <div class="about">
+    <div class="banner red">Character Sheet</div>
     <div class="container">
       <div class="left">
         <img class="heroImage" :src="activeImage" alt="Profile photograph of me" />
@@ -211,55 +212,6 @@
       font-size: 1.4em;
       font-weight: 700;
       border-bottom: 4px solid var(--colors-purple);
-    }
-  }
-
-  .banner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 3rem;
-    font-size: 2em;
-    color: var(--colors-text);
-    text-transform: uppercase;
-    font-weight: 700;
-    margin: 4rem 0;
-    padding: 1rem 0;
-
-    &.purple {
-      background: linear-gradient(
-          90deg,
-          rgba(111, 66, 194, 0),
-          rgba(111, 66, 194, 0.25) 40%,
-          rgba(111, 66, 194, 0.25) 60%,
-          rgba(111, 66, 194, 0)
-        ),
-        linear-gradient(
-          0deg,
-          rgba(111, 66, 194, 0.5),
-          transparent 15%,
-          transparent 85%,
-          rgba(111, 66, 194, 0.5)
-        );
-    }
-
-    &.red {
-      background: rgba(207, 60, 143, 0.25);
-      background: linear-gradient(
-          90deg,
-          rgba(207, 60, 143, 0),
-          rgba(207, 60, 143, 0.25) 40%,
-          rgba(207, 60, 143, 0.25) 60%,
-          rgba(207, 60, 143, 0)
-        ),
-        linear-gradient(
-          0deg,
-          rgba(207, 60, 143, 0.5),
-          transparent 15%,
-          transparent 85%,
-          rgba(207, 60, 143, 0.5)
-        );
     }
   }
 

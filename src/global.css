@@ -36,3 +36,55 @@ h1, h2, h3, h4, h5, h6, .header {
   font-weight: 500;
   margin-top: 0;
 }
+
+
+
+.banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 3rem;
+  font-size: 2.2rem;
+  letter-spacing: 0.15rem;
+  color: var(--colors-text);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 4rem 0;
+  padding: 1rem 0;
+
+  &.purple {
+    background: linear-gradient(
+        90deg,
+        rgba(111, 66, 194, 0),
+        rgba(111, 66, 194, 0.25) 40%,
+        rgba(111, 66, 194, 0.25) 60%,
+        rgba(111, 66, 194, 0)
+      ),
+      linear-gradient(
+        0deg,
+        rgba(111, 66, 194, 0.5),
+        transparent 15%,
+        transparent 85%,
+        rgba(111, 66, 194, 0.5)
+      );
+  }
+
+  &.red {
+    background: rgba(207, 60, 143, 0.25);
+    background: linear-gradient(
+        90deg,
+        rgba(207, 60, 143, 0),
+        rgba(207, 60, 143, 0.25) 40%,
+        rgba(207, 60, 143, 0.25) 60%,
+        rgba(207, 60, 143, 0)
+      ),
+      linear-gradient(
+        0deg,
+        rgba(207, 60, 143, 0.5),
+        transparent 15%,
+        transparent 85%,
+        rgba(207, 60, 143, 0.5)
+      );
+  }
+}
