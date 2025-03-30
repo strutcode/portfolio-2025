@@ -11,7 +11,7 @@
   background-color: hsl(224, 35%, 8%);
 
   img {
-    filter: drop-shadow(0 0 0.2rem #000) drop-shadow(0 0 0.5rem #fff);
+    filter: drop-shadow(0 0 0.2rem #000) drop-shadow(0 0 0.5rem rgba(255, 255, 255, 0.85));
   }
 
   .loadingBar {
