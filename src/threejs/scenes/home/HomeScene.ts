@@ -146,21 +146,19 @@ export default class HomeScene extends Scene {
 
   private initializeLighting(scene: THREE.Scene) {
     // Set up lights
-    for (const obj of scene.children) {
-      if (obj instanceof THREE.AmbientLight) {
-        continue
-      }
-
+    for (const obj of scene.children[0].children) {
       if (obj instanceof THREE.Mesh) {
-        obj.castShadow = true
+        if (obj.name !== 'Trail' && obj.name !== 'Ground') {
+          obj.castShadow = true
+        }
         obj.receiveShadow = true
       }
 
       if (obj instanceof THREE.Light) {
         obj.castShadow = true
         obj.shadow.radius = 4
-        obj.shadow.mapSize.width = 256
-        obj.shadow.mapSize.height = 256
+        obj.shadow.mapSize.width = 512
+        obj.shadow.mapSize.height = 512
         obj.shadow.camera.near = 0.5
         obj.shadow.camera.far = 50
       }
@@ -171,28 +169,31 @@ export default class HomeScene extends Scene {
     // Update materials for the heat trail
     const trail = scene.getObjectByName('Trail')
     if (trail instanceof THREE.Mesh) {
+      // console.log(trail)
       const trailMaterial = trail.material as THREE.MeshStandardMaterial
-      trailMaterial.transparent = true
       trailMaterial.opacity = 0.1
-
-      // Set the blend mode for raw alpha
-      trailMaterial.blendSrc = THREE.SrcAlphaFactor
-      trailMaterial.blendDst = THREE.OneMinusSrcAlphaFactor
-      trailMaterial.blendEquation = THREE.AddEquation
     }
   }
 
   private initializeLightDarkToggle(scene: THREE.Scene) {
-    // Create a light to use for adjusting scene colors
-    const ambient = new THREE.AmbientLight(0x404040, 1)
-    scene.add(ambient)
-
     /** Alters the scene based on the current state of classes on the root element. */
     const applyLightDarkMode = () => {
-      if (lightDark.isDarkMode) {
-        ambient.intensity = 0
-      } else {
-        ambient.intensity = 1
+      for (const obj of scene.children[0].children) {
+        if (obj instanceof THREE.Mesh) {
+          if (obj.name === 'Trail') {
+            continue
+          }
+
+          const material = obj.material as THREE.MeshStandardMaterial
+
+          if (lightDark.isDarkMode) {
+            material.emissiveIntensity = 0
+            material.emissive = new THREE.Color(0xbff4ff)
+          } else {
+            material.emissiveIntensity = 0.1
+            material.emissive = new THREE.Color(0xbff4ff)
+          }
+        }
       }
     }
 
