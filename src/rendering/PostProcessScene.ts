@@ -1,4 +1,6 @@
-export default class RayTracer {
+import Scene from './Scene'
+
+export default class PostProcessScene extends Scene {
   private canvas: HTMLCanvasElement
   private ctx: WebGL2RenderingContext
   private renderData: any = {}
@@ -7,7 +9,9 @@ export default class RayTracer {
   private boundResize = this.resize.bind(this)
   private animationFrame: ReturnType<typeof requestAnimationFrame> = 0
 
-  public constructor(private element: HTMLElement) {
+  public constructor(protected element: HTMLElement) {
+    super(element)
+
     this.canvas = document.createElement('canvas')
     const ctx = this.canvas.getContext('webgl2')
 
@@ -57,7 +61,7 @@ export default class RayTracer {
     this.canvas.height = rect.height
   }
 
-  private setup() {
+  protected setup() {
     const gl = this.ctx
 
     // Set up a simple shader program
@@ -132,7 +136,7 @@ export default class RayTracer {
     this.resize()
   }
 
-  private render() {
+  protected render() {
     // Draw a simple viewport rectangle using WebGL2
     const gl = this.ctx
     const { positionBuffer, vertices, program } = this.renderData

@@ -5,8 +5,8 @@
 </template>
 
 <script setup>
-  import { onBeforeUnmount, onMounted, useTemplateRef } from 'vue';
-  import RayTracer from './raytracing/RayTracer';
+  import { onBeforeUnmount, onMounted, useTemplateRef } from 'vue'
+  import RayTracer from './RayTracer'
 
   const output = useTemplateRef('output')
 

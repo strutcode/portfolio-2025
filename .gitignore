@@ -160,6 +160,9 @@ dist
 
 .vscode-test
 
+# Ignore workspace settings file
+.vscode/
+
 # yarn v2
 
 .yarn/cache
