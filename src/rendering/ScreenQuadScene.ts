@@ -1,14 +1,50 @@
 import Scene from './Scene'
 
-export default class PostProcessScene extends Scene {
-  private canvas: HTMLCanvasElement
-  private ctx: WebGL2RenderingContext
-  private renderData: any = {}
+/**
+ * A specialization of the Scene class that is used to render a screen quad
+ * with a shader program.
+ */
+export default class ScreenQuadScene extends Scene {
+  protected canvas: HTMLCanvasElement
+  protected ctx: WebGL2RenderingContext
+  protected renderData: any = {}
 
   private boundRender = this.render.bind(this)
   private boundResize = this.resize.bind(this)
   private animationFrame: ReturnType<typeof requestAnimationFrame> = 0
 
+  /**
+   * Overridable getter that should return the glsl source of the screen
+   * quad vertex program.
+   */
+  protected get vertexShaderSource() {
+    return `
+    attribute vec4 a_position;
+    void main() {
+      gl_Position = a_position;
+    }
+  `
+  }
+
+  /**
+   * Overridable getter that should return the glsl source of the screen
+   * quad fragment program.
+   */
+  protected get fragmentShaderSource() {
+    return `
+    precision mediump float;
+    void main() {
+      vec2 uv = gl_FragCoord.xy / vec2(screen_width, screen_height);
+      gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    }
+  `
+  }
+
+  /**
+   * Creates a new PostProcessScene instance.
+   *
+   * @param element The element to render to. The viewport will inherit its size
+   */
   public constructor(protected element: HTMLElement) {
     super(element)
 
@@ -26,6 +62,9 @@ export default class PostProcessScene extends Scene {
     requestAnimationFrame(this.boundRender)
   }
 
+  /**
+   * Cleans up any dom elements, hanging resources and removes event listeners.
+   */
   public destroy() {
     if (this.canvas) {
       this.canvas.remove()
@@ -54,6 +93,7 @@ export default class PostProcessScene extends Scene {
     }
   }
 
+  /** Adjusts the rendered scene to match the element's size. */
   protected resize() {
     const rect = this.element.getBoundingClientRect()
 
@@ -61,26 +101,11 @@ export default class PostProcessScene extends Scene {
     this.canvas.height = rect.height
   }
 
+  /** Sets up the WebGL context and compiles the shaders. */
   protected setup() {
     const gl = this.ctx
 
-    // Set up a simple shader program
-    const vertexShaderSource = `
-      attribute vec4 a_position;
-      void main() {
-        gl_Position = a_position;
-      }
-    `
-    const fragmentShaderSource = `
-      precision mediump float;
-      uniform float screen_width;
-      uniform float screen_height;
-      void main() {
-        vec2 uv = gl_FragCoord.xy / vec2(screen_width, screen_height);
-        gl_FragColor = vec4(uv, 0.0, 1.0);
-      }
-    `
-
+    // Reserve shader program space
     const vertexShader = gl.createShader(gl.VERTEX_SHADER)
     const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
 
@@ -88,8 +113,9 @@ export default class PostProcessScene extends Scene {
       throw new Error('Failed to create shaders')
     }
 
-    gl.shaderSource(vertexShader, vertexShaderSource)
-    gl.shaderSource(fragmentShader, fragmentShaderSource)
+    // Compile shaders
+    gl.shaderSource(vertexShader, this.vertexShaderSource)
+    gl.shaderSource(fragmentShader, this.fragmentShaderSource)
 
     const program = gl.createProgram()
     if (!program) {
@@ -109,6 +135,7 @@ export default class PostProcessScene extends Scene {
       return
     }
 
+    // Link the final shader program
     gl.attachShader(program, vertexShader)
     gl.attachShader(program, fragmentShader)
 
@@ -118,12 +145,14 @@ export default class PostProcessScene extends Scene {
       throw new Error(`Could not compile WebGL program. \n\n${info}`)
     }
 
+    // Create an array buffer for the quad
     const vertices = new Float32Array([-1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 1.0, 1.0])
     const positionBuffer = gl.createBuffer()
     if (!positionBuffer) {
       throw new Error('Failed to create buffer')
     }
 
+    // Save data for use in the render step
     this.renderData = {
       vertexShader,
       fragmentShader,
@@ -132,44 +161,50 @@ export default class PostProcessScene extends Scene {
       vertices,
     }
 
+    // Initialize the resize listener
     window.addEventListener('resize', this.boundResize)
     this.resize()
   }
 
+  /**
+   * Sets the uniforms for the shader program. This should be overridden by
+   * subclasses to set their own uniforms.
+   */
+  protected setUniforms() {}
+
+  /** The main render loop iterator. */
   protected render() {
-    // Draw a simple viewport rectangle using WebGL2
     const gl = this.ctx
     const { positionBuffer, vertices, program } = this.renderData
 
+    // Reset the canvas
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.viewport(0, 0, this.canvas.width, this.canvas.height)
 
+    // Activate the shader
+    gl.useProgram(program)
+
+    // Set up shader data
+    this.setUniforms()
+
+    // Prepare the quad for rendering
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
     gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
-
-    gl.useProgram(program)
 
     const positionLocation = gl.getAttribLocation(program, 'a_position')
     if (positionLocation === -1) {
       throw new Error('Failed to get attribute location')
     }
 
-    const screenWidthLocation = gl.getUniformLocation(program, 'screen_width')
-    if (screenWidthLocation) {
-      gl.uniform1f(screenWidthLocation, this.canvas.width)
-    }
-    const screenHeightLocation = gl.getUniformLocation(program, 'screen_height')
-    if (screenHeightLocation) {
-      gl.uniform1f(screenHeightLocation, this.canvas.height)
-    }
-
     gl.enableVertexAttribArray(positionLocation)
     gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0)
 
+    // Draw the quad
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
     gl.flush()
 
+    // Wait for the next render loop
     this.animationFrame = requestAnimationFrame(this.boundRender)
   }
 }
