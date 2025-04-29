@@ -1,0 +1,11 @@
+body, html {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: url(https://img.freepik.com/premium-vector/modern-purple-red-gradient-vector_901408-12733.jpg) no-repeat center center fixed;
+  background-size: cover;
+  background-repeat: round;
+  color: #eee;
+}

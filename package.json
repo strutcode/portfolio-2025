@@ -1,0 +1,21 @@
+{
+  "name": "portfolio3",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "vite": "^6.3.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "^5.2.3",
+    "vue": "^3.5.13"
+  }
+}
