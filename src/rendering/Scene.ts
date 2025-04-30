@@ -11,6 +11,9 @@ export default abstract class Scene {
   /** Should be called when the element resizes. */
   protected abstract resize(): void
 
+  /** Called before rendering to do any work to prepare for rendering the scene. */
+  protected abstract update(delta: number): void
+
   /** Called by the render loop function. */
   protected abstract render(): void
 }

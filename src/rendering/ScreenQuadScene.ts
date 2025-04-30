@@ -13,6 +13,7 @@ export default class ScreenQuadScene extends Scene {
   private boundResize = this.resize.bind(this)
   private animationFrame: ReturnType<typeof requestAnimationFrame> = 0
   private notices: Record<string, boolean> | undefined
+  private last = performance.now()
 
   /**
    * Overridable getter that should return the glsl source of the screen
@@ -178,6 +179,10 @@ export default class ScreenQuadScene extends Scene {
     const gl = this.ctx
     const { positionBuffer, vertices, program } = this.renderData
 
+    const now = performance.now()
+    this.update(this.last - now)
+    this.last = now
+
     // Reset the canvas
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.clear(gl.COLOR_BUFFER_BIT)
@@ -209,11 +214,13 @@ export default class ScreenQuadScene extends Scene {
     this.animationFrame = requestAnimationFrame(this.boundRender)
   }
 
-  public uniform1f(name: string, value: number) {
+  protected update(delta: number) {}
+
+  private uniformx(type: string, name: string, value: number | Float32Array) {
     const gl = this.ctx
     const location = gl.getUniformLocation(this.renderData.program, name)
     if (location) {
-      gl.uniform1f(location, value)
+      ;(<any>gl)[type](location, value)
     } else {
       if (!this.notices?.[name]) {
         console.warn(`Set Uniform: '${name}' not found`)
@@ -221,5 +228,17 @@ export default class ScreenQuadScene extends Scene {
         this.notices[name] = true
       }
     }
+  }
+
+  public uniform1f(name: string, value: number) {
+    this.uniformx('uniform1f', name, value)
+  }
+
+  public uniform2v(name: string, value: Float32Array) {
+    this.uniformx('uniform2fv', name, value)
+  }
+
+  public uniform3v(name: string, value: Float32Array) {
+    this.uniformx('uniform3fv', name, value)
   }
 }
