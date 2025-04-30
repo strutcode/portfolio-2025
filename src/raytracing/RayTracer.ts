@@ -21,22 +21,8 @@ export default class RayTracer extends ScreenQuadScene {
   `
   }
 
-  public constructor(protected element: HTMLElement) {
-    super(element)
-  }
-
   protected setUniforms() {
-    const gl = this.ctx
-    const { program } = this.renderData
-
-    const screenWidthLocation = gl.getUniformLocation(program, 'screen_width')
-    if (screenWidthLocation) {
-      gl.uniform1f(screenWidthLocation, this.canvas.width)
-    }
-
-    const screenHeightLocation = gl.getUniformLocation(program, 'screen_height')
-    if (screenHeightLocation) {
-      gl.uniform1f(screenHeightLocation, this.canvas.height)
-    }
+    this.uniform1f('screen_width', this.canvas.width)
+    this.uniform1f('screen_height', this.canvas.height)
   }
 }

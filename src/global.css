@@ -8,4 +8,5 @@ body {
   background-size: cover;
   background-repeat: round;
   color: #eee;
+  min-height: 200vh;
 }

@@ -1,4 +1,5 @@
 <template>
+  <Background />
   <HeroScene />
   <div class="wrapper">
     <GlassCard>
@@ -15,6 +16,7 @@
 <script setup lang="ts">
   import HeroScene from './raytracing/HeroScene.vue'
   import GlassCard from './components/GlassCard.vue'
+  import Background from './background/Background.vue'
 </script>
 
 <style scoped>

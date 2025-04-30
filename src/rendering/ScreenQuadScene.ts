@@ -12,6 +12,7 @@ export default class ScreenQuadScene extends Scene {
   private boundRender = this.render.bind(this)
   private boundResize = this.resize.bind(this)
   private animationFrame: ReturnType<typeof requestAnimationFrame> = 0
+  private notices: Record<string, boolean> | undefined
 
   /**
    * Overridable getter that should return the glsl source of the screen
@@ -206,5 +207,19 @@ export default class ScreenQuadScene extends Scene {
 
     // Wait for the next render loop
     this.animationFrame = requestAnimationFrame(this.boundRender)
+  }
+
+  public uniform1f(name: string, value: number) {
+    const gl = this.ctx
+    const location = gl.getUniformLocation(this.renderData.program, name)
+    if (location) {
+      gl.uniform1f(location, value)
+    } else {
+      if (!this.notices?.[name]) {
+        console.warn(`Set Uniform: '${name}' not found`)
+        this.notices ??= {}
+        this.notices[name] = true
+      }
+    }
   }
 }
