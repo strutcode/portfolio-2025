@@ -1,3 +1,5 @@
+const float sensorSize = 0.025;
+
 /** Creates a ray based on a screen coordinate */
 Ray camera_ray(vec2 uv, vec2 size) {
   /*
@@ -5,6 +7,8 @@ Ray camera_ray(vec2 uv, vec2 size) {
   * from the center of the screen ranging from negative half the field of view
   * to positive half of the field of view.
   */
+
+  float ratio = size.x / size.y;
 
   // Typical images are wider than they are tall, so base the FoV on the size.x
   float hFieldOfView = fovRange;
@@ -23,7 +27,7 @@ Ray camera_ray(vec2 uv, vec2 size) {
   );
 
   Ray ray;
-  ray.origin = vec3(0.0);
+  ray.origin = vec3((uv - vec2(0.5)) * sensorSize * ratio, 0.0);
   ray.direction = direction;
 
   return ray;
