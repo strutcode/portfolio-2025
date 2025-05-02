@@ -9,8 +9,9 @@ const float fovRange = fov * 0.5 * degToRad;
 
 #include util/types
 #include sdf/sphere
-#include tracing/cast_ray
 #include tracing/camera
+#include lighting/point_light
+#include tracing/cast_ray
 
 void main() {
   vec2 uv = gl_FragCoord.xy / vec2(screen_width, screen_height);
