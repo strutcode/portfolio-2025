@@ -1,7 +1,12 @@
 import PostProcessScene from '../rendering/ScreenQuadScene'
 
 export default class BackgroundRenderer extends PostProcessScene {
-  protected points: Float32Array = new Float32Array(6)
+  protected points: Float32Array = new Float32Array([
+    Math.random() * this.canvas.width,
+    Math.random() * this.canvas.height,
+    Math.random() * this.canvas.width,
+    Math.random() * this.canvas.height,
+  ])
   protected colors: Float32Array = new Float32Array([
     ...[0.5647058823529412, 0, 0.4235294117647059], // purple
     ...[0.8470588235294118, 0.08627450980392157, 0.23137254901960785], // red
@@ -12,7 +17,7 @@ export default class BackgroundRenderer extends PostProcessScene {
     [Math.random() * 2 - 1, Math.random() * 2 - 1],
     [Math.random() * 2 - 1, Math.random() * 2 - 1],
   ]
-  protected speed = 0.1
+  protected speed = 0.25
 
   protected get vertexShaderSource() {
     return `
@@ -30,14 +35,14 @@ export default class BackgroundRenderer extends PostProcessScene {
       uniform float screen_width;
       uniform float screen_height;
       uniform vec3 colors[3];
-      uniform vec2 points[3];
+      uniform vec2 points[2];
 
       float dist(vec2 p, vec2 q) {
-        return length(p - (q / vec2(screen_width, screen_height)));
+        return 1.0 - length(p - (q / vec2(screen_width, screen_height)));
       }
 
       vec3 distanceColor(vec2 uv) {
-        return 0.33 * (colors[0] * dist(uv, points[0]) + colors[1] * dist(uv, points[1]) + colors[2] * dist(uv, points[2]));
+        return 0.33 * (colors[0] + colors[1] * dist(uv, points[0]) + colors[2] * dist(uv, points[1]));
       }
 
       void main() {
@@ -60,7 +65,7 @@ export default class BackgroundRenderer extends PostProcessScene {
 
     // Update the points so that they move with velocity and bounce off the screen edges
     let x, y
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
       x = this.points[i * 2]
       y = this.points[i * 2 + 1]
 
