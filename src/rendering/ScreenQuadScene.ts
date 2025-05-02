@@ -241,4 +241,8 @@ export default class ScreenQuadScene extends Scene {
   public uniform3v(name: string, value: Float32Array) {
     this.uniformx('uniform3fv', name, value)
   }
+
+  public uniformsampler(name: string, value: number) {
+    this.uniformx('uniform1i', name, value)
+  }
 }

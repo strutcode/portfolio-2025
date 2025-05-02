@@ -1,6 +1,7 @@
 import ScreenQuadScene from '../rendering/ScreenQuadScene'
 import vertex from './shaders/vertex.glsl'
 import fragment from './shaders/fragment.glsl'
+import RgbeReader from './util/RgbeReader'
 
 export default class RayTracer extends ScreenQuadScene {
   protected get vertexShaderSource() {
@@ -9,6 +10,53 @@ export default class RayTracer extends ScreenQuadScene {
 
   protected get fragmentShaderSource() {
     return fragment
+  }
+
+  protected setup() {
+    super.setup()
+
+    this.loadHDRImage('/HDR_029_Sky_Cloudy_Env.hdr')
+  }
+
+  /**
+   * Loads an HDR image and sets it as a texture.
+   * @param image The HDR image to load.
+   */
+  protected async loadHDRImage(url: string) {
+    const gl = this.ctx
+
+    const res = await fetch(url)
+    if (!res.ok) {
+      throw new Error(`Failed to load HDR image: ${res.statusText}`)
+    }
+    const arrayBuffer = await res.arrayBuffer()
+
+    const reader = new RgbeReader(arrayBuffer)
+    const { width, height, data } = reader.read()
+
+    // Create a texture
+    const texture = gl.createTexture()
+    if (!texture) {
+      throw new Error('Failed to create texture')
+    }
+
+    // Bind the texture
+    gl.bindTexture(gl.TEXTURE_2D, texture)
+
+    // Set the texture parameters
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+
+    // Upload the image to the GPU
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB16F, width, height, 0, gl.RGB, gl.FLOAT, data)
+
+    // Generate mipmaps
+    gl.generateMipmap(gl.TEXTURE_2D)
+
+    // Set the texture as a uniform
+    this.uniformsampler('background', 0)
   }
 
   protected setUniforms() {

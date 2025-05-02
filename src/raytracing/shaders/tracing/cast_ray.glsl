@@ -6,7 +6,7 @@ vec3 cast_ray(Ray ray) {
   RayHit hit;
 
   // Check for intersection with the sphere
-  if (intersect_sphere(sphereCenter, sphereRadius, ray, hit)) {
+  if(intersect_sphere(sphereCenter, sphereRadius, ray, hit)) {
     Ray newRay;
     newRay.origin = hit.point;
     newRay.direction = hit.normal;
@@ -19,6 +19,12 @@ vec3 cast_ray(Ray ray) {
 
     return point_light_contribution(light, newRay);
   } else {
-    return vec3(0.0, 0.0, 0.0);
+    // Sample the background if the ray missed
+    float lat = acos(ray.direction.y);
+    float lon = atan(ray.direction.x, ray.direction.z);
+
+    vec2 uv = vec2(lon / (2.0 * PI) + 0.5, lat / PI);
+
+    return texture2D(background, uv).rgb;
   }
 }
