@@ -49,11 +49,11 @@ bool intersect_sphere(vec3 sphereCenter, float sphereRadius, Ray ray, out RayHit
   return true;
 }
 
-vec3 cast_ray(vec2 uv) {
+vec3 cast_ray(vec2 xy) {
   // Get the origin and direction of the ray from uv
   Ray ray;
-  ray.origin = vec3(uv - vec2(0.5), 0.0);
-  ray.direction = vec3(uv - vec2(0.5), -1.0);
+  ray.origin = vec3(xy, 0.0);
+  ray.direction = vec3(xy, -1.0);
 
   // Define the sphere center and radius
   vec3 sphereCenter = vec3(0.0, 0.0, -1.0);
@@ -71,5 +71,6 @@ vec3 cast_ray(vec2 uv) {
 
 void main() {
   vec2 uv = gl_FragCoord.xy / vec2(screen_width, screen_height);
-  gl_FragColor = vec4(cast_ray(uv), 1.0);
+  vec2 ratio = vec2(screen_width / screen_height, 1.0);
+  gl_FragColor = vec4(cast_ray((uv - vec2(0.5)) * ratio), 1.0);
 }
