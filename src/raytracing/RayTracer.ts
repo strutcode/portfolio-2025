@@ -1,24 +1,14 @@
 import ScreenQuadScene from '../rendering/ScreenQuadScene'
+import vertex from './shaders/vertex.glsl'
+import fragment from './shaders/fragment.glsl'
 
 export default class RayTracer extends ScreenQuadScene {
   protected get vertexShaderSource() {
-    return `
-    attribute vec4 a_position;
-    void main() {
-      gl_Position = a_position;
-    }
-  `
+    return vertex
   }
+
   protected get fragmentShaderSource() {
-    return `
-    precision mediump float;
-    uniform float screen_width;
-    uniform float screen_height;
-    void main() {
-      vec2 uv = gl_FragCoord.xy / vec2(screen_width, screen_height);
-      gl_FragColor = vec4(uv, 0.0, 1.0);
-    }
-  `
+    return fragment
   }
 
   protected setUniforms() {

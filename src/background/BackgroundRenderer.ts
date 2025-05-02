@@ -1,4 +1,6 @@
 import PostProcessScene from '../rendering/ScreenQuadScene'
+import vertex from './shaders/vertex.glsl'
+import fragment from './shaders/fragment.glsl'
 
 export default class BackgroundRenderer extends PostProcessScene {
   protected points: Float32Array = new Float32Array([
@@ -20,37 +22,11 @@ export default class BackgroundRenderer extends PostProcessScene {
   protected speed = 0.25
 
   protected get vertexShaderSource() {
-    return `
-      attribute vec4 a_position;
-      void main() {
-        gl_Position = a_position;
-      }
-    `
+    return vertex
   }
 
   protected get fragmentShaderSource() {
-    return `
-      precision mediump float;
-      
-      uniform float screen_width;
-      uniform float screen_height;
-      uniform vec3 colors[3];
-      uniform vec2 points[2];
-
-      float dist(vec2 p, vec2 q) {
-        return 1.0 - length(p - (q / vec2(screen_width, screen_height)));
-      }
-
-      vec3 distanceColor(vec2 uv) {
-        return 0.33 * (colors[0] + colors[1] * dist(uv, points[0]) + colors[2] * dist(uv, points[1]));
-      }
-
-      void main() {
-        vec2 uv = gl_FragCoord.xy / vec2(screen_width, screen_height);
-
-        gl_FragColor = vec4(distanceColor(uv), 1.0);
-      }
-    `
+    return fragment
   }
 
   protected setUniforms() {
