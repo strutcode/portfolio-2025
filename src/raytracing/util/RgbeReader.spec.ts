@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { readComponent, readPixel, readScanline } from './RgbeReader'
+import RgbeReader from './RgbeReader'
 import StreamReader from './StreamReader'
 
 describe('RGBE file reader', () => {
@@ -7,6 +7,7 @@ describe('RGBE file reader', () => {
 
   it('can read a single pixel correctly', () => {
     const data = new Uint8Array([10, 20, 30, 136, 40, 50, 60, 137, 70, 80, 90, 128])
+    const readPixel = new RgbeReader(data.buffer)['readPixel']
 
     expect(readPixel(data, 0)).to.deep.equal([10, 20, 30])
     expect(readPixel(data, 1)).to.deep.equal([80, 100, 120])
@@ -23,11 +24,12 @@ describe('RGBE file reader', () => {
     ]).buffer
     const stream = new StreamReader(data)
     const output = new Uint8Array(16)
+    const reader = new RgbeReader(stream)
 
-    readComponent(stream, output, 0)
-    readComponent(stream, output, 1)
-    readComponent(stream, output, 2)
-    readComponent(stream, output, 3)
+    reader['readComponent'](output, 0)
+    reader['readComponent'](output, 1)
+    reader['readComponent'](output, 2)
+    reader['readComponent'](output, 3)
 
     // prettier-ignore
     expect([...output]).to.deep.equal([
@@ -49,8 +51,8 @@ describe('RGBE file reader', () => {
       128 + 4, 136, // Exponent with RLE
     ]).buffer
     const stream = new StreamReader(data)
-
-    const output = readScanline(stream, 4)
+    const reader = new RgbeReader(stream)
+    const output = reader['readScanline'](4)
 
     // prettier-ignore
     expect([...output]).to.deep.equal([
@@ -68,9 +70,10 @@ describe('RGBE file reader', () => {
       2, 2, 0, 4, 128 + 4, 9, 128 + 4, 8, 128 + 4, 7, 128 + 4, 6, // Line 2
     ]).buffer
     const stream = new StreamReader(data)
+    const reader = new RgbeReader(stream)
 
-    const line1 = readScanline(stream, 4)
-    const line2 = readScanline(stream, 4)
+    const line1 = reader['readScanline'](4)
+    const line2 = reader['readScanline'](4)
 
     expect([...line1]).to.deep.equal([1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4])
     expect([...line2]).to.deep.equal([9, 8, 7, 6, 9, 8, 7, 6, 9, 8, 7, 6, 9, 8, 7, 6])
