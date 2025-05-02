@@ -1,19 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import glsl from 'vite-plugin-glsl'
 
 export default defineConfig({
-  plugins: [
-    vue(),
-    {
-      name: 'vite-plugin-glsl',
-      transform(code, id) {
-        if (id.endsWith('.glsl')) {
-          return {
-            code: `export default ${JSON.stringify(code)}`,
-            map: null,
-          }
-        }
-      },
-    },
-  ],
+  plugins: [vue(), glsl({ minify: true })],
 })
