@@ -9,6 +9,12 @@ struct RayHit {
   float distance;
 };
 
+struct Sphere {
+  vec3 position;
+  vec3 color;
+  float radius;
+};
+
 struct PointLight {
   vec3 position;
   vec3 color;

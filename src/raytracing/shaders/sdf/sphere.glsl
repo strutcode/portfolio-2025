@@ -1,6 +1,6 @@
 // Tests for intersection between a ray and an sdf sphere
-bool intersect_sphere(vec3 sphereCenter, float sphereRadius, Ray ray, out RayHit hit) {
-  vec3 L = sphereCenter - ray.origin;
+bool intersect_sphere(Sphere sphere, Ray ray, out RayHit hit) {
+  vec3 L = sphere.position - ray.origin;
   float tca = dot(ray.direction, L);
 
   // If the ray is pointing away from the sphere center there's no chance of intersection
@@ -10,7 +10,7 @@ bool intersect_sphere(vec3 sphereCenter, float sphereRadius, Ray ray, out RayHit
 
   // Calculate the distance from the sphere center to the intersection point squared
   float d2 = dot(L, L) - tca * tca;
-  float r2 = sphereRadius * sphereRadius;
+  float r2 = sphere.radius * sphere.radius;
 
   // If the distance of the ray from the center (squared) is greater than radius (squared), it missed
   if (d2 > r2) {
@@ -28,7 +28,7 @@ bool intersect_sphere(vec3 sphereCenter, float sphereRadius, Ray ray, out RayHit
 
   // For a perfect sphere the normal will always point away from the center
   // so get the normalized difference between the intersection point and the center
-  hit.normal = normalize(hit.point - sphereCenter);
+  hit.normal = normalize(hit.point - sphere.position);
 
   return true;
 }

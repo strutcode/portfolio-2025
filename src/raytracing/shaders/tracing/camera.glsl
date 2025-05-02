@@ -20,11 +20,7 @@ Ray camera_ray(vec2 uv, vec2 size) {
 
   // Calculate a directional vector
   // Z is implicitly proportional to the other two
-  vec3 direction = vec3(
-    sin(xComp) * cos(yComp),
-    sin(yComp),
-    cos(xComp) * cos(yComp)
-  );
+  vec3 direction = vec3(sin(xComp) * cos(yComp), sin(yComp), cos(xComp) * cos(yComp));
 
   Ray ray;
   ray.origin = vec3((uv - vec2(0.5)) * sensorSize * ratio, 0.0);

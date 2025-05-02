@@ -9,7 +9,7 @@ vec3 point_light_contribution(PointLight light, Ray ray) {
   // Calculate the distance from the light to the ray origin
   float distance = length(light.position - ray.origin);
   float distanceSq = distance * distance;
-  
+
   // If the angle is less than the light's perspective size, it contributes nothing
   if (angle < light.size / distanceSq) {
     return vec3(0.0);
