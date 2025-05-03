@@ -8,7 +8,7 @@ uniform sampler2D background;
 const float fov = 90.0; // Degrees
 const float degToRad = 0.017453292519943295;
 const float fovRange = fov * 0.5 * degToRad;
-const int traces = 30;
+const int traces = 90;
 const int bounces = 1;
 
 #include util/constants

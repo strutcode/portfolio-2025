@@ -10,7 +10,7 @@ RayHit raycast(Ray ray) {
   Sphere sphere;
   sphere.position = vec3(0.0, 0.0, 10.0);
   sphere.color = vec3(1.0, 1.0, 1.0);
-  sphere.radius = 1.0;
+  sphere.radius = 1.2;
   sphere.roughness = 1.0;
 
   /** Structured sotrage for the output of the function. */
