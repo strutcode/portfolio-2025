@@ -59,5 +59,6 @@ export default class RayTracer extends ScreenQuadScene {
   protected setUniforms() {
     this.uniform1f('screen_width', this.canvas.width)
     this.uniform1f('screen_height', this.canvas.height)
+    this.uniform1f('time', performance.now())
   }
 }

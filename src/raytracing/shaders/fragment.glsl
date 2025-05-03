@@ -2,6 +2,7 @@ precision mediump float;
 
 uniform float screen_width;
 uniform float screen_height;
+uniform float time;
 uniform sampler2D background;
 
 const float fov = 90.0; // Degrees
@@ -19,16 +20,23 @@ const int bounces = 1;
 #include tracing/raycast
 #include tracing/trace
 
+/**
+ * Main function for the fragment shader. This sets up the initial parameters
+ * and calls the path tracing function.
+ */
 void main() {
+  // Calculate the screen coordinates and create a ray from the camera
   vec2 uv = gl_FragCoord.xy / vec2(screen_width, screen_height);
-  Ray ray = camera_ray(uv, vec2(screen_width, screen_height));
-  vec3 result = vec3(0.0);
 
+  // Adjust the coordinates to account for the camera parameters
+  Ray ray = camera_ray(uv, vec2(screen_width, screen_height));
+
+  // Trace `traces` rays and accumulate all the color contributions
+  vec3 result = vec3(0.0);
   for (int i = 0; i < traces; i++) {
     result += trace(ray);
   }
 
-  result *= 1.0 / float(traces);
-
-  gl_FragColor = vec4(result, 1.0);
+  // Take the average of the captured colors and use it as the fragment color
+  gl_FragColor = vec4(result / float(traces), 1.0);
 }
