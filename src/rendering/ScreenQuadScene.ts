@@ -60,8 +60,15 @@ export default class ScreenQuadScene extends Scene {
     this.ctx = ctx
     element.prepend(this.canvas)
 
-    this.setup()
-    requestAnimationFrame(this.boundRender)
+    try {
+      this.setup()
+      console.log('WebGL context created successfully')
+      requestAnimationFrame(this.boundRender)
+    } catch (e) {
+      if (e instanceof Error) {
+        console.error(e.message)
+      }
+    }
   }
 
   /**
@@ -218,6 +225,11 @@ export default class ScreenQuadScene extends Scene {
 
   private uniformx(type: string, name: string, value: number | Float32Array) {
     const gl = this.ctx
+
+    if (!this.renderData.program) {
+      throw new Error('Program not initialized')
+    }
+
     const location = gl.getUniformLocation(this.renderData.program, name)
     if (location) {
       ;(<any>gl)[type](location, value)

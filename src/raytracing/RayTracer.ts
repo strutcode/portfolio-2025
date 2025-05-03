@@ -52,9 +52,6 @@ export default class RayTracer extends ScreenQuadScene {
     // Upload the image to the GPU
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB16F, width, height, 0, gl.RGB, gl.FLOAT, data)
 
-    // Generate mipmaps
-    gl.generateMipmap(gl.TEXTURE_2D)
-
     // Set the texture as a uniform
     this.uniformsampler('background', 0)
   }
