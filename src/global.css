@@ -1,12 +1,140 @@
-body, html {
-  padding: 0;
-  margin: 0;
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Theme Variables - Light Theme (default) */
+  --primary-color: #4f76e0;
+  --secondary-color: #6d8dff;
+  --accent-color: #535bf2;
+  --background-color: #ffffff;
+  --background-alt-color: #f1f5f9;
+  --text-color: #213547;
+  --text-muted-color: #64748b;
+  --border-color: #e2e8f0;
+  --card-bg-color: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  
+  /* Apply default light theme */
+  color-scheme: light;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+/* Dark theme class that can be toggled */
+.dark-theme {
+  --primary-color: #818cf8;
+  --secondary-color: #a5b4fc;
+  --accent-color: #6366f1;
+  --background-color: #0f172a;
+  --background-alt-color: #1e293b;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --text-muted-color: #94a3b8;
+  --border-color: #334155;
+  --card-bg-color: #1e293b;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  
+  color-scheme: dark;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+a {
+  font-weight: 500;
+  color: var(--primary-color);
+  text-decoration: inherit;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-color);
 }
 
 body {
-  background: url(https://img.freepik.com/premium-vector/modern-purple-red-gradient-vector_901408-12733.jpg) no-repeat center center fixed;
-  background-size: cover;
-  background-repeat: round;
-  color: #eee;
-  min-height: 200vh;
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 1.5rem 0 1rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+p {
+  margin: 1rem 0;
+}
+
+/* Buttons */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--background-alt-color);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+button:hover {
+  border-color: var(--primary-color);
+  background-color: var(--background-alt-color);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section {
+  padding: 4rem 0;
+}
+
+/* Cards */
+.card {
+  background-color: var(--card-bg-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px var(--shadow-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px var(--shadow-color);
+}
+
+#app {
+  width: 100%;
+  margin: 0 auto;
 }
