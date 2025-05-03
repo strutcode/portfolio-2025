@@ -1,5 +1,16 @@
 import StreamReader from './StreamReader'
 
+/**
+ * The header of a Radiance rgbe file.
+ *
+ * The header is a key/value pair object containing non-comment values defined by
+ * the header. The keys are case-sensitive and the values are parsed as follows:
+ *
+ * - FORMAT: string
+ * - GAMMA: number
+ * - EXPOSURE: number
+ * - COLORCORR: [number, number, number]
+ */
 export type RgbeHeader = {
   FORMAT?: string
   GAMMA?: number
@@ -7,7 +18,13 @@ export type RgbeHeader = {
   COLORCORR?: [number, number, number]
 }
 
-/** Reads an HDRI image from a raw ArrayBuffer source. */
+/**
+ * Reads HDRI images in RGBe format and outputs a decoded raw format.
+ *
+ * This class is used to read HDRI images in the Radiance rgbe format. It
+ * reads the image data from a stream and converts it to a Float32Array in RGBA
+ * order.
+ */
 export default class RgbeReader {
   private stream: StreamReader
 
