@@ -38,7 +38,7 @@ vec3 trace(Ray ray) {
       continue;
     } else if (hit.type == RAY_TYPE_DIFFUSE) {
       // Diffuse reflection, start by picking a random direction to adjust the reflection
-      vec3 tweak = normalize(vec3(rand(), rand(), rand()));
+      vec3 tweak = normalize(vec3(rand(), rand(), rand()) - vec3(0.5));
 
       // If the tweak would point inside the sphere, invert it
       if (dot(tweak, hit.normal) < 0.0) {
