@@ -10,9 +10,9 @@ export default class BackgroundRenderer extends PostProcessScene {
     Math.random() * this.canvas.height,
   ])
   protected colors: Float32Array = new Float32Array([
-    ...[0.5647058823529412, 0, 0.4235294117647059], // purple
-    ...[0.8470588235294118, 0.08627450980392157, 0.23137254901960785], // red
-    ...[1, 0.3607843137254902, 0.12941176470588237], // orange
+    ...[0.27450980392156865, 0.4, 0.9019607843137255],
+    ...[0.09803921568627451, 0.25098039215686274, 0.9019607843137255],
+    ...[0.28627450980392155, 0.6, 0.9764705882352941],
   ])
   protected velocity = [
     [Math.random() * 2 - 1, Math.random() * 2 - 1],

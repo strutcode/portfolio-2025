@@ -9,7 +9,7 @@
   const element = useTemplateRef('element')
 
   onMounted(() => {
-    const scene = new BackgroundRenderer(element.value)
+    const scene = new BackgroundRenderer(element.value!)
 
     onBeforeUnmount(() => {
       scene.destroy()
