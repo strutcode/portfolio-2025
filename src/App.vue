@@ -11,11 +11,13 @@
       </p>
     </GlassCard>
   </div>
+  <About />
 </template>
 
 <script setup lang="ts">
   import HeroScene from './raytracing/HeroScene.vue'
   import GlassCard from './components/GlassCard.vue'
+  import About from './components/sections/About.vue'
   import Background from './background/Background.vue'
 </script>
 
