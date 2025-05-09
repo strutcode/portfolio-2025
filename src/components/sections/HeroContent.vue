@@ -1,11 +1,13 @@
 <script setup lang="ts">
+  import GlassCard from '../GlassCard.vue'
+
   // Hero component logic
 </script>
 
 <template>
   <section id="hero" class="hero-section">
     <div class="container">
-      <div class="hero-content">
+      <GlassCard class="hero-content">
         <h1>Tristan Shelton</h1>
         <h2 class="subtitle">Frontend Web Developer</h2>
         <p class="tagline">Crafting beautiful, innovative, and user-friendly web experiences</p>
@@ -13,7 +15,7 @@
           <a href="#projects" class="btn primary-btn">View My Work</a>
           <a href="#contact" class="btn secondary-btn">Get In Touch</a>
         </div>
-      </div>
+      </GlassCard>
     </div>
     <div class="shape-divider">
       <svg
