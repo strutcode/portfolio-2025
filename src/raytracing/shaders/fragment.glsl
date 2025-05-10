@@ -31,6 +31,11 @@ void main() {
   // Adjust the coordinates to account for the camera parameters
   Ray ray = camera_ray(uv, vec2(screen_width, screen_height));
 
+  // Tweak the camera ray for "free" anti-aliasing
+  vec3 tweak = vec3(rand(), rand(), 1.0) - vec3(0.5);
+  ray.direction += tweak * 0.001;
+  ray.direction = normalize(ray.direction);
+
   // Trace `traces` rays and accumulate all the color contributions
   vec3 result = vec3(0.0);
   for (int i = 0; i < traces; i++) {
