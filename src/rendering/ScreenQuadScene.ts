@@ -5,6 +5,8 @@ import Scene from './Scene'
  * with a shader program.
  */
 export default class ScreenQuadScene extends Scene {
+  public upsample: number = 1.0
+
   protected canvas: HTMLCanvasElement
   protected ctx: WebGL2RenderingContext
   protected renderData: any = {}
@@ -47,14 +49,23 @@ export default class ScreenQuadScene extends Scene {
    *
    * @param element The element to render to. The viewport will inherit its size
    */
-  public constructor(protected element: HTMLElement) {
+  public constructor(protected element: HTMLElement, upsample: number = 1.0) {
     super(element)
+    this.upsample = upsample
 
     this.canvas = document.createElement('canvas')
     const ctx = this.canvas.getContext('webgl2')
 
     if (!ctx) {
       throw new Error('Failed to get WebGL context')
+    }
+
+    // Allow scoped styles to be applied by copying any v-* attributes
+    // to the canvas element.
+    for (const attr of element.attributes) {
+      if (attr.name.startsWith('data-v-')) {
+        this.canvas.setAttribute(attr.name, attr.value)
+      }
     }
 
     this.ctx = ctx
@@ -121,8 +132,8 @@ export default class ScreenQuadScene extends Scene {
   protected resize() {
     const rect = this.element.getBoundingClientRect()
 
-    this.canvas.width = rect.width
-    this.canvas.height = rect.height
+    this.canvas.width = rect.width * this.upsample
+    this.canvas.height = rect.height * this.upsample
   }
 
   /** Sets up the WebGL context and compiles the shaders. */

@@ -20,7 +20,7 @@
   const output = useTemplateRef('output')
 
   onMounted(() => {
-    const scene = new RayTracer(output.value)
+    const scene = new RayTracer(output.value, 0.5)
 
     // Only render when the element is in view to save resources
     const observer = new IntersectionObserver(
@@ -60,5 +60,14 @@
     background-color: #000;
     overflow: hidden;
     clip-path: url(#hero-clip-path);
+  }
+
+  .scene canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
   }
 </style>

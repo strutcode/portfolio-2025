@@ -9,7 +9,7 @@
   const element = useTemplateRef('element')
 
   onMounted(() => {
-    const scene = new BackgroundRenderer(element.value!)
+    const scene = new BackgroundRenderer(element.value!, 0.25)
 
     onBeforeUnmount(() => {
       scene.destroy()
@@ -27,5 +27,10 @@
     overflow: hidden;
     z-index: -1;
     opacity: 0.5;
+  }
+
+  .background canvas {
+    width: 100%;
+    height: 100%;
   }
 </style>
