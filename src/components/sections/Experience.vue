@@ -9,12 +9,14 @@
       </p>
 
       <div class="project-grid">
-        <GlassCard v-for="project in projects" :key="project.title" class="project-card">
+        <GlassCard
+          v-for="project in projects"
+          :key="project.title"
+          class="project-card"
+          @click.stop.prevent="openPopup(project)"
+        >
           <div class="project-image">
             <img :src="project.image" :alt="project.title" />
-            <div class="project-overlay">
-              <a class="view-project" @click.stop.prevent="openPopup(project)">View Project</a>
-            </div>
           </div>
           <div class="project-details">
             <h3 class="project-title">{{ project.title }}</h3>
@@ -29,15 +31,20 @@
       <transition name="fade-slide">
         <div class="project-popup" v-if="selectedProject" @click="closePopup">
           <div class="project-popup-content" @click.stop>
-            <h3 class="project-popup-title">{{ selectedProject.title }}</h3>
-            <p
-              class="project-popup-description"
-              v-html="selectedProject.description.replace(/\n/g, '<br />')"
-            ></p>
-            <div class="project-popup-tags">
-              <span v-for="tag in selectedProject.tags" class="tag">{{ tag }}</span>
+            <div class="project-popup-image">
+              <img :src="selectedProject.image" :alt="selectedProject.title" />
             </div>
-            <a :href="selectedProject.link" class="view-project">View Project</a>
+            <div class="project-popup-overlay">
+              <h3 class="project-popup-title">{{ selectedProject.title }}</h3>
+              <p
+                class="project-popup-description"
+                v-html="selectedProject.description.replace(/\n/g, '<br />')"
+              ></p>
+              <div class="project-popup-tags">
+                <span v-for="tag in selectedProject.tags" class="tag">{{ tag }}</span>
+              </div>
+              <a :href="selectedProject.link" target="_blank" class="view-project">View Project</a>
+            </div>
             <Icon class="close-popup" icon="solar:close-square-bold-duotone" @click="closePopup" />
           </div>
         </div>
@@ -178,9 +185,9 @@ Look and feel of the site was achieved with a hand coded template based on Photo
   .project-card {
     border-radius: 8px;
     overflow: hidden;
-    /* background-color: var(--card-bg-color); */
     box-shadow: 0 4px 6px var(--shadow-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
   }
 
   .project-card:hover {
@@ -285,12 +292,34 @@ Look and feel of the site was achieved with a hand coded template based on Photo
 
   .project-popup-content {
     position: relative;
-    background-color: var(--card-bg-color);
-    padding: 2rem;
     border-radius: 8px;
-    max-width: 600px;
-    width: 90%;
+    max-width: 900px;
+    /* width: 90%; */
+    display: flex;
+    flex-flow: row nowrap;
+    overflow: hidden;
+  }
+
+  .project-popup-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100%;
+    z-index: -1;
+  }
+  .project-popup-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .project-popup-overlay {
+    margin-left: 200px;
+    padding: 2rem;
+    padding-left: 7rem;
     color: var(--text-color);
+    background: linear-gradient(to right, transparent, var(--card-bg-color) 10%);
   }
 
   .project-popup-title {
