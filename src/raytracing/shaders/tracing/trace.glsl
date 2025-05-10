@@ -90,5 +90,5 @@ vec3 environment(vec3 dir) {
   vec2 uv = vec2(lon / (2.0 * PI) + 0.5, lat / PI);
 
   // Sample the texture from the uv coordinates
-  return texture2D(background, uv + vec2(time * 0.00005, 0.0)).rgb;
+  return texture2D(background, uv + vec2(time * 0.00002, 0.0)).rgb;
 }

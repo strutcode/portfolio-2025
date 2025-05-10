@@ -11,13 +11,13 @@ RayHit raycast(Ray ray) {
   sphere.position = vec3(0.0, 0.0, 10.0) + vec3(sin(time * 0.001) * 0.9, 0.0, cos(time * 0.001) * 0.9);
   sphere.color = vec3(1.0, 1.0, 1.0);
   sphere.radius = 1.2;
-  sphere.roughness = 0.08;
+  sphere.roughness = 0.03;
 
   Sphere sphere2;
   sphere2.position = vec3(0.0, 0.0, 10.0) + vec3(cos(time * 0.001) * 3.5, 0.0, sin(time * 0.001) * 3.5);
   sphere2.color = vec3(1.0, 1.0, 1.0);
   sphere2.radius = 1.2;
-  sphere2.roughness = 0.08;
+  sphere2.roughness = 0.03;
 
   /** Structured storage for the output of the function. */
   RayHit hit1;
