@@ -1,4 +1,5 @@
 <template>
+  <Navigation :isDarkTheme="isDarkTheme" @toggleTheme="toggleTheme" />
   <Background />
   <HeroScene />
   <div class="wrapper">
@@ -15,10 +16,20 @@
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue'
+
   import HeroScene from './raytracing/HeroScene.vue'
   import GlassCard from './components/GlassCard.vue'
   import About from './components/sections/About.vue'
   import Background from './background/Background.vue'
+  import Navigation from './components/Navigation.vue'
+
+  const isDarkTheme = ref(false)
+
+  const toggleTheme = () => {
+    isDarkTheme.value = !isDarkTheme.value
+    document.documentElement.classList.toggle('dark-theme')
+  }
 </script>
 
 <style scoped>
