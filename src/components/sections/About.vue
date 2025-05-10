@@ -45,9 +45,7 @@
               </GlassCard>
               <GlassCard class="interest">
                 <span class="interest-icon">🎓</span>
-                <span class="interest-text"
-                  >Learning entirely new skills GlassCardke carpentry</span
-                >
+                <span class="interest-text">Learning entirely new skills like carpentry</span>
               </GlassCard>
               <GlassCard class="interest">
                 <span class="interest-icon">🔧</span>

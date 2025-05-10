@@ -51,7 +51,7 @@
       description: ``,
       tags: ['TypeScript', 'Vite', 'Assembly', 'Hardware Emulation'],
       image:
-        'https://images.unsplash.com/photo-1531390770335-d94a0dacd992?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
+        'https://images.unsplash.com/photo-1631896928992-90e5a2cc7a4e?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
       link: 'https://gameboy.strutcode.dev',
     },
     {
