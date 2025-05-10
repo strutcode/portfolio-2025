@@ -1,11 +1,10 @@
 <template>
   <section id="projects" class="section projects-section">
     <div class="container">
-      <h2 class="section-title">Professional Experience</h2>
+      <h2 class="section-title">My Projects</h2>
       <p class="section-description">
-        Following are some of the projects I have worked on, showcasing my skills in web development
-        and design. Each project reflects my commitment to quality and attention to detail, and I am
-        always eager to take on new challenges and expand my skill set.
+        While my pursuit of knowledge has spawned many pet projects, here are a few of my favorites.
+        I am always looking for new opportunities to learn and no challenge is too big or too small.
       </p>
 
       <div class="project-grid">
@@ -36,74 +35,53 @@
   // Sample project data
   const projects = ref([
     {
-      title: 'Sonar',
+      title: 'CableCode',
       short:
-        'Operational Support Software for internet service providers to handle all aspects of day-to-day operation.',
-      description: `Sonar is a leading OSS/BSS platform for ISPs, providing a comprehensive solution for billing, support, service calls, network management, and much more. I joined a small team of talented frontend engineers tasked with building "version 2" of the existing application from the ground up at break-neck pace.
-
-Using cutting edge technology, we created a sleek and modern web application that allows ISPs to manage their operations efficiently. I later transitioned into more senior roles including Frontend Architect and Staff Engineer where my responsibilities expanded to include mentoring new developers, conducting code reviews, and collaborating with cross-functional teams to ensure the successful delivery new features.
-
-Major contributions on my part included building key componets, architectural projects such as transitioning the existing code base from Flow types to TypeScript, and contributing original ideas that became well-received features. I played an important role in elevating Sonar to one of the top OSS/BSS platforms in the world for ISPs.`,
-      tags: ['Vue.js', 'TypeScript', 'Webpack', 'PHP', 'Laravel', 'ElasticSearch'],
-      image: '/portfolio-image/sonar-software.png',
-      link: '#',
+        'Dynamic website builder that allows users to visually design websites and bring them to life by connecting nodes.',
+      description: ``,
+      tags: ['Vue 3', 'TypeScript', 'Vite', 'MongoDB', 'Docker'],
+      image:
+        'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
+      link: 'https://cable.strutcode.dev',
     },
     {
-      title: 'Applied Educational Systems',
+      title: 'Gameboy Emulator',
       short:
-        'A comprehensive learning management system for trade skill and career readiness cirriculum.',
-      description: `When starting at Applied Educational Systems, I was tasked with taking the existing monolithic Ruby on Rails application and expanding it with a brand new frontend based on the then emerging React ecosystem.
-
-The goal was to modernize and create a more dynamic and user-friendly experience for students and teachers while allowing the existing staff to focus on the backend architecture and server maintenance.
-
-The result was a fully functional and responsive React application that allowed for rapid development of new features and functionality. The new system was built with a focus on performance, scalability, and maintainability, allowing the team to quickly iterate and improve the product.`,
-      tags: ['React', 'Redux', 'Javascript', 'Webpack', 'Ruby on Rails'],
-      image: '/portfolio-image/applied-educational-systems.png',
-      link: '#',
+        'A simple from-scratch emulator for the SM2 microprocessor and related hardware that runs in a browser.',
+      description: ``,
+      tags: ['TypeScript', 'Vite', 'Assembly', 'Hardware Emulation'],
+      image:
+        'https://images.unsplash.com/photo-1531390770335-d94a0dacd992?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
+      link: 'https://gameboy.strutcode.dev',
     },
     {
-      title: 'JetBlue Careers',
-      short:
-        'The all-in-one job portal for JetBlue Airways, one of the largest providers in the United States.',
-      description: `One of the largest airlines in the United States, JetBlue was looking to support its continued growth with a new informational directory for prospective employees. I was contracted to handle all technical aspects of this important project while the design was developed separately.
-
-The result was an attractive and efficient information portal based on the Wordpress platform. This structure allowed JetBlue's human resources staff to easily maintain and update essential information with familiar and well established interfaces.
-
-Duties and services included hand crafting an eye-catching template from scratch (HTML5, CSS3 and PHP5), working closely with existing JetBlue technical staff to ensure smooth integration with existing properties, and management of existing server resources in conjunction with deployment of new assets including emergency handling of issues during off hours.`,
-      tags: ['Wordpress', 'PHP', 'Bootstrap', 'MySQL', 'Javascript'],
-      image: '/portfolio-image/jetblue-careers.jpg',
-      link: '#',
+      title: 'Super Penguin Bros DX',
+      short: 'A dynamic multiplayer game using web technologies .',
+      description: ``,
+      tags: ['Godot', 'Docker', 'WebRTC', 'DigitalOcean'],
+      image:
+        'https://images.unsplash.com/photo-1605899435973-ca2d1a8861cf?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
+      link: 'https://pengiunbros.io',
     },
     {
-      title: "Bali Children's Project",
+      title: 'TristanScript',
       short:
-        'A non-profit organization dedicated to improving education and opportunities for children in Bali.',
-      description: `I provided affordable reduced cost development services for this non-profit charitable organization and used knowledge of HTML4, CSS2 and PHP4 to translate existing design specifications into functional plugins and themes to function with Wordpress 4.1.
-
-Additional responsibilities on this project included automating rapid deployment of large quantities of existing content and providing technical consultation on certain aspects of user interface design and technology choices to best serve the client's present and future needs.`,
-      tags: ['Wordpress', 'PHP', 'Javascript'],
-      image: '/portfolio-image/bali-childrens-project.jpg',
-      link: '#',
+        'My pet programming language built from the ground up using my own lexer, parser, interpreter and compiler.',
+      description: ``,
+      tags: ['Typescript', 'x86 Assembly'],
+      image:
+        'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
+      link: 'tscript.strutcode.dev',
     },
     {
-      title: 'A Natural Chef',
-      short: 'The personal website of a chef specializing in natural and organic cuisine.',
-      description: `This project consisted of full stack web development based on Wordpress 4.3. Responsibilities included server and database set-up, platform configuration, security and initial content deployment.
-
-Look and feel of the site was achieved with a hand coded template based on Photoshop design files including flexible menu and sidebar systems using existing Wordpress features.`,
-      tags: ['Symphony', 'PHP', 'Javascript', 'jQuery'],
-      image: '/portfolio-image/a-natural-chef.jpg',
-      link: '#',
-    },
-    {
-      title: 'Something Fabulous',
+      title: 'tOS',
       short:
-        'Wedding planning and event design company specializing in custom floral arrangements and decor.',
-      description:
-        'I provided supplementary programming and server management services to an external design team for an existing Wordpress-based website. Services rendered included security evaluation, restoration of damaged databases and migration/reconstruction of content across multiple servers.',
-      tags: ['Wordpress', 'PHP', 'Javascript'],
-      image: '/portfolio-image/something-fabulous.jpg',
-      link: '#',
+        'My personal operation system project starting from the boot loader all the way up to a GUI.',
+      description: ``,
+      tags: ['x86 Assembly', 'Hardware', 'C/C++', 'Linux'],
+      image:
+        'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
+      link: 'tos.strutcode.dev',
     },
   ])
 </script>

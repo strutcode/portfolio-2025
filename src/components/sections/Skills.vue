@@ -66,6 +66,7 @@
         'Pixi.js': 'devicon:pixijs',
         pnpm: 'devicon:pnpm',
         PWA: 'logos:pwa',
+        WebRTC: 'logos:webrtc',
       },
     },
     {
@@ -138,7 +139,6 @@
         ReactNative: 'devicon:reactnative',
         Ionic: 'devicon:ionic',
         Capacitor: 'devicon:capacitor',
-        Cordova: 'devicon:cordova',
         Flutter: 'devicon:flutter',
       },
     },
@@ -165,6 +165,7 @@
         Python: 'devicon:python',
         Ruby: 'devicon:ruby',
         Arduino: 'devicon:arduino',
+        Assembly: 'logos:nasm',
       },
     },
   ])
@@ -264,7 +265,7 @@
   .skill-icon svg {
     width: 1.4rem;
     height: 1.4rem;
-    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.25));
   }
 
   .skill-info {
