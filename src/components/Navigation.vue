@@ -3,7 +3,7 @@
     <div class="container">
       <div class="header-content">
         <div class="name">
-          <img src="../assets/logo.svg" class="logo" alt="Logo" />
+          <div class="logo" v-html="logo"></div>
           <a href="#" @click="closeMenu">Tristan Shelton</a>
         </div>
 
@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import logo from '../assets/logo.svg?raw'
 
   defineProps<{
     isDarkTheme: boolean
@@ -78,6 +79,12 @@
     width: 2.4rem;
     height: 2.4rem;
     margin-right: 1rem;
+    color: var(--text-color);
+  }
+
+  ::v-deep(.logo svg) {
+    width: 2.4rem;
+    height: 2.4rem;
   }
 
   .name a {
