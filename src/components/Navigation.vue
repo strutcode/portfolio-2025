@@ -2,7 +2,8 @@
   <header>
     <div class="container">
       <div class="header-content">
-        <div class="logo">
+        <div class="name">
+          <img src="../assets/logo.svg" class="logo" alt="Logo" />
           <a href="#" @click="closeMenu">Tristan Shelton</a>
         </div>
 
@@ -68,7 +69,18 @@
     align-items: center;
   }
 
-  .logo a {
+  .name {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo {
+    width: 2.4rem;
+    height: 2.4rem;
+    margin-right: 1rem;
+  }
+
+  .name a {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--text-color);

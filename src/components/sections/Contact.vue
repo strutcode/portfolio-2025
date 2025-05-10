@@ -166,7 +166,6 @@
 
 <style scoped>
   .contact-section {
-    background-color: var(--background-color);
     color: var(--text-color);
   }
 
