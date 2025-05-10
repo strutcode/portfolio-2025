@@ -14,11 +14,17 @@
   --background-color: #ffffff;
   --background-alt-color: #f1f5f9;
   --text-color: #213547;
-  --text-muted-color: #64748b;
+  --text-muted-color: #525f71;
   --border-color: #e2e8f0;
   --card-bg-color: #ffffff;
   --shadow-color: rgba(0, 0, 0, 0.1);
   --subtle-highlight-color: rgba(255, 255, 255, 0.2);
+  --glass-background: linear-gradient(
+    to bottom right,
+    rgba(200, 200, 200, 0.12),
+    rgba(90, 90, 90, 0.12),
+    rgba(200, 200, 200, 0.22)
+  );
   
   /* Apply default light theme */
   color-scheme: light;
@@ -39,6 +45,12 @@
   --card-bg-color: #1e293b;
   --shadow-color: rgba(0, 0, 0, 0.3);
   --subtle-highlight-color: rgba(0, 0, 0, 0.12);
+  --glass-background: linear-gradient(
+    to bottom right,
+    rgba(40, 40, 40, 0.22),
+    rgba(0, 0, 0, 0.12),
+    rgba(0, 0, 0, 0.22)
+  );
   
   color-scheme: dark;
   color: var(--text-color);
@@ -86,7 +98,6 @@ p {
 }
 
 .stripe {
-  padding: 2rem 0;;
   background-color: var(--subtle-highlight-color);
 }
 
