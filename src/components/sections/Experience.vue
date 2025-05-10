@@ -114,7 +114,7 @@ The result was an attractive and efficient information portal based on the Wordp
 Duties and services included hand crafting an eye-catching template from scratch (HTML5, CSS3 and PHP5), working closely with existing JetBlue technical staff to ensure smooth integration with existing properties, and management of existing server resources in conjunction with deployment of new assets including emergency handling of issues during off hours.`,
       tags: ['Wordpress', 'PHP', 'Bootstrap', 'MySQL', 'Javascript'],
       image: '/portfolio-image/jetblue-careers.jpg',
-      link: '#',
+      link: 'https://careers.jetblue.com/',
     },
     {
       title: "Bali Children's Project",
@@ -125,7 +125,7 @@ Duties and services included hand crafting an eye-catching template from scratch
 Additional responsibilities on this project included automating rapid deployment of large quantities of existing content and providing technical consultation on certain aspects of user interface design and technology choices to best serve the client's present and future needs.`,
       tags: ['Wordpress', 'PHP', 'Javascript'],
       image: '/portfolio-image/bali-childrens-project.jpg',
-      link: '#',
+      link: 'https://balichildrensproject.org/',
     },
     {
       title: 'A Natural Chef',
@@ -145,7 +145,7 @@ Look and feel of the site was achieved with a hand coded template based on Photo
         'I provided supplementary programming and server management services to an external design team for an existing Wordpress-based website. Services rendered included security evaluation, restoration of damaged databases and migration/reconstruction of content across multiple servers.',
       tags: ['Wordpress', 'PHP', 'Javascript'],
       image: '/portfolio-image/something-fabulous.jpg',
-      link: '#',
+      link: 'https://www.somethingfab.com',
     },
   ])
 </script>
