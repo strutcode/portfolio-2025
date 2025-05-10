@@ -62,7 +62,6 @@ export default class ScreenQuadScene extends Scene {
 
     try {
       this.setup()
-      console.log('WebGL context created successfully')
       requestAnimationFrame(this.boundRender)
     } catch (e) {
       if (e instanceof Error) {
@@ -104,7 +103,6 @@ export default class ScreenQuadScene extends Scene {
 
   /** Pauses the render loop. */
   protected pause() {
-    console.log('Pausing render loop')
     if (this.animationFrame) {
       cancelAnimationFrame(this.animationFrame)
     }
@@ -112,7 +110,6 @@ export default class ScreenQuadScene extends Scene {
 
   /** Resumes the render loop if it's paused. */
   protected resume() {
-    console.log('Resuming render loop')
     if (this.animationFrame) {
       cancelAnimationFrame(this.animationFrame)
     }
