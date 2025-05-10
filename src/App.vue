@@ -13,6 +13,7 @@
     </GlassCard>
   </div>
   <About />
+  <Footer />
 </template>
 
 <script setup lang="ts">
@@ -23,6 +24,7 @@
   import About from './components/sections/About.vue'
   import Background from './background/Background.vue'
   import Navigation from './components/Navigation.vue'
+  import Footer from './components/Footer.vue'
 
   const isDarkTheme = ref(false)
 
