@@ -12,6 +12,7 @@ RayHit raycast(Ray ray) {
   sphere.color = vec3(1.0, 1.0, 1.0);
   sphere.radius = 1.2;
   sphere.roughness = 0.08;
+
   Sphere sphere2;
   sphere2.position = vec3(0.0, 0.0, 10.0) + vec3(cos(time * 0.001) * 1.5, 0.0, sin(time * 0.001) * 1.5);
   sphere2.color = vec3(1.0, 1.0, 1.0);
