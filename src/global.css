@@ -85,6 +85,11 @@ p {
   margin: 1rem 0;
 }
 
+.stripe {
+  padding: 2rem 0;;
+  background-color: var(--subtle-highlight-color);
+}
+
 /* Buttons */
 button {
   border-radius: 8px;
