@@ -4,10 +4,10 @@ import fragment from './shaders/fragment.glsl'
 
 export default class BackgroundRenderer extends PostProcessScene {
   protected points: Float32Array = new Float32Array([
-    Math.random() * this.canvas.width,
-    Math.random() * this.canvas.height,
-    Math.random() * this.canvas.width,
-    Math.random() * this.canvas.height,
+    Math.random(),
+    Math.random(),
+    Math.random(),
+    Math.random(),
   ])
   protected colors: Float32Array = new Float32Array([
     ...[0.27450980392156865, 0.4, 0.9019607843137255],
@@ -19,7 +19,7 @@ export default class BackgroundRenderer extends PostProcessScene {
     [Math.random() * 2 - 1, Math.random() * 2 - 1],
     [Math.random() * 2 - 1, Math.random() * 2 - 1],
   ]
-  protected speed = 0.25
+  protected speed = 0.0003
 
   protected get vertexShaderSource() {
     return vertex
@@ -50,13 +50,13 @@ export default class BackgroundRenderer extends PostProcessScene {
       y += this.velocity[i][1] * delta * this.speed
 
       // Reverse velocity when hitting the screen edges
-      if (x < 0 || x > this.canvas.width) {
+      if (x < 0 || x > 1) {
         this.velocity[i][0] *= -1
 
         // Tweak the y velocity to introduce some variation
         this.velocity[i][1] += 0.1 * (Math.random() * 2 - 1)
       }
-      if (y < 0 || y > this.canvas.height) {
+      if (y < 0 || y > 1) {
         this.velocity[i][1] *= -1
 
         // Tweak the x velocity to introduce some variation
@@ -64,8 +64,8 @@ export default class BackgroundRenderer extends PostProcessScene {
       }
 
       // Clamp the position to the screen edges to prevent "escaping"
-      this.points[i * 2] = clamp(x, 0, this.canvas.width)
-      this.points[i * 2 + 1] = clamp(y, 0, this.canvas.height)
+      this.points[i * 2] = clamp(x, 0, 1)
+      this.points[i * 2 + 1] = clamp(y, 0, 1)
     }
   }
 }

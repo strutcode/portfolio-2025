@@ -6,7 +6,7 @@ uniform vec3 colors[3];
 uniform vec2 points[2];
 
 float dist(vec2 p, vec2 q) {
-  return 1.0 - length(p - (q / vec2(screen_width, screen_height)));
+  return 1.0 - length(p - q);
 }
 
 vec3 distanceColor(vec2 uv) {
