@@ -60,6 +60,11 @@ vec3 trace(Ray ray) {
       continue;
     }
 
+      // If the last hit was not an environment hit, artificially introduce the environment to prevent black patches
+    if (i == bounce && hit.type != RAY_TYPE_ENVIRONMENT) {
+      final = environment(hit.reflect);
+    }
+
     // Get the contribution from the current bounce
     hit = contribs[i];
 
