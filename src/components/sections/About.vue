@@ -7,10 +7,7 @@
         <div class="about-image">
           <div class="image-container">
             <!-- Professional developer profile image -->
-            <img
-              src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-4.0.0&auto=format&fit=crop&w=400&h=500&q=80"
-              alt="Tristan Shelton"
-            />
+            <img src="/me.png" alt="Tristan Shelton" />
           </div>
         </div>
 
