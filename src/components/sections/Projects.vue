@@ -9,7 +9,7 @@
       </p>
 
       <div class="project-grid">
-        <div v-for="project in projects" :key="project.title" class="project-card">
+        <GlassCard v-for="project in projects" :key="project.title" class="project-card">
           <div class="project-image">
             <img :src="project.image" :alt="project.title" />
             <div class="project-overlay">
@@ -23,7 +23,7 @@
               <span v-for="tag in project.tags" class="tag">{{ tag }}</span>
             </div>
           </div>
-        </div>
+        </GlassCard>
       </div>
     </div>
   </section>
@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import GlassCard from '../GlassCard.vue'
 
   // Sample project data
   const projects = ref([
@@ -142,7 +143,7 @@ Look and feel of the site was achieved with a hand coded template based on Photo
   .project-card {
     border-radius: 8px;
     overflow: hidden;
-    background-color: var(--card-bg-color);
+    /* background-color: var(--card-bg-color); */
     box-shadow: 0 4px 6px var(--shadow-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
@@ -225,7 +226,7 @@ Look and feel of the site was achieved with a hand coded template based on Photo
   }
 
   .tag {
-    background-color: var(--background-alt-color);
+    background-color: var(--subtle-highlight-color);
     color: var(--text-color);
     padding: 0.4rem 0.8rem;
     border-radius: 30px;
