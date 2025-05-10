@@ -67,7 +67,7 @@
             </div>
 
             <div class="form-group">
-              <label for="name">Name</label>
+              <label for="name">Your Name</label>
               <input
                 type="text"
                 id="name"
@@ -78,7 +78,7 @@
             </div>
 
             <div class="form-group">
-              <label for="email">Email</label>
+              <label for="email">Your Email</label>
               <input
                 type="email"
                 id="email"
@@ -141,27 +141,42 @@
     return text.replace(/./g, (match) => `&#${match.charCodeAt(0)};`)
   }
 
-  const submitForm = () => {
+  const submitForm = async () => {
     isSubmitting.value = true
 
-    // Simulate form submission
-    setTimeout(() => {
+    // Send form submission to the server
+    const response = await fetch('/api/send_mail', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: 'John Doe',
+        email: 'test@example.com',
+        subject: 'Contact Form Submission',
+        message: 'Hello, I would like to get in touch with you.',
+      }),
+    })
+
+    if (response.ok) {
       isSubmitting.value = false
       formSubmitted.value = true
-
-      // Reset form
-      formData.value = {
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-      }
 
       // Reset submission status after some time
       setTimeout(() => {
         formSubmitted.value = false
+
+        // Clear the form
+        formData.value = {
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+        }
       }, 5000)
-    }, 1000)
+    } else {
+      formError.value = true
+    }
   }
 </script>
 

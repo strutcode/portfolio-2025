@@ -1,0 +1,24 @@
+{
+  "name": "portfolio-server",
+  "version": "1.0.0",
+  "description": "Email relay server for my portofolio site",
+  "type": "module",
+  "repository": "https://github.com/strutcode/portfolio-2025",
+  "author": "Tristan Shelton <tristan.m.shelton@gmail.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "nodemailer": "^6.9.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/nodemailer": "^6.4.17",
+    "typescript": "^5.6.3"
+  },
+  "scripts": {
+    "dev": "bun run server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  }
+}
