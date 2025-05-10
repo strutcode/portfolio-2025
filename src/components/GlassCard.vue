@@ -13,9 +13,10 @@
       rgba(0, 0, 0, 0.22)
     );
     backdrop-filter: blur(8px);
-    border: 2px outset rgba(60, 60, 60, 0.25);
-    border-radius: 4px;
+    border: 2px outset white;
+    border-radius: 10px;
+    border-color: rgba(255, 255, 255, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1)
+      rgba(255, 255, 255, 0.1);
     padding: 20px;
-    color: white;
   }
 </style>

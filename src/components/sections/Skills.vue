@@ -7,7 +7,7 @@
       </p>
 
       <div class="skills-container">
-        <div v-for="category in skillCategories" :key="category.name" class="skill-category">
+        <GlassCard v-for="category in skillCategories" :key="category.name" class="skill-category">
           <div class="category-header">
             <span class="category-icon">{{ category.icon }}</span>
             <h3 class="category-name">{{ category.name }}</h3>
@@ -19,7 +19,7 @@
               <span class="skill-name">{{ skill }}</span>
             </div>
           </div>
-        </div>
+        </GlassCard>
       </div>
     </div>
   </section>
@@ -28,6 +28,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { Icon } from '@iconify/vue'
+  import GlassCard from '../GlassCard.vue'
 
   type SkillCategory = {
     name: string
@@ -205,8 +206,8 @@
   }
 
   .skill-category {
-    background-color: var(--card-bg-color);
-    border-radius: 8px;
+    /* background-color: var(--card-bg-color); */
+    /* border-radius: 8px; */
     padding: 1.5rem;
     box-shadow: 0 4px 6px var(--shadow-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -236,12 +237,34 @@
 
   .skills-list {
     display: flex;
-    flex-direction: column;
+    flex-flow: row wrap;
     gap: 1.2rem;
+    overflow: hidden;
   }
 
   .skill-item {
-    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    background: var(--subtle-highlight-color);
+    border-radius: 1.3rem;
+    height: 2.6rem;
+    overflow: hidden;
+    padding: 0 1rem;
+  }
+
+  .skill-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-left: -0.8rem;
+  }
+
+  .skill-icon svg {
+    width: 1.4rem;
+    height: 1.4rem;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
   }
 
   .skill-info {
@@ -252,26 +275,6 @@
 
   .skill-name {
     font-weight: 500;
-  }
-
-  .skill-level {
-    font-weight: 600;
-    color: var(--primary-color);
-  }
-
-  .skill-bar {
-    height: 8px;
-    width: 100%;
-    background-color: var(--background-alt-color);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .skill-progress {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    border-radius: 4px;
-    transition: width 1.5s ease-in-out;
   }
 
   @media (max-width: 768px) {
