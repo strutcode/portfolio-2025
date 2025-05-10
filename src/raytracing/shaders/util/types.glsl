@@ -1,6 +1,9 @@
-const int RAY_TYPE_DIRECT = 0;
-const int RAY_TYPE_DIFFUSE = 1;
-const int RAY_TYPE_ENVIRONMENT = 2;
+const int RAY_TYPE_NONE = 0;
+const int RAY_TYPE_DIRECT = 1;
+const int RAY_TYPE_DIFFUSE = 2;
+const int RAY_TYPE_ENVIRONMENT = 3;
+
+const float INFINITY = 1e10;
 
 struct Ray {
   vec3 origin;

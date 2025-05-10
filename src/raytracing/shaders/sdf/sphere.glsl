@@ -5,6 +5,8 @@ bool intersect_sphere(Sphere sphere, Ray ray, out RayHit hit) {
 
   // If the ray is pointing away from the sphere center there's no chance of intersection
   if (tca <= 0.0) {
+    hit.type = RAY_TYPE_NONE;
+    hit.distance = INFINITY;
     return false;
   }
 
@@ -14,6 +16,8 @@ bool intersect_sphere(Sphere sphere, Ray ray, out RayHit hit) {
 
   // If the distance of the ray from the center (squared) is greater than radius (squared), it missed
   if (d2 > r2) {
+    hit.type = RAY_TYPE_NONE;
+    hit.distance = INFINITY;
     return false;
   }
 
@@ -22,6 +26,9 @@ bool intersect_sphere(Sphere sphere, Ray ray, out RayHit hit) {
 
   // Calculate t0, or the distance from the ray origin to the intersection point
   float t0 = tca - thc;
+
+  hit.type = RAY_TYPE_DIRECT;
+  hit.distance = t0;
 
   // Get the intersection point as a vector
   hit.point = ray.origin + ray.direction * t0;
