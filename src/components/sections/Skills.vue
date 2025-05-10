@@ -9,7 +9,7 @@
       <div class="skills-container">
         <GlassCard v-for="category in skillCategories" :key="category.name" class="skill-category">
           <div class="category-header">
-            <span class="category-icon">{{ category.icon }}</span>
+            <span class="category-icon"><Icon :icon="category.icon" /></span>
             <h3 class="category-name">{{ category.name }}</h3>
           </div>
 
@@ -40,7 +40,7 @@
   const skillCategories = ref<SkillCategory[]>([
     {
       name: 'Frontend',
-      icon: '💻',
+      icon: 'fluent-color:planet-32',
       skills: {
         Typescript: 'devicon:typescript',
         Javascript: 'devicon:javascript',
@@ -71,7 +71,7 @@
     },
     {
       name: 'Backend',
-      icon: '🖥️',
+      icon: 'fluent-color:coin-multiple-32',
       skills: {
         ElasticSearch: 'devicon:elasticsearch',
         'Express.js': 'devicon:express',
@@ -90,7 +90,7 @@
     },
     {
       name: 'Testing & Quality',
-      icon: '🧩',
+      icon: 'fluent-color:puzzle-piece-32',
       skills: {
         Vitest: 'devicon:vitest',
         Ava: 'logos:ava',
@@ -104,7 +104,7 @@
     },
     {
       name: 'Tools & Practices',
-      icon: '🛠️',
+      icon: 'fluent-color:wrench-screwdriver-32',
       skills: {
         Git: 'devicon:git',
         GitHub: 'devicon:github',
@@ -121,7 +121,7 @@
     },
     {
       name: 'Design & UI/UX',
-      icon: '🎨',
+      icon: 'fluent-color:design-ideas-48',
       skills: {
         Figma: 'devicon:figma',
         Photoshop: 'devicon:photoshop',
@@ -134,7 +134,7 @@
     },
     {
       name: 'Mobile',
-      icon: '📱',
+      icon: 'fluent-color:phone-48',
       skills: {
         ReactNative: 'devicon:reactnative',
         Ionic: 'devicon:ionic',
@@ -144,7 +144,7 @@
     },
     {
       name: 'Other Skills',
-      icon: '✨',
+      icon: 'fluent-color:heart-48',
       skills: {
         WebGL: 'devicon:webgpu',
         Deno: 'devicon:denojs',

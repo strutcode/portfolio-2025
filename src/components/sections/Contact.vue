@@ -17,7 +17,7 @@
 
           <div class="contact-methods">
             <div class="contact-method">
-              <div class="method-icon">📍</div>
+              <div class="method-icon"><Icon icon="solar:map-arrow-down-bold-duotone" /></div>
               <div class="method-details">
                 <h4>Location</h4>
                 <p>Tacoma, Washington, USA</p>
@@ -25,7 +25,7 @@
             </div>
 
             <div class="contact-method">
-              <div class="method-icon">📧</div>
+              <div class="method-icon"><Icon icon="solar:mailbox-bold" /></div>
               <div class="method-details">
                 <h4>Email</h4>
                 <p v-html="obfuscate('tristan.m.shelton@gmail.com')"></p>
@@ -33,7 +33,7 @@
             </div>
 
             <div class="contact-method">
-              <div class="method-icon">💼</div>
+              <div class="method-icon"><Icon icon="cib:linkedin" /></div>
               <div class="method-details">
                 <h4>LinkedIn</h4>
                 <p>
@@ -45,11 +45,21 @@
             </div>
 
             <div class="contact-method">
-              <div class="method-icon">🌐</div>
+              <div class="method-icon"><Icon icon="cib:github" /></div>
               <div class="method-details">
                 <h4>GitHub</h4>
                 <p>
                   <a href="https://www.github.com/strutcode"> github.com/strutcode </a>
+                </p>
+              </div>
+            </div>
+
+            <div class="contact-method">
+              <div class="method-icon"><Icon icon="cbi:discord" /></div>
+              <div class="method-details">
+                <h4>Discord</h4>
+                <p>
+                  <a href="https://discord.com/users/311604135860371468"> tristans4007 </a>
                 </p>
               </div>
             </div>
@@ -123,6 +133,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { Icon } from '@iconify/vue'
   import GlassCard from '../GlassCard.vue'
 
   const formData = ref({
