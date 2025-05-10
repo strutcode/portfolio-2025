@@ -13,7 +13,7 @@
           <div class="project-image">
             <img :src="project.image" :alt="project.title" />
             <div class="project-overlay">
-              <a :href="project.link" class="view-project">View Project</a>
+              <a class="view-project" @click.stop.prevent="openPopup(project)">View Project</a>
             </div>
           </div>
           <div class="project-details">
@@ -25,16 +25,51 @@
           </div>
         </GlassCard>
       </div>
+
+      <transition name="fade-slide">
+        <div class="project-popup" v-if="selectedProject" @click="closePopup">
+          <div class="project-popup-content" @click.stop>
+            <h3 class="project-popup-title">{{ selectedProject.title }}</h3>
+            <p
+              class="project-popup-description"
+              v-html="selectedProject.description.replace(/\n/g, '<br />')"
+            ></p>
+            <div class="project-popup-tags">
+              <span v-for="tag in selectedProject.tags" class="tag">{{ tag }}</span>
+            </div>
+            <a :href="selectedProject.link" class="view-project">View Project</a>
+            <Icon class="close-popup" icon="solar:close-square-bold-duotone" @click="closePopup" />
+          </div>
+        </div>
+      </transition>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { Icon } from '@iconify/vue'
   import GlassCard from '../GlassCard.vue'
 
+  type Project = {
+    title: string
+    short: string
+    description: string
+    tags: string[]
+    image: string
+    link?: string
+  }
+
+  const selectedProject = ref<Project | null>(null)
+  const closePopup = () => {
+    selectedProject.value = null
+  }
+  const openPopup = (project: Project) => {
+    selectedProject.value = project
+  }
+
   // Sample project data
-  const projects = ref([
+  const projects = ref<Project[]>([
     {
       title: 'Sonar',
       short:
@@ -46,7 +81,7 @@ Using cutting edge technology, we created a sleek and modern web application tha
 Major contributions on my part included building key componets, architectural projects such as transitioning the existing code base from Flow types to TypeScript, and contributing original ideas that became well-received features. I played an important role in elevating Sonar to one of the top OSS/BSS platforms in the world for ISPs.`,
       tags: ['Vue.js', 'TypeScript', 'Webpack', 'PHP', 'Laravel', 'ElasticSearch'],
       image: '/portfolio-image/sonar-software.png',
-      link: '#',
+      link: 'https://sonar.software',
     },
     {
       title: 'Applied Educational Systems',
@@ -59,7 +94,7 @@ The goal was to modernize and create a more dynamic and user-friendly experience
 The result was a fully functional and responsive React application that allowed for rapid development of new features and functionality. The new system was built with a focus on performance, scalability, and maintainability, allowing the team to quickly iterate and improve the product.`,
       tags: ['React', 'Redux', 'Javascript', 'Webpack', 'Ruby on Rails'],
       image: '/portfolio-image/applied-educational-systems.png',
-      link: '#',
+      link: 'https://web.archive.org/web/20220307172959/http://www.aeseducation.com/',
     },
     {
       title: 'JetBlue Careers',
@@ -93,7 +128,7 @@ Additional responsibilities on this project included automating rapid deployment
 Look and feel of the site was achieved with a hand coded template based on Photoshop design files including flexible menu and sidebar systems using existing Wordpress features.`,
       tags: ['Symphony', 'PHP', 'Javascript', 'jQuery'],
       image: '/portfolio-image/a-natural-chef.jpg',
-      link: '#',
+      link: 'https://www.anaturalchef.com/',
     },
     {
       title: 'Something Fabulous',
@@ -196,6 +231,7 @@ Look and feel of the site was achieved with a hand coded template based on Photo
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
+    cursor: pointer;
   }
 
   .view-project:hover {
@@ -232,6 +268,89 @@ Look and feel of the site was achieved with a hand coded template based on Photo
     border-radius: 30px;
     font-size: 0.8rem;
     font-weight: 500;
+  }
+
+  .project-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .project-popup-content {
+    position: relative;
+    background-color: var(--card-bg-color);
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    color: var(--text-color);
+  }
+
+  .project-popup-title {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+  }
+
+  .project-popup-description {
+    margin-bottom: 1.5rem;
+    color: var(--text-muted-color);
+  }
+
+  .project-popup-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-popup .view-project {
+    display: inline-block;
+    margin-top: 1rem;
+    background-color: var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .close-popup {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .close-popup:hover {
+    color: var(--primary-color);
+    transform: scale(1.05);
+  }
+  .close-popup:focus {
+    outline: none;
+  }
+  .close-popup:active {
+    transform: scale(0.95);
+  }
+
+  .fade-slide-enter-active,
+  .fade-slide-leave-active {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .fade-slide-enter-from,
+  .fade-slide-leave-to {
+    opacity: 0;
+    transform: translateY(20px);
   }
 
   @media (max-width: 768px) {
