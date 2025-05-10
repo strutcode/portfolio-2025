@@ -7,7 +7,7 @@
       </p>
 
       <div class="contact-container">
-        <div class="contact-info">
+        <GlassCard>
           <h3>Contact Information</h3>
           <p>
             I'm open to freelance opportunities, contract roles, and full-time positions. If you
@@ -54,9 +54,9 @@
               </div>
             </div>
           </div>
-        </div>
+        </GlassCard>
 
-        <div class="contact-form">
+        <GlassCard>
           <form @submit.prevent="submitForm">
             <div class="form-alert success" v-if="formSubmitted">
               Message sent successfully! I'll get back to you soon.
@@ -115,7 +115,7 @@
               <span v-else>Send Message</span>
             </button>
           </form>
-        </div>
+        </GlassCard>
       </div>
     </div>
   </section>
@@ -123,6 +123,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import GlassCard from '../GlassCard.vue'
 
   const formData = ref({
     name: '',
@@ -197,7 +198,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
-    align-items: start;
+    align-items: stretch;
   }
 
   .contact-info {
