@@ -13,17 +13,19 @@
     </GlassCard>
   </div>
   <About />
+  <Contact />
   <Footer />
 </template>
 
 <script setup lang="ts">
   import { ref } from 'vue'
 
-  import HeroScene from './raytracing/HeroScene.vue'
   import GlassCard from './components/GlassCard.vue'
+  import Navigation from './components/Navigation.vue'
+  import HeroScene from './raytracing/HeroScene.vue'
   import About from './components/sections/About.vue'
   import Background from './background/Background.vue'
-  import Navigation from './components/Navigation.vue'
+  import Contact from './components/sections/Contact.vue'
   import Footer from './components/Footer.vue'
 
   const isDarkTheme = ref(false)

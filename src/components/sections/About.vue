@@ -101,7 +101,6 @@
   .about-image {
     flex: 1 1 40%;
     display: flex;
-    justify-content: center;
   }
 
   .image-container {
