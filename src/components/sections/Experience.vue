@@ -293,8 +293,8 @@ Look and feel of the site was achieved with a hand coded template based on Photo
   .project-popup-content {
     position: relative;
     border-radius: 8px;
-    max-width: 900px;
-    /* width: 90%; */
+    max-width: 1200px;
+    width: 90%;
     display: flex;
     flex-flow: row nowrap;
     overflow: hidden;
@@ -304,18 +304,16 @@ Look and feel of the site was achieved with a hand coded template based on Photo
     position: absolute;
     top: 0;
     left: 0;
-    width: 300px;
+    width: 500px;
     height: 100%;
     z-index: -1;
   }
   .project-popup-image img {
-    width: 100%;
     height: 100%;
-    object-fit: cover;
   }
 
   .project-popup-overlay {
-    margin-left: 200px;
+    margin-left: 400px;
     padding: 2rem;
     padding-left: 7rem;
     color: var(--text-color);
