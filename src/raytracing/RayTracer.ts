@@ -15,14 +15,15 @@ export default class RayTracer extends ScreenQuadScene {
   protected setup() {
     super.setup()
 
-    this.loadHDRImage('/HDR_029_Sky_Cloudy_Env.hdr')
+    this.loadHDRImage('/HDR_029_Sky_Cloudy_Env.hdr', 0)
+    this.loadHDRImage('/rogland_clear_night_1k.hdr', 1)
   }
 
   /**
    * Loads an HDR image and sets it as a texture.
    * @param image The HDR image to load.
    */
-  protected async loadHDRImage(url: string) {
+  protected async loadHDRImage(url: string, index: number) {
     const gl = this.ctx
 
     const res = await fetch(url)
@@ -40,6 +41,9 @@ export default class RayTracer extends ScreenQuadScene {
       throw new Error('Failed to create texture')
     }
 
+    // Activate the appropriate texture unit
+    gl.activeTexture(gl.TEXTURE0 + index)
+
     // Bind the texture
     gl.bindTexture(gl.TEXTURE_2D, texture)
 
@@ -51,14 +55,16 @@ export default class RayTracer extends ScreenQuadScene {
 
     // Upload the image to the GPU
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB16F, width, height, 0, gl.RGB, gl.FLOAT, data)
-
-    // Set the texture as a uniform
-    this.uniformsampler('background', 0)
   }
 
   protected setUniforms() {
     this.uniform1f('screen_width', this.canvas.width)
     this.uniform1f('screen_height', this.canvas.height)
     this.uniform1f('time', performance.now())
+
+    const isDarkMode = document.documentElement.classList.contains('dark-theme')
+
+    // Set the texture based on light or dark mode
+    this.uniformsampler('background', isDarkMode ? 1 : 0)
   }
 }
