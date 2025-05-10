@@ -22,6 +22,21 @@
   onMounted(() => {
     const scene = new RayTracer(output.value)
 
+    // Only render when the element is in view to save resources
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            scene.resume()
+          } else {
+            scene.pause()
+          }
+        })
+      },
+      { threshold: 0.1 },
+    )
+    observer.observe(scene.element)
+
     onBeforeUnmount(() => {
       scene.destroy()
     })

@@ -102,6 +102,24 @@ export default class ScreenQuadScene extends Scene {
     }
   }
 
+  /** Pauses the render loop. */
+  protected pause() {
+    console.log('Pausing render loop')
+    if (this.animationFrame) {
+      cancelAnimationFrame(this.animationFrame)
+    }
+  }
+
+  /** Resumes the render loop if it's paused. */
+  protected resume() {
+    console.log('Resuming render loop')
+    if (this.animationFrame) {
+      cancelAnimationFrame(this.animationFrame)
+    }
+
+    this.animationFrame = requestAnimationFrame(this.boundRender)
+  }
+
   /** Adjusts the rendered scene to match the element's size. */
   protected resize() {
     const rect = this.element.getBoundingClientRect()
