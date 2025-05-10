@@ -26,7 +26,6 @@
     height: 100vh;
     overflow: hidden;
     z-index: -1;
-    opacity: 0.7;
-    /* mix-blend-mode: color; */
+    opacity: 0.5;
   }
 </style>

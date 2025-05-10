@@ -13,6 +13,7 @@
     </GlassCard>
   </div>
   <About />
+  <Skills />
   <Contact />
   <Footer />
 </template>
@@ -25,6 +26,7 @@
   import HeroScene from './raytracing/HeroScene.vue'
   import About from './components/sections/About.vue'
   import Background from './background/Background.vue'
+  import Skills from './components/sections/Skills.vue'
   import Contact from './components/sections/Contact.vue'
   import Footer from './components/Footer.vue'
 
