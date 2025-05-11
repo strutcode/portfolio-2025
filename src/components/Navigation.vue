@@ -8,9 +8,8 @@
         </div>
 
         <button class="menu-toggle" @click="toggleMenu" aria-label="Toggle menu">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
+          <Icon icon="pepicons-pop:menu" v-show="!isMenuOpen" />
+          <Icon icon="pepicons-pop:menu-off" v-show="isMenuOpen" />
         </button>
 
         <nav :class="{ active: isMenuOpen }">
@@ -21,8 +20,12 @@
             <li><a href="#contact" @click="closeMenu">Contact</a></li>
             <li>
               <button class="theme-toggle" @click="emit('toggleTheme')" aria-label="Toggle theme">
-                <span v-if="isDarkTheme" class="theme-icon">☀️</span>
-                <span v-else class="theme-icon">🌙</span>
+                <span v-if="isDarkTheme" class="theme-icon">
+                  <Icon icon="tdesign:mode-light-filled" />
+                </span>
+                <span v-else class="theme-icon">
+                  <Icon icon="tdesign:mode-dark-filled" />
+                </span>
               </button>
             </li>
           </ul>
@@ -34,6 +37,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { Icon } from '@iconify/vue'
   import logo from '../assets/logo.svg?raw'
 
   defineProps<{
@@ -138,11 +142,17 @@
     display: none;
     flex-direction: column;
     justify-content: space-between;
-    height: 24px;
+    height: 28px;
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
+  }
+
+  .menu-toggle svg {
+    width: 28px;
+    height: 28px;
+    color: var(--text-color);
   }
 
   .bar {
