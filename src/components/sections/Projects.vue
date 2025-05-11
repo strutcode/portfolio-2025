@@ -28,7 +28,7 @@
       </div>
 
       <transition name="fade-slide">
-        <div class="project-popup" v-if="selectedProject" @click="closePopup">
+        <div class="project-popup" v-if="selectedProject" @click="closePopup" @pointerdown.stop>
           <div class="project-popup-content" @click.stop>
             <div class="project-popup-image">
               <img :src="selectedProject.image" :alt="selectedProject.title" />
@@ -54,6 +54,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { Icon } from '@iconify/vue'
   import GlassCard from '../GlassCard.vue'
 
   type Project = {
@@ -375,6 +376,30 @@ The project is still in its early stages, but I am excited to see where it goes!
   @media (max-width: 768px) {
     .project-grid {
       grid-template-columns: 1fr;
+    }
+
+    .project-popup-content {
+      flex-flow: column nowrap;
+      max-height: 100%;
+    }
+
+    .project-popup-image {
+      width: 100%;
+      height: 20vh;
+      position: relative;
+    }
+
+    .project-popup-image img {
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .project-popup-overlay {
+      margin-left: 0;
+      padding: 2rem;
+      background: var(--card-bg-color);
+      max-height: 40vh;
+      overflow-y: auto;
     }
   }
 </style>

@@ -384,5 +384,29 @@ Look and feel of the site was achieved with a hand coded template based on Photo
     .project-grid {
       grid-template-columns: 1fr;
     }
+
+    .project-popup-content {
+      flex-flow: column nowrap;
+      max-height: 100%;
+    }
+
+    .project-popup-image {
+      width: 100%;
+      height: 20vh;
+      position: relative;
+    }
+
+    .project-popup-image img {
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .project-popup-overlay {
+      margin-left: 0;
+      padding: 2rem;
+      background: var(--card-bg-color);
+      max-height: 40vh;
+      overflow-y: auto;
+    }
   }
 </style>
