@@ -63,16 +63,22 @@ vec3 trace(Ray ray) {
       // If the last hit was not an environment hit, artificially introduce the environment to prevent black patches
     if (i == bounce && hit.type != RAY_TYPE_ENVIRONMENT) {
       final = environment(hit.reflect);
+
     }
 
     // Get the contribution from the current bounce
     hit = contribs[i];
 
     if (hit.type == RAY_TYPE_ENVIRONMENT) {
-    // If the hit is a direct light, add it to the final color
+      // If the hit is a direct light, add it to the final color
       final += hit.color;
+
+      // Reduce direct exposure for environment rays
+      if (i == 0) {
+        final = min(final, vec3(1.0)) / 1.3;
+      }
     } else {
-    // If the hit is a bounce off of a surface, multiply by the absorption color
+      // If the hit is a bounce off of a surface, multiply by the absorption color
       final *= hit.color;
     }
   }
