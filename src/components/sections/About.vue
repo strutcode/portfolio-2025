@@ -24,9 +24,9 @@
           </p>
 
           <p>
-            I'm constantly exploring new technologies and techniques to expand my repertiore ad stay
-            on the cutting edge of technology. My goal is to be able to unleash my creativity by
-            being able to build anything I can imagine!
+            I'm constantly exploring new technologies and techniques to expand my repertiore and
+            stay on the cutting edge of technology. My goal is to be able to unleash my creativity
+            by being able to build anything I can imagine!
           </p>
 
           <div class="personal-interests">

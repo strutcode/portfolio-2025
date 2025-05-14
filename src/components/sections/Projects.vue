@@ -130,7 +130,7 @@ I chose Godot as an engine for its free and open source nature and used WebRTC f
     {
       title: 'tOS',
       short:
-        'My personal operation system project starting from the boot loader all the way up to a GUI.',
+        'My personal operating system project starting from the boot loader all the way up to a GUI.',
       description: `While exploring the web, I encountered a fascinating resource that explained the basics of how to create an operating system from scratch.
       
 I was immediately intrigued and decided to embark on my own journey to create a simple operating system. I started with a simple bootloader and then built up from there, adding features like a simple file system.
