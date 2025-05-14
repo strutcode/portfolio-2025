@@ -132,8 +132,8 @@ export default class ScreenQuadScene extends Scene {
   protected resize() {
     const rect = this.element.getBoundingClientRect()
 
-    this.canvas.width = rect.width * this.upsample
-    this.canvas.height = rect.height * this.upsample
+    this.canvas.width = (rect.width * this.upsample) / window.devicePixelRatio
+    this.canvas.height = (rect.height * this.upsample) / window.devicePixelRatio
   }
 
   /** Sets up the WebGL context and compiles the shaders. */

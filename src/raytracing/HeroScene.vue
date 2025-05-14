@@ -20,7 +20,7 @@
   const output = useTemplateRef('output')
 
   onMounted(() => {
-    const scene = new RayTracer(output.value, 0.5)
+    const scene = new RayTracer(output.value, 1.0)
 
     // Only render when the element is in view to save resources
     const observer = new IntersectionObserver(
