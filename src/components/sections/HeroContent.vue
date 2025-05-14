@@ -30,12 +30,11 @@
     margin-top: -3rem;
     transform: translateX(-50%);
     height: 100vh;
-    color: white;
+    color: var(--text-color);
   }
 
   .hero-content {
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.25);
     padding: 2rem;
     border-radius: 10px;
     overflow: hidden;
@@ -44,7 +43,7 @@
   h1,
   .subtitle,
   .tagline {
-    text-shadow: 0 0 8px rgba(0, 0, 0, 1);
+    text-shadow: 0 0 16px var(--hero-contrast-color);
   }
 
   h1 {
@@ -54,9 +53,10 @@
   }
 
   .subtitle {
-    font-size: 2rem;
+    font-size: 1.4rem;
+    margin-top: -1rem;
+    text-transform: uppercase;
     margin-bottom: 1.5rem;
-    opacity: 0.9;
     animation: fadeInDown 1s ease-out 0.2s both;
   }
 
@@ -64,7 +64,7 @@
     font-size: 1.25rem;
     max-width: 600px;
     margin: 0 auto 2rem;
-    opacity: 0.8;
+    font-weight: 600;
     animation: fadeInDown 1s ease-out 0.4s both;
   }
 
@@ -89,7 +89,8 @@
   }
 
   .primary-btn:hover {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--primary-color);
+    color: white;
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   }

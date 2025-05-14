@@ -13,12 +13,13 @@
   --accent-color: #535bf2;
   --background-color: #ffffff;
   --background-alt-color: #f1f5f9;
-  --text-color: #213547;
+  --text-color: #1a2937;
   --text-muted-color: #525f71;
   --border-color: #e2e8f0;
   --card-bg-color: #ffffff;
   --shadow-color: rgba(0, 0, 0, 0.1);
   --subtle-highlight-color: rgba(255, 255, 255, 0.2);
+  --hero-contrast-color: rgba(255, 255, 255, 0.75);
   --glass-background: linear-gradient(
     to bottom right,
     rgba(60, 60, 90, 0.18),
@@ -45,6 +46,7 @@
   --card-bg-color: #1e293b;
   --shadow-color: rgba(0, 0, 0, 0.3);
   --subtle-highlight-color: rgba(0, 0, 0, 0.12);
+  --hero-contrast-color: #000000;
   --glass-background: linear-gradient(
     to bottom right,
     rgba(40, 40, 40, 0.22),
