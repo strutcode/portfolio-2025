@@ -27,6 +27,7 @@
     position: absolute;
     top: 0;
     left: 50%;
+    margin-top: -3rem;
     transform: translateX(-50%);
     height: 100vh;
     color: white;

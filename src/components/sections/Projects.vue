@@ -378,28 +378,43 @@ The project is still in its early stages, but I am excited to see where it goes!
       grid-template-columns: 1fr;
     }
 
+    .project-popup {
+      align-items: end;
+    }
+
     .project-popup-content {
       flex-flow: column nowrap;
       max-height: 100%;
+      margin-bottom: 2rem;
     }
 
     .project-popup-image {
       width: 100%;
       height: 20vh;
       position: relative;
+      background: var(--card-bg-color);
     }
 
     .project-popup-image img {
       width: 100%;
       object-fit: cover;
+      mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
     }
 
     .project-popup-overlay {
       margin-left: 0;
       padding: 2rem;
       background: var(--card-bg-color);
-      max-height: 40vh;
+      max-height: 55vh;
       overflow-y: auto;
+    }
+
+    .project-popup-content .view-project {
+      display: block;
+      width: 50%;
+      text-align: center;
+      margin: auto;
     }
   }
 </style>
