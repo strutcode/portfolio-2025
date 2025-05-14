@@ -21,9 +21,9 @@
   --subtle-highlight-color: rgba(255, 255, 255, 0.2);
   --glass-background: linear-gradient(
     to bottom right,
-    rgba(200, 200, 200, 0.12),
-    rgba(90, 90, 90, 0.12),
-    rgba(200, 200, 200, 0.22)
+    rgba(60, 60, 90, 0.18),
+    rgba(220, 220, 220, 0.24),
+    rgba(60, 60, 90, 0.18)
   );
   
   /* Apply default light theme */
