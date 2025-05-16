@@ -1,9 +1,3 @@
-<script setup lang="ts">
-  import GlassCard from '../GlassCard.vue'
-
-  // Hero component logic
-</script>
-
 <template>
   <section id="hero" class="hero-section">
     <div class="container">
@@ -19,6 +13,10 @@
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+  import GlassCard from '../GlassCard.vue'
+</script>
 
 <style scoped>
   .hero-section {

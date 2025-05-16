@@ -14,7 +14,7 @@
   import { ref } from 'vue'
 
   import Navigation from './components/Navigation.vue'
-  import HeroScene from './raytracing/HeroScene.vue'
+  import HeroScene from './components/sections/HeroSection.vue'
   import Projects from './components/sections/Projects.vue'
   import Experience from './components/sections/Experience.vue'
   import About from './components/sections/About.vue'

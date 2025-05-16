@@ -1,47 +1,15 @@
-import Scene from './Scene'
+import Scene from '../rendering/Scene'
+import terrainVertex from './shaders/terrainVertex.glsl'
+import terrainFragment from './shaders/terrainFragment.glsl'
 
-/**
- * A specialization of the Scene class that is used to render a screen quad
- * with a shader program.
- */
-export default class ScreenQuadScene extends Scene {
-  public upsample: number = 1.0
-
+export default class HeroScene extends Scene {
   /**
-   * Overridable getter that should return the glsl source of the screen
-   * quad vertex program.
-   */
-  protected get vertexShaderSource() {
-    return `
-    attribute vec4 a_position;
-    void main() {
-      gl_Position = a_position;
-    }
-  `
-  }
-
-  /**
-   * Overridable getter that should return the glsl source of the screen
-   * quad fragment program.
-   */
-  protected get fragmentShaderSource() {
-    return `
-    precision mediump float;
-    void main() {
-      vec2 uv = gl_FragCoord.xy / vec2(screen_width, screen_height);
-      gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-    }
-  `
-  }
-
-  /**
-   * Creates a new ScreenQuadScene instance.
+   * Creates a new PostProcessScene instance.
    *
    * @param element The element to render to. The viewport will inherit its size
    */
-  public constructor(protected element: HTMLElement, upsample: number = 1.0) {
+  public constructor(protected element: HTMLElement) {
     super(element)
-    this.upsample = upsample
   }
 
   /**
@@ -99,58 +67,26 @@ export default class ScreenQuadScene extends Scene {
   protected setup() {
     const gl = this.ctx
 
-    // Reserve shader program space
-    const vertexShader = gl.createShader(gl.VERTEX_SHADER)
-    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
-
-    if (!vertexShader || !fragmentShader) {
-      throw new Error('Failed to create shaders')
+    // Create an array buffer for the terrain
+    const vertices = new Float32Array(30 * 30)
+    for (let i = 0; i < 30; i++) {
+      for (let j = 0; j < 30; j++) {
+        vertices[i * 30 + j] = (i / 30) * 2 - 1
+        vertices[j * 30 + i] = (j / 30) * 2 - 1
+      }
     }
 
-    // Compile shaders
-    gl.shaderSource(vertexShader, this.vertexShaderSource)
-    gl.shaderSource(fragmentShader, this.fragmentShaderSource)
-
-    const program = gl.createProgram()
-    if (!program) {
-      throw new Error('Failed to create program')
-    }
-
-    gl.compileShader(vertexShader)
-    if (gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS) === false) {
-      console.error('Vertex shader compilation failed:', gl.getShaderInfoLog(vertexShader))
-      gl.deleteShader(vertexShader)
-      return
-    }
-    gl.compileShader(fragmentShader)
-    if (gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS) === false) {
-      console.error('Fragment shader compilation failed:', gl.getShaderInfoLog(fragmentShader))
-      gl.deleteShader(fragmentShader)
-      return
-    }
-
-    // Link the final shader program
-    gl.attachShader(program, vertexShader)
-    gl.attachShader(program, fragmentShader)
-
-    gl.linkProgram(program)
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      const info = gl.getProgramInfoLog(program)
-      throw new Error(`Could not compile WebGL program. \n\n${info}`)
-    }
-
-    // Create an array buffer for the quad
-    const vertices = new Float32Array([-1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 1.0, 1.0])
     const positionBuffer = gl.createBuffer()
     if (!positionBuffer) {
       throw new Error('Failed to create buffer')
     }
 
+    // Load the terrain shader
+    const terrainShader = this.createShader(terrainVertex, terrainFragment)
+
     // Save data for use in the render step
     this.renderData = {
-      vertexShader,
-      fragmentShader,
-      program,
+      terrainShader,
       positionBuffer,
       vertices,
     }
@@ -207,4 +143,48 @@ export default class ScreenQuadScene extends Scene {
   }
 
   protected update(delta: number) {}
+
+  private createShader(vertexSrc: string, fragmentSrc: string): WebGLProgram | undefined {
+    const gl = this.ctx
+
+    // Reserve shader program space
+    const vertexShader = gl.createShader(gl.VERTEX_SHADER)
+    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
+
+    if (!vertexShader || !fragmentShader) {
+      throw new Error('Failed to create shaders')
+    }
+
+    // Compile shaders
+    gl.shaderSource(vertexShader, vertexSrc)
+    gl.shaderSource(fragmentShader, fragmentSrc)
+
+    const program = gl.createProgram()
+    if (!program) {
+      throw new Error('Failed to create program')
+    }
+
+    gl.compileShader(vertexShader)
+    if (gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS) === false) {
+      console.error('Vertex shader compilation failed:', gl.getShaderInfoLog(vertexShader))
+      gl.deleteShader(vertexShader)
+      return
+    }
+    gl.compileShader(fragmentShader)
+    if (gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS) === false) {
+      console.error('Fragment shader compilation failed:', gl.getShaderInfoLog(fragmentShader))
+      gl.deleteShader(fragmentShader)
+      return
+    }
+
+    // Link the final shader program
+    gl.attachShader(program, vertexShader)
+    gl.attachShader(program, fragmentShader)
+
+    gl.linkProgram(program)
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      const info = gl.getProgramInfoLog(program)
+      throw new Error(`Could not compile WebGL program. \n\n${info}`)
+    }
+  }
 }

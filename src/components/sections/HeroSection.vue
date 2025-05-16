@@ -14,13 +14,13 @@
 
 <script setup>
   import { onBeforeUnmount, onMounted, useTemplateRef } from 'vue'
-  import RayTracer from './RayTracer'
-  import HeroContent from '../components/sections/HeroSection.vue'
+  import HeroScene from '../../hero/HeroScene'
+  import HeroContent from './HeroContent.vue'
 
   const output = useTemplateRef('output')
 
   onMounted(() => {
-    const scene = new RayTracer(output.value, 1.0)
+    const scene = new HeroScene(output.value)
 
     // Only render when the element is in view to save resources
     const observer = new IntersectionObserver(
