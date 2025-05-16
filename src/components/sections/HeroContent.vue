@@ -7,7 +7,7 @@
         <p class="tagline">Crafting beautiful, innovative, and user-friendly web experiences</p>
         <div class="cta-buttons">
           <a href="#projects" class="btn primary-btn">View My Work</a>
-          <a href="#contact" class="btn secondary-btn">Get In Touch</a>
+          <a href="#about" class="btn secondary-btn">Learn More</a>
         </div>
       </GlassCard>
     </div>
