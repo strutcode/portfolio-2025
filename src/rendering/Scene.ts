@@ -1,7 +1,14 @@
+type UniformIdentifier =
+  | 'uniform1f'
+  | 'uniform1i'
+  | 'uniform2fv'
+  | 'uniform3fv'
+  | 'uniformMatrix4fv'
+
 /** An abstract class that defines the interface for a renderable viewport. */
 export default abstract class Scene {
   protected canvas: HTMLCanvasElement
-  protected ctx: WebGL2RenderingContext
+  protected ctx: WebGLRenderingContext
   protected renderData: any = {}
 
   protected boundRender = this.render.bind(this)
@@ -12,7 +19,7 @@ export default abstract class Scene {
 
   public constructor(protected element: HTMLElement) {
     this.canvas = document.createElement('canvas')
-    const ctx = this.canvas.getContext('webgl2')
+    const ctx = this.canvas.getContext('webgl')
 
     if (!ctx) {
       throw new Error('Failed to get WebGL context')
@@ -65,7 +72,7 @@ export default abstract class Scene {
   /** Called by the render loop function. */
   protected abstract render(): void
 
-  private uniformx(type: string, name: string, value: number | Float32Array) {
+  private uniformx(type: UniformIdentifier, name: string, value: number | Float32Array) {
     const gl = this.ctx
 
     if (!this.renderData.program) {
@@ -73,8 +80,10 @@ export default abstract class Scene {
     }
 
     const location = gl.getUniformLocation(this.renderData.program, name)
-    if (location) {
-      ;(<any>gl)[type](location, value)
+    if (location == 'uniformMatrix4fv') {
+      gl[type](location, false, value)
+    } else if (location) {
+      gl[type](location, value)
     } else {
       if (!this.notices?.[name]) {
         console.warn(`Set Uniform: '${name}' not found`)
@@ -98,5 +107,9 @@ export default abstract class Scene {
 
   public uniformsampler(name: string, value: number) {
     this.uniformx('uniform1i', name, value)
+  }
+
+  public uniformmat4(name: string, value: Float32Array) {
+    this.uniformx('uniformMatrix4fv', name, value)
   }
 }
