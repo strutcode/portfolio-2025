@@ -1,25 +1,15 @@
-import PostProcessScene from '../rendering/ScreenQuadScene'
+import ScreenQuadScene from '../rendering/ScreenQuadScene'
 import vertex from './shaders/vertex.glsl'
 import fragment from './shaders/fragment.glsl'
 
-export default class BackgroundRenderer extends PostProcessScene {
-  protected points: Float32Array = new Float32Array([
-    Math.random(),
-    Math.random(),
-    Math.random(),
-    Math.random(),
-  ])
+export default class DelunayHero extends ScreenQuadScene {
+  protected points: Float32Array = new Float32Array(Array.from({ length: 20 }, () => Math.random()))
   protected colors: Float32Array = new Float32Array([
     ...[0.27450980392156865, 0.4, 0.9019607843137255],
-    ...[0.09803921568627451, 0.15098039215686274, 0.8619607843137255],
     ...[0.03137254901960784, 0.996078431372549, 0.996078431372549],
   ])
-  protected velocity = [
-    [Math.random() * 2 - 1, Math.random() * 2 - 1],
-    [Math.random() * 2 - 1, Math.random() * 2 - 1],
-    [Math.random() * 2 - 1, Math.random() * 2 - 1],
-  ]
-  protected speed = 0.0003
+  protected velocity = Array.from({ length: 10 }, () => [Math.random() - 0.5, Math.random() - 0.5])
+  protected speed = 0.00005
 
   protected get vertexShaderSource() {
     return vertex
@@ -41,7 +31,7 @@ export default class BackgroundRenderer extends PostProcessScene {
 
     // Update the points so that they move with velocity and bounce off the screen edges
     let x, y
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 10; i++) {
       x = this.points[i * 2]
       y = this.points[i * 2 + 1]
 
