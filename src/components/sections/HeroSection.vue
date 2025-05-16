@@ -5,7 +5,9 @@
     <svg xmlns="http://www.w3.org/2000/svg">
       <defs>
         <clipPath id="hero-clip-path" clipPathUnits="objectBoundingBox">
-          <path d="M0 0 L0 0.98 C0.3 0.9,0.6 1.05,1 0.95 L 1 0 Z" />
+          <path
+            d="M0 0 L0 0.95 C0.3 1.01,0.35 0.93,0.55 0.93 C0.77 0.93, 0.88 1.01, 1 0.98 L 1 0 Z"
+          />
         </clipPath>
       </defs>
     </svg>
