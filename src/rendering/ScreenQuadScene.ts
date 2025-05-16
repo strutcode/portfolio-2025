@@ -42,6 +42,7 @@ export default class ScreenQuadScene extends Scene {
   public constructor(protected element: HTMLElement, upsample: number = 1.0) {
     super(element)
     this.upsample = upsample
+    this.resize()
   }
 
   /**

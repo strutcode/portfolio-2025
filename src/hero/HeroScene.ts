@@ -1,42 +1,40 @@
+import ScreenQuadScene from '../rendering/ScreenQuadScene'
+import vertex from './shaders/vertex.glsl'
+import fragment from './shaders/fragment.glsl'
 import Scene from '../rendering/Scene'
-import terrainVertex from './shaders/terrainVertex.glsl'
-import terrainFragment from './shaders/terrainFragment.glsl'
 
 export default class HeroScene extends Scene {
-  /**
-   * Creates a new PostProcessScene instance.
-   *
-   * @param element The element to render to. The viewport will inherit its size
-   */
-  public constructor(protected element: HTMLElement) {
-    super(element)
-  }
+  protected setup() {
+    const gl = this.ctx
 
-  /**
-   * Cleans up any dom elements, hanging resources and removes event listeners.
-   */
-  public destroy() {
-    super.destroy()
+    // Create the shader
+    const program = this.createShader(vertex, fragment)
 
-    if (this.ctx) {
-      const gl = this.ctx
-
-      if (this.renderData.program) {
-        gl.deleteProgram(this.renderData.program)
-      }
-
-      if (this.renderData.positionBuffer) {
-        gl.deleteBuffer(this.renderData.positionBuffer)
-      }
-
-      if (gl.getSupportedExtensions()?.includes('WEBGL_lose_context')) {
-        gl.getExtension('WEBGL_lose_context')?.loseContext()
-      }
-
-      if (this.animationFrame) {
-        cancelAnimationFrame(this.animationFrame)
+    // Create an array buffer for the terrain
+    const vertices = new Float32Array(30 * 30 * 3)
+    for (let i = 0; i < 30; i++) {
+      for (let j = 0; j < 30; j++) {
+        vertices[i * 30 + j] = (i / 30) * 2 - 1
+        vertices[i * 30 + j + 1] = Math.random() * 2 - 1
+        vertices[i * 30 + j + 2] = (j / 30) * 2 - 1
       }
     }
+
+    const positionBuffer = gl.createBuffer()
+    if (!positionBuffer) {
+      throw new Error('Failed to create buffer')
+    }
+
+    // Save data for use in the render step
+    this.renderData = {
+      program,
+      positionBuffer,
+      vertices,
+    }
+
+    // Initialize the resize listener
+    window.addEventListener('resize', this.boundResize)
+    this.resize()
   }
 
   /** Pauses the render loop. */
@@ -55,54 +53,6 @@ export default class HeroScene extends Scene {
     this.animationFrame = requestAnimationFrame(this.boundRender)
   }
 
-  /** Adjusts the rendered scene to match the element's size. */
-  protected resize() {
-    const rect = this.element.getBoundingClientRect()
-
-    this.canvas.width = (rect.width * this.upsample) / window.devicePixelRatio
-    this.canvas.height = (rect.height * this.upsample) / window.devicePixelRatio
-  }
-
-  /** Sets up the WebGL context and compiles the shaders. */
-  protected setup() {
-    const gl = this.ctx
-
-    // Create an array buffer for the terrain
-    const vertices = new Float32Array(30 * 30)
-    for (let i = 0; i < 30; i++) {
-      for (let j = 0; j < 30; j++) {
-        vertices[i * 30 + j] = (i / 30) * 2 - 1
-        vertices[j * 30 + i] = (j / 30) * 2 - 1
-      }
-    }
-
-    const positionBuffer = gl.createBuffer()
-    if (!positionBuffer) {
-      throw new Error('Failed to create buffer')
-    }
-
-    // Load the terrain shader
-    const terrainShader = this.createShader(terrainVertex, terrainFragment)
-
-    // Save data for use in the render step
-    this.renderData = {
-      terrainShader,
-      positionBuffer,
-      vertices,
-    }
-
-    // Initialize the resize listener
-    window.addEventListener('resize', this.boundResize)
-    this.resize()
-  }
-
-  /**
-   * Sets the uniforms for the shader program. This should be overridden by
-   * subclasses to set their own uniforms.
-   */
-  protected setUniforms() {}
-
-  /** The main render loop iterator. */
   protected render() {
     const gl = this.ctx
     const { positionBuffer, vertices, program } = this.renderData
@@ -132,7 +82,7 @@ export default class HeroScene extends Scene {
     }
 
     gl.enableVertexAttribArray(positionLocation)
-    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0)
+    gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0)
 
     // Draw the quad
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
@@ -144,7 +94,13 @@ export default class HeroScene extends Scene {
 
   protected update(delta: number) {}
 
-  private createShader(vertexSrc: string, fragmentSrc: string): WebGLProgram | undefined {
+  protected setUniforms() {
+    this.uniform1f('screen_width', this.canvas.width)
+    this.uniform1f('screen_height', this.canvas.height)
+    this.uniform1f('time', performance.now() / 1000)
+  }
+
+  protected createShader(vertexSrc: string, fragmentSrc: string): WebGLProgram | undefined {
     const gl = this.ctx
 
     // Reserve shader program space
@@ -186,5 +142,7 @@ export default class HeroScene extends Scene {
       const info = gl.getProgramInfoLog(program)
       throw new Error(`Could not compile WebGL program. \n\n${info}`)
     }
+
+    return program
   }
 }

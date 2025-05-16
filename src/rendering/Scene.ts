@@ -30,11 +30,8 @@ export default abstract class Scene {
     element.prepend(this.canvas)
 
     try {
-      // Late setup to allow subclasses to prepare
-      setTimeout(() => {
-        this.setup()
-        requestAnimationFrame(this.boundRender)
-      })
+      this.setup()
+      requestAnimationFrame(this.boundRender)
     } catch (e) {
       if (e instanceof Error) {
         console.error(e.message)
