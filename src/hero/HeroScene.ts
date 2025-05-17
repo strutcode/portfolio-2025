@@ -3,12 +3,13 @@ import vertex from './shaders/vertex.glsl'
 import fragment from './shaders/fragment.glsl'
 
 import {
-  createBufferInfoFromArrays,
   createProgramInfo,
   drawBufferInfo,
   m4,
   setBuffersAndAttributes,
   setUniforms,
+  v3,
+  primitives,
 } from 'twgl.js'
 
 export default class HeroScene extends Scene {
@@ -19,35 +20,7 @@ export default class HeroScene extends Scene {
     const programInfo = createProgramInfo(gl, [vertex, fragment])
 
     // Create an array buffer for the terrain
-    // const vertices = new Float32Array(30 * 30 * 3)
-    // for (let i = 0; i < 30; i++) {
-    //   for (let j = 0; j < 30; j++) {
-    //     vertices[i * 30 + j] = (i / 30) * 2 - 1
-    //     vertices[i * 30 + j + 1] = Math.random() * 2 - 1
-    //     vertices[i * 30 + j + 2] = (j / 30) * 2 - 1
-    //   }
-    // }
-
-    const bufferInfo = createBufferInfoFromArrays(gl, {
-      position: [
-        1, 1, -1, 1, 1, 1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, -1, -1, -1, 1, -1, 1,
-        1, 1, 1, 1, 1, 1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, -1, 1, -1, -1, 1, 1, 1, 1, -1, 1,
-        1, -1, -1, 1, 1, -1, 1, -1, 1, -1, 1, 1, -1, 1, -1, -1, -1, -1, -1,
-      ],
-      normal: [
-        1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 1, 0, 0, 1,
-        0, 0, 1, 0, 0, 1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0,
-        0, 1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1,
-      ],
-      texcoord: [
-        1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1,
-        1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1,
-      ],
-      indices: [
-        0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 8, 9, 10, 8, 10, 11, 12, 13, 14, 12, 14, 15, 16, 17, 18,
-        16, 18, 19, 20, 21, 22, 20, 22, 23,
-      ],
-    })
+    const bufferInfo = primitives.createPlaneBufferInfo(gl, 50, 50, 30, 30)
 
     // Save data for use in the render step
     this.renderData = {
@@ -103,7 +76,7 @@ export default class HeroScene extends Scene {
       0.1,
       100,
     )
-    const camera = m4.lookAt([1, 4, -6], [0, 0, 0], [0, 1, 0])
+    const camera = m4.lookAt([1, 2, -25], [0, 0, 0], [0, 1, 0])
     const view = m4.inverse(camera)
     const viewProjection = m4.multiply(projection, view)
     const world = m4.rotationY(time)
@@ -112,7 +85,9 @@ export default class HeroScene extends Scene {
     setUniforms(programInfo, {
       time,
       resolution: [this.canvas.width, this.canvas.height],
+      world,
       worldViewProjection: m4.multiply(viewProjection, world),
+      lightDirection: v3.create(0.5, 0.7, 1),
     })
 
     // Draw
