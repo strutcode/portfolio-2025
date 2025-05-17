@@ -59,13 +59,18 @@ export default class HeroScene extends Scene {
   protected render() {
     const gl = this.ctx
     const { programInfo, bufferInfo } = this.renderData
+    const darkMode = document.documentElement.classList.contains('dark-theme')
 
     const now = performance.now()
     this.update(this.last - now)
     this.last = now
 
     // Reset the canvas
-    gl.clearColor(0.0, 0.0, 0.0, 1.0)
+    if (darkMode) {
+      gl.clearColor(0.03, 0.03, 0.1, 1.0)
+    } else {
+      gl.clearColor(0.7, 0.8, 1.0, 1.0)
+    }
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.viewport(0, 0, this.canvas.width, this.canvas.height)
 
@@ -99,6 +104,8 @@ export default class HeroScene extends Scene {
       world,
       worldViewProjection: m4.multiply(viewProjection, world),
       lightDirection: v3.normalize(v3.create(0.5, -0.2, 1)),
+      shadowColor: darkMode ? [0.01, 0.03, 0.1] : [0.1, 0.3, 0.14],
+      lightColor: darkMode ? [0.05, 0.14, 0.05] : [0.6, 0.87, 0.6],
     })
 
     // Draw
