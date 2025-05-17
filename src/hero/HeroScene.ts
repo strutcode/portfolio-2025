@@ -150,7 +150,8 @@ export default class HeroScene extends Scene {
       0.1,
       100,
     )
-    const camera = m4.lookAt([0, 1.2, -8], [0, 1, 0], [0, 1, 0])
+    const vPos = document.documentElement.scrollTop / window.innerHeight
+    const camera = m4.lookAt([0, 1.2 - vPos, -8], [0, 1 + vPos, 0], [0, 1, 0])
     const view = m4.inverse(camera)
     const viewProjection = m4.multiply(projection, view)
 
