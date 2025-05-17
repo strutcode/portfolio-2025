@@ -177,8 +177,6 @@ export default class WavefrontLoader {
       readLine()
     }
 
-    console.log(position.length, normal.length)
-
     return {
       position,
       normal,

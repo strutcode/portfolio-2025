@@ -22,7 +22,7 @@ export default class HeroScene extends Scene {
     const programInfo = createProgramInfo(gl, [vertex, fragment])
 
     // Create an array buffer for the terrain
-    const bufferInfo = primitives.createPlaneBufferInfo(gl, 50, 50, 30, 30)
+    const bufferInfo = primitives.createCubeBufferInfo(gl, 2)
 
     // Save data for use in the render step
     this.renderData = {
@@ -34,6 +34,7 @@ export default class HeroScene extends Scene {
     window.addEventListener('resize', this.boundResize)
     this.resize()
 
+    // Load the model from the server
     WavefrontLoader.load('/terrain.obj').then((data) => {
       this.renderData.bufferInfo = createBufferInfoFromArrays(gl, data)
     })
@@ -67,6 +68,9 @@ export default class HeroScene extends Scene {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.viewport(0, 0, this.canvas.width, this.canvas.height)
+
+    // Enable basic features
+    gl.enable(gl.DEPTH_TEST)
     gl.enable(gl.CULL_FACE)
 
     // Activate the shader
@@ -83,10 +87,10 @@ export default class HeroScene extends Scene {
       0.1,
       100,
     )
-    const camera = m4.lookAt([1, 2, -25], [0, 0, 0], [0, 1, 0])
+    const camera = m4.lookAt([1, 1.2, -8], [0, 1, 0], [0, 1, 0])
     const view = m4.inverse(camera)
     const viewProjection = m4.multiply(projection, view)
-    const world = m4.rotationY(time)
+    const world = m4.identity()
 
     // Set up shader data
     setUniforms(programInfo, {
@@ -94,7 +98,7 @@ export default class HeroScene extends Scene {
       resolution: [this.canvas.width, this.canvas.height],
       world,
       worldViewProjection: m4.multiply(viewProjection, world),
-      lightDirection: v3.normalize(v3.create(0.5, 0.7, 1)),
+      lightDirection: v3.normalize(v3.create(0.5, -0.2, 1)),
     })
 
     // Draw
