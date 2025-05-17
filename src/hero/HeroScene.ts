@@ -79,8 +79,11 @@ export default class HeroScene extends Scene {
       // Rotate the billboards to face -Z
       m4.rotateY(mat, Math.PI, mat)
 
+      // Randomize rotation relative to camera
+      m4.rotateZ(mat, rand(-Math.PI, Math.PI), mat)
+
       // Random scaling
-      const s = rand(0.1, 0.5)
+      const s = rand(0.1, 0.33)
       m4.scale(mat, [s, s, s], mat)
     }
 
@@ -156,7 +159,9 @@ export default class HeroScene extends Scene {
       if (object.transparent) {
         gl.enable(gl.BLEND)
         gl.disable(gl.DEPTH_TEST)
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
+
+        // Assume straight alpha
+        gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
       } else {
         gl.disable(gl.BLEND)
         gl.enable(gl.DEPTH_TEST)

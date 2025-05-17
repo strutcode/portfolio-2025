@@ -5,10 +5,10 @@ uniform float time;
 
 varying vec2 vUv;
 
-float circle() {
-  return 1.0 - length(vUv - vec2(0.5, 0.5)) * 2.0;
+float star() {
+  return 0.5 - (abs(0.5 - vUv.x) + abs(0.5 - vUv.y));
 }
 
 void main() {
-  gl_FragColor = vec4(vec3(circle() * circle()), circle());
+  gl_FragColor = vec4(vec3(1.0), star());
 }
