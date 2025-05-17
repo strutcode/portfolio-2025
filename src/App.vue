@@ -2,11 +2,12 @@
   <Navigation :isDarkTheme="isDarkTheme" @toggleTheme="toggleTheme" />
   <Background />
   <HeroScene />
-  <About />
-  <Experience class="stripe" />
-  <Projects />
-  <Skills class="stripe" />
-  <Contact />
+  <AboutSite />
+  <About class="stripe" />
+  <Experience />
+  <Projects class="stripe" />
+  <Skills />
+  <Contact class="stripe" />
   <Footer />
 </template>
 
@@ -22,6 +23,7 @@
   import Skills from './components/sections/Skills.vue'
   import Contact from './components/sections/Contact.vue'
   import Footer from './components/Footer.vue'
+  import AboutSite from './components/sections/AboutSite.vue'
 
   // Check if the user has a preference for dark mode
   function getDarkModePreference() {

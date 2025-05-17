@@ -59,7 +59,7 @@
               <div class="method-details">
                 <h4>Discord</h4>
                 <p>
-                  <a href="https://discord.com/users/311604135860371468"> tristans4007 </a>
+                  <a href="https://discord.com/users/311604135860371468">@tristans4007</a>
                 </p>
               </div>
             </div>
