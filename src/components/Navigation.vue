@@ -38,7 +38,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { Icon } from '@iconify/vue'
-  import logo from '../assets/logo.svg?raw'
+  import logo from '../../public/logo.svg?raw'
 
   defineProps<{
     isDarkTheme: boolean
