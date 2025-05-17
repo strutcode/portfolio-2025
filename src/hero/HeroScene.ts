@@ -10,10 +10,12 @@ import {
   setUniforms,
   v3,
   primitives,
+  createBufferInfoFromArrays,
 } from 'twgl.js'
+import WavefrontLoader from './WavefrontLoader'
 
 export default class HeroScene extends Scene {
-  protected setup() {
+  protected async setup() {
     const gl = this.ctx
 
     // Create the shader
@@ -31,6 +33,10 @@ export default class HeroScene extends Scene {
     // Initialize the resize listener
     window.addEventListener('resize', this.boundResize)
     this.resize()
+
+    WavefrontLoader.load('/terrain.obj').then((data) => {
+      this.renderData.bufferInfo = createBufferInfoFromArrays(gl, data)
+    })
   }
 
   /** Pauses the render loop. */
@@ -61,6 +67,7 @@ export default class HeroScene extends Scene {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.viewport(0, 0, this.canvas.width, this.canvas.height)
+    gl.enable(gl.CULL_FACE)
 
     // Activate the shader
     gl.useProgram(programInfo.program)
@@ -87,7 +94,7 @@ export default class HeroScene extends Scene {
       resolution: [this.canvas.width, this.canvas.height],
       world,
       worldViewProjection: m4.multiply(viewProjection, world),
-      lightDirection: v3.create(0.5, 0.7, 1),
+      lightDirection: v3.normalize(v3.create(0.5, 0.7, 1)),
     })
 
     // Draw

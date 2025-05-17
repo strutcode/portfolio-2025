@@ -1,6 +1,6 @@
 <template>
   <div ref="output" class="scene">
-    <HeroContent />
+    <!-- <HeroContent /> -->
 
     <svg xmlns="http://www.w3.org/2000/svg">
       <defs>

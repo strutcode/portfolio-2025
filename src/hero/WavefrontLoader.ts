@@ -33,6 +33,11 @@ export default class WavefrontLoader {
 
     // Parser state
     let pos = 0
+    const raw = {
+      vertex: <number[]>[],
+      normal: <number[]>[],
+      texture: <number[]>[],
+    }
     const position = []
     const normal = []
     const texcoord = []
@@ -79,7 +84,7 @@ export default class WavefrontLoader {
       const res = []
 
       for (let i = 0; i < 3; i++) {
-        res.push(readInt()) // Read the index
+        res.push(readInt() - 1) // Read the index, converting from 1-base to 0-base
 
         // If there's a white space, we're done
         if (text[pos] === ' ' || text[pos] === '\n') {
@@ -93,9 +98,6 @@ export default class WavefrontLoader {
 
         pos++ // Skip the slash and continue
       }
-
-      // Convert indices
-      res[0] -= 1
 
       return res
     }
@@ -117,7 +119,7 @@ export default class WavefrontLoader {
         skipWhiteSpace()
 
         for (let i = 0; i < 3; i++) {
-          position.push(readFloat())
+          raw.vertex.push(readFloat())
           skipWhiteSpace()
         }
         continue
@@ -130,7 +132,7 @@ export default class WavefrontLoader {
         skipWhiteSpace()
 
         for (let i = 0; i < 3; i++) {
-          normal.push(readFloat())
+          raw.normal.push(readFloat())
           skipWhiteSpace()
         }
         continue
@@ -143,7 +145,7 @@ export default class WavefrontLoader {
         skipWhiteSpace()
 
         for (let i = 0; i < 2; i++) {
-          texcoord.push(readFloat())
+          raw.texture.push(readFloat())
           skipWhiteSpace()
         }
         continue
@@ -156,7 +158,16 @@ export default class WavefrontLoader {
         skipWhiteSpace()
 
         for (let i = 0; i < 3; i++) {
-          indices.push(readFace()[0])
+          const [vert, tex, norm] = readFace()
+          indices.push(position.length / 3)
+          position.push(raw.vertex[vert * 3])
+          position.push(raw.vertex[vert * 3 + 1])
+          position.push(raw.vertex[vert * 3 + 2])
+          normal.push(raw.normal[norm * 3])
+          normal.push(raw.normal[norm * 3 + 1])
+          normal.push(raw.normal[norm * 3 + 2])
+          texcoord.push(raw.texture[tex * 2])
+          texcoord.push(raw.texture[tex * 2 + 1])
           skipWhiteSpace()
         }
         continue
@@ -165,6 +176,8 @@ export default class WavefrontLoader {
       // Skip unknown elements
       readLine()
     }
+
+    console.log(position.length, normal.length)
 
     return {
       position,
