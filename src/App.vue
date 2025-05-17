@@ -2,10 +2,10 @@
   <Navigation :isDarkTheme="isDarkTheme" @toggleTheme="toggleTheme" />
   <Background />
   <HeroScene />
-  <Projects />
-  <Experience />
   <About />
-  <Skills />
+  <Experience class="stripe" />
+  <Projects />
+  <Skills class="stripe" />
   <Contact />
   <Footer />
 </template>
