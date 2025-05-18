@@ -28,6 +28,14 @@
           elements a style evocative of panels of frosted glass. This is done using a combination of
           colors and CSS filters.
         </p>
+
+        <a
+          href="https://github.com/strutcode/portfolio-2025"
+          target="_blank"
+          class="cta btn primary-btn"
+        >
+          View The Source
+        </a>
       </div>
     </div>
   </section>
@@ -60,7 +68,7 @@
     /* display: flex; */
     gap: 2rem;
     align-items: center;
-    max-width: 1200px;
+    max-width: 800px;
     margin: auto;
   }
 
@@ -73,6 +81,33 @@
     font-size: 1.25rem;
     font-weight: 500;
     margin-bottom: 1.5rem;
+  }
+
+  .cta {
+    display: inline-block;
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .btn {
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .primary-btn {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
+  }
+
+  .primary-btn:hover {
+    background-color: var(--primary-color-dark, var(--primary-color));
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 8px rgba(0, 0, 0, 0.2);
   }
 
   @media (max-width: 992px) {
