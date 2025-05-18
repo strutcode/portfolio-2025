@@ -35,6 +35,10 @@ type GlObjectDescriptor =
 export default class HeroScene extends Scene {
   private objects: GlObjectDescriptor[] = []
   private terrain: GlObjectDescriptor[] = []
+  private backgroundColor = [1, 1, 1]
+  private lightColor = [1, 1, 1]
+  private shadowColor = [0, 0, 0]
+  private transitionT = 0
 
   protected async setup() {
     const gl = this.ctx
@@ -134,12 +138,29 @@ export default class HeroScene extends Scene {
   }
 
   protected update(delta: number) {
+    const darkMode = document.documentElement.classList.contains('dark-theme')
+
+    if (darkMode) {
+      if (this.transitionT < 1) {
+        this.transitionT = Math.min(1, this.transitionT + delta / 0.2)
+      }
+    } else {
+      if (this.transitionT > 0) {
+        this.transitionT = Math.max(0, this.transitionT - delta / 0.2)
+      }
+    }
+
+    this.backgroundColor = v3.lerp([0.7, 0.8, 1.0], [0.03, 0.03, 0.1], this.transitionT)
+    this.shadowColor = v3.lerp([0.1, 0.3, 0.14], [0.01, 0.03, 0.1], this.transitionT)
+    this.lightColor = v3.lerp([0.6, 0.87, 0.6], [0.05, 0.14, 0.05], this.transitionT)
+
     for (const terrain of this.terrain) {
       // Move the terrain toward the camera
-      m4.translate(terrain.world, [0, 0, delta * 0.003], terrain.world)
+      m4.translate(terrain.world, [0, 0, -delta * 3], terrain.world)
 
       // Wrap the terrain around if it moves too far
-      if (m4.getTranslation(terrain.world)[2] <= -11.7) {
+      const z = m4.getTranslation(terrain.world)[2]
+      if (z <= -11.7) {
         m4.translate(terrain.world, [0, 0, 23.4], terrain.world)
       }
     }
@@ -147,21 +168,15 @@ export default class HeroScene extends Scene {
 
   protected render() {
     const gl = this.ctx
-    const darkMode = document.documentElement.classList.contains('dark-theme')
 
     const now = performance.now()
     const delta = (now - this.last) * 0.001
-    this.update(this.last - now)
     this.last = now
 
     this.update(delta)
 
     // Reset the canvas
-    if (darkMode) {
-      gl.clearColor(0.03, 0.03, 0.1, 1.0)
-    } else {
-      gl.clearColor(0.7, 0.8, 1.0, 1.0)
-    }
+    gl.clearColor(...this.backgroundColor, 1)
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.viewport(0, 0, this.canvas.width, this.canvas.height)
 
@@ -200,8 +215,8 @@ export default class HeroScene extends Scene {
         resolution: [this.canvas.width, this.canvas.height],
         viewProjection,
         lightDirection: v3.normalize(v3.create(0.5, -0.2, 1)),
-        shadowColor: darkMode ? [0.01, 0.03, 0.1] : [0.1, 0.3, 0.14],
-        lightColor: darkMode ? [0.05, 0.14, 0.05] : [0.6, 0.87, 0.6],
+        lightColor: this.lightColor,
+        shadowColor: this.shadowColor,
       }
 
       if (object.world) {
