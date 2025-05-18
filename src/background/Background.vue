@@ -26,7 +26,7 @@
     height: 100vh;
     overflow: hidden;
     z-index: -1;
-    opacity: 0.4;
+    opacity: var(--background-opacity);
   }
 
   .background canvas {

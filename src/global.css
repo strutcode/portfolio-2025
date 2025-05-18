@@ -27,6 +27,7 @@
     rgba(220, 220, 240, 0.24) 70%,
     rgba(90, 90, 120, 0.1)
   );
+  --background-opacity: 0.4;
   
   /* Apply default light theme */
   color-scheme: light;
@@ -55,6 +56,7 @@
     rgba(0, 0, 0, 0.12),
     rgba(0, 0, 0, 0.22)
   );
+  --background-opacity: 0.2;
   
   color-scheme: dark;
   color: var(--text-color);
