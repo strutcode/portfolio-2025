@@ -64,8 +64,17 @@
 
         const target = anchor.getAttribute('href')
 
+        // If no element was found, give up
         if (!target) return
 
+        // Support the standard href="#"
+        if (target === '#') {
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+          return
+        }
+
+        // If the target is a valid selector and we can find it,
+        // initiate scrolling
         document.querySelector(target)?.scrollIntoView({
           behavior: 'smooth',
         })
