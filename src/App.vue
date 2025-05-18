@@ -55,4 +55,21 @@
 
   // Set the initial state of the theme
   applyTheme()
+
+  onMounted(() => {
+    // Add smooth scrolling behavior to anchor links
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', (ev) => {
+        ev.preventDefault()
+
+        const target = anchor.getAttribute('href')
+
+        if (!target) return
+
+        document.querySelector(target)?.scrollIntoView({
+          behavior: 'smooth',
+        })
+      })
+    })
+  })
 </script>
