@@ -102,7 +102,7 @@
     position: relative;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 10px 30px var(--shadow-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     aspect-ratio: 9 / 12;
     width: 80%;
     margin: auto;

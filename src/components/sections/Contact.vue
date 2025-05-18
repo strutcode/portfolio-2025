@@ -164,6 +164,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
     align-items: stretch; */
+    box-shadow: 0 10px 30px var(--shadow-color);
   }
 
   .contact-info {
