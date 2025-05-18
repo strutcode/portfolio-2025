@@ -12,6 +12,9 @@ import {
   type ProgramInfo,
   type BufferInfo,
   type VertexArrayInfo,
+  drawBufferInfo,
+  setBuffersAndAttributes,
+  setUniforms,
 } from 'twgl.js'
 import WavefrontLoader from './WavefrontLoader'
 
@@ -57,50 +60,68 @@ export default class HeroScene extends Scene {
       }
     }
 
-    // Load shaders
+    // Initialize the resize listener
+    window.addEventListener('resize', this.boundResize)
+    this.resize()
+
+    this.loadTerrain()
+    this.createStars()
+  }
+
+  protected async loadTerrain() {
+    const gl = this.ctx
+
+    // Load the shader
     const terrainShader = createProgramInfo(gl, [
       (await import('./shaders/terrain.vs.glsl')).default,
       (await import('./shaders/terrain.fs.glsl')).default,
     ])
+
+    // Load the model from the server
+    const data = await WavefrontLoader.load('/terrain.obj')
+
+    const terrain1: GlObjectDescriptor = {
+      kind: 'mesh',
+      programInfo: terrainShader,
+      bufferInfo: createBufferInfoFromArrays(gl, data),
+      world: m4.identity(),
+    }
+    const terrain2: GlObjectDescriptor = {
+      kind: 'mesh',
+      programInfo: terrainShader,
+      bufferInfo: createBufferInfoFromArrays(gl, data),
+      world: m4.translation([0, 0, 11.7]),
+    }
+
+    this.objects.push(terrain1)
+    this.objects.push(terrain2)
+    this.terrain.push(terrain1)
+    this.terrain.push(terrain2)
+  }
+
+  protected async createStars() {
+    const gl = this.ctx
+
+    // Load the shader
     const starShader = createProgramInfo(gl, [
       (await import('./shaders/star.vs.glsl')).default,
       (await import('./shaders/star.fs.glsl')).default,
     ])
 
-    // Initialize the resize listener
-    window.addEventListener('resize', this.boundResize)
-    this.resize()
-
-    // Load the model from the server
-    WavefrontLoader.load('/terrain.obj').then((data) => {
-      const terrain1: GlObjectDescriptor = {
-        kind: 'mesh',
-        programInfo: terrainShader,
-        bufferInfo: createBufferInfoFromArrays(gl, data),
-        world: m4.identity(),
-      }
-      const terrain2: GlObjectDescriptor = {
-        kind: 'mesh',
-        programInfo: terrainShader,
-        bufferInfo: createBufferInfoFromArrays(gl, data),
-        world: m4.translation([0, 0, 11.7]),
-      }
-      this.objects.push(terrain1)
-      this.objects.push(terrain2)
-      this.terrain.push(terrain1)
-      this.terrain.push(terrain2)
-    })
-
+    // Set some constants that will be used to create the stars
     const instances = 200
     const instanceWorlds = new Float32Array(16 * instances)
+    const spread = [20, 20]
+    const scale = [0.1, 0.33]
+
+    /** A small helper function that returns a random numnber in a range */
     const rand = (min: number, max: number) => Math.random() * (max - min) + min
-    const r = 20
 
     for (let i = 0; i < instances; i++) {
       const mat = new Float32Array(instanceWorlds.buffer, i * 16 * 4, 16)
 
       // Random distribution in an area
-      m4.translation([rand(-r, r), rand(0, r), 50], mat)
+      m4.translation([rand(-spread[0], spread[0]), rand(0, spread[1]), 50], mat)
 
       // Rotate the billboards to face -Z
       m4.rotateY(mat, Math.PI, mat)
@@ -109,7 +130,7 @@ export default class HeroScene extends Scene {
       m4.rotateZ(mat, rand(-Math.PI, Math.PI), mat)
 
       // Random scaling
-      const s = rand(0.1, 0.33)
+      const s = rand(scale[0], scale[1])
       m4.scale(mat, [s, s, s], mat)
     }
 
@@ -211,6 +232,7 @@ export default class HeroScene extends Scene {
     const viewProjection = m4.multiply(projection, view)
 
     // Draw everything
+    let lastObject: GlObjectDescriptor | null = null
     for (const object of this.objects) {
       if (object.transparent) {
         gl.enable(gl.BLEND)
@@ -233,18 +255,31 @@ export default class HeroScene extends Scene {
         backgroundColor: this.backgroundColor,
       }
 
+      // If the shader wasn't just used and already active...
+      if (object.programInfo !== lastObject?.programInfo) {
+        // Activate the shader for this object
+        gl.useProgram(object.programInfo.program)
+      }
+
+      // If the object being drawn changed, set up the buffers
+      if (object.bufferInfo !== lastObject?.bufferInfo) {
+        // If the last object used a VAO, unbind it
+        if (object.kind === 'instanced' && lastObject?.kind !== 'instanced') {
+          gl.bindVertexArray(null)
+        }
+
+        setBuffersAndAttributes(gl, object.programInfo, object.bufferInfo)
+      }
+
       if (object.kind === 'mesh') {
-        drawObjectList(gl, [
-          {
-            programInfo: object.programInfo,
-            bufferInfo: object.bufferInfo,
-            uniforms: {
-              ...uniforms,
-              world: object.world,
-              worldViewProjection: m4.multiply(viewProjection, object.world),
-            },
-          },
-        ])
+        // Set all uniforms including the optional ones for this type
+        setUniforms(object.programInfo, {
+          ...uniforms,
+          world: object.world,
+          worldViewProjection: m4.multiply(viewProjection, object.world),
+        })
+
+        drawBufferInfo(gl, object.bufferInfo)
       } else if (object.kind === 'instanced') {
         // Crude, but if instancing isn't available, skip the object
         // At least this way we can still render the rest of the scene
@@ -252,16 +287,21 @@ export default class HeroScene extends Scene {
           continue
         }
 
-        drawObjectList(gl, [
-          {
-            programInfo: object.programInfo,
-            bufferInfo: object.bufferInfo,
-            vertexArrayInfo: object.vertexArrayInfo,
-            uniforms,
-            instanceCount: object.instanceCount,
-          },
-        ])
+        // Set standard uniforms
+        setUniforms(object.programInfo, uniforms)
+
+        // Use the instanced form of `drawBufferInfo`
+        drawBufferInfo(
+          gl,
+          object.vertexArrayInfo,
+          gl.TRIANGLES,
+          undefined,
+          undefined,
+          object.instanceCount,
+        )
       }
+
+      lastObject = object
     }
 
     // Wait for the next render loop
