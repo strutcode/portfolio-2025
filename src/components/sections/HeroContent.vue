@@ -38,6 +38,7 @@
     overflow: hidden;
     backdrop-filter: none;
     background: var(--hero-contrast-color);
+    transition: background-color 0.2s ease;
     /* box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); */
   }
 

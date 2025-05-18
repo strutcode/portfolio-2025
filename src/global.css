@@ -32,6 +32,7 @@
   color-scheme: light;
   color: var(--text-color);
   background-color: var(--background-color);
+  transition: background-color 0.2s ease;
 }
 
 /* Dark theme class that can be toggled */
