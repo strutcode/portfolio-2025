@@ -7,7 +7,6 @@ import {
   createBufferInfoFromArrays,
   primitives,
   createVertexArrayInfo,
-  drawObjectList,
   addExtensionsToContext,
   type ProgramInfo,
   type BufferInfo,
@@ -15,6 +14,7 @@ import {
   drawBufferInfo,
   setBuffersAndAttributes,
   setUniforms,
+  createTexture,
 } from 'twgl.js'
 import WavefrontLoader from './WavefrontLoader'
 
@@ -22,6 +22,8 @@ type GlObjectDescriptor =
   | {
       // Normal object
       kind: 'mesh'
+      name?: string
+      uniforms?: Record<string, any>
       programInfo: ProgramInfo
       bufferInfo: BufferInfo
       world: m4.Mat4
@@ -30,6 +32,7 @@ type GlObjectDescriptor =
   | {
       // Instanced object
       kind: 'instanced'
+      name?: string
       programInfo: ProgramInfo
       bufferInfo: BufferInfo
       vertexArrayInfo: VertexArrayInfo
@@ -66,6 +69,7 @@ export default class HeroScene extends Scene {
 
     this.loadTerrain()
     this.createStars()
+    this.createSun()
   }
 
   protected async loadTerrain() {
@@ -109,15 +113,15 @@ export default class HeroScene extends Scene {
     ])
 
     // Set some constants that will be used to create the stars
-    const instances = 200
-    const instanceWorlds = new Float32Array(16 * instances)
+    const instanceCount = 200
+    const instanceWorlds = new Float32Array(16 * instanceCount)
     const spread = [20, 20]
     const scale = [0.1, 0.33]
 
     /** A small helper function that returns a random numnber in a range */
     const rand = (min: number, max: number) => Math.random() * (max - min) + min
 
-    for (let i = 0; i < instances; i++) {
+    for (let i = 0; i < instanceCount; i++) {
       const mat = new Float32Array(instanceWorlds.buffer, i * 16 * 4, 16)
 
       // Random distribution in an area
@@ -148,9 +152,43 @@ export default class HeroScene extends Scene {
       programInfo: starShader,
       bufferInfo,
       vertexArrayInfo: createVertexArrayInfo(gl, starShader, bufferInfo),
-      instanceCount: instances,
+      instanceCount,
       transparent: true,
     })
+  }
+
+  protected async createSun() {
+    const gl = this.ctx
+
+    // Load the shader
+    const sunShader = createProgramInfo(gl, [
+      (await import('./shaders/sun.vs.glsl')).default,
+      (await import('./shaders/sun.fs.glsl')).default,
+    ])
+
+    // Create the sun
+    const bufferInfo = primitives.createXYQuadBufferInfo(gl, 3.3)
+
+    const texture = createTexture(gl, {
+      src: '/sun.svg',
+    })
+
+    for (let i = 0; i < 3; i++) {
+      const world = m4.translation([-1.2, 3.2, 14])
+      m4.rotateY(world, Math.PI, world)
+
+      this.objects.push({
+        kind: 'mesh',
+        name: 'sun' + i,
+        transparent: true,
+        programInfo: sunShader,
+        uniforms: {
+          texture,
+        },
+        bufferInfo,
+        world,
+      })
+    }
   }
 
   /** Pauses the render loop. */
@@ -185,6 +223,20 @@ export default class HeroScene extends Scene {
     this.backgroundColor = v3.lerp([0.7, 0.8, 1.0], [0.03, 0.03, 0.1], this.transitionT)
     this.shadowColor = v3.lerp([0.1, 0.3, 0.14], [0.01, 0.03, 0.1], this.transitionT)
     this.lightColor = v3.lerp([0.6, 0.87, 0.6], [0.05, 0.14, 0.05], this.transitionT)
+
+    for (const object of this.objects) {
+      if (object.kind === 'mesh') {
+        if (object.name === 'sun0') {
+          m4.rotateZ(object.world, delta * 0.5, object.world)
+        }
+        if (object.name === 'sun1') {
+          m4.rotateZ(object.world, -delta * 0.5, object.world)
+        }
+        if (object.name === 'sun2') {
+          m4.rotateZ(object.world, delta * 0.2, object.world)
+        }
+      }
+    }
 
     for (const terrain of this.terrain) {
       if (terrain.kind === 'mesh') {
@@ -265,7 +317,7 @@ export default class HeroScene extends Scene {
       if (object.bufferInfo !== lastObject?.bufferInfo) {
         // If the last object used a VAO, unbind it
         if (object.kind === 'instanced' && lastObject?.kind !== 'instanced') {
-          gl.bindVertexArray(null)
+          ;(gl as any).bindVertexArray(null)
         }
 
         setBuffersAndAttributes(gl, object.programInfo, object.bufferInfo)

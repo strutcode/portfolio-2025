@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.1 (93de688d07, 2025-03-30)"
+   sodipodi:docname="sun.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="1.9984053"
+     inkscape:cx="239.44092"
+     inkscape:cy="207.91578"
+     inkscape:window-width="3072"
+     inkscape:window-height="1656"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showguides="true" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="star"
+       style="fill:#ff7f2a"
+       id="path2"
+       inkscape:flatsided="false"
+       sodipodi:sides="5"
+       sodipodi:cx="40.031918"
+       sodipodi:cy="57.545883"
+       sodipodi:r1="281.94098"
+       sodipodi:r2="140.97049"
+       sodipodi:arg1="0.74020283"
+       sodipodi:arg2="1.3685214"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 248.1979,247.6975 68.352663,195.64228 -76.486193,314.28358 -82.553967,127.15465 -240.14622,26.066887 -64.051071,-37.529931 -16.609583,-218.6469 98.290978,-70.822963 285.20368,-81.67165 180.12099,73.285387 Z"
+       inkscape:transform-center-x="15.252472"
+       inkscape:transform-center-y="-8.5035476"
+       transform="matrix(0.87141166,0,0,0.87417231,221.85664,205.18937)" />
+    <circle
+       style="fill:#ffd42a"
+       id="path3"
+       cx="256"
+       cy="256"
+       r="117.59377" />
+  </g>
+</svg>
