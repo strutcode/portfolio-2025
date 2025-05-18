@@ -20,6 +20,7 @@ type GlObjectDescriptor =
       // Normal object
       programInfo: ProgramInfo
       bufferInfo: BufferInfo
+      world: m4.Mat4
       transparent?: boolean
     }
   | {
@@ -33,6 +34,7 @@ type GlObjectDescriptor =
 
 export default class HeroScene extends Scene {
   private objects: GlObjectDescriptor[] = []
+  private terrain: GlObjectDescriptor[] = []
 
   protected async setup() {
     const gl = this.ctx
@@ -59,10 +61,20 @@ export default class HeroScene extends Scene {
 
     // Load the model from the server
     WavefrontLoader.load('/terrain.obj').then((data) => {
-      this.objects.push({
+      const terrain1: GlObjectDescriptor = {
         programInfo: terrainShader,
         bufferInfo: createBufferInfoFromArrays(gl, data),
-      })
+        world: m4.identity(),
+      }
+      const terrain2: GlObjectDescriptor = {
+        programInfo: terrainShader,
+        bufferInfo: createBufferInfoFromArrays(gl, data),
+        world: m4.translation([0, 0, 11.7]),
+      }
+      this.objects.push(terrain1)
+      this.objects.push(terrain2)
+      this.terrain.push(terrain1)
+      this.terrain.push(terrain2)
     })
 
     const instances = 200
@@ -121,13 +133,28 @@ export default class HeroScene extends Scene {
     this.animationFrame = requestAnimationFrame(this.boundRender)
   }
 
+  protected update(delta: number) {
+    for (const terrain of this.terrain) {
+      // Move the terrain toward the camera
+      m4.translate(terrain.world, [0, 0, delta * 0.003], terrain.world)
+
+      // Wrap the terrain around if it moves too far
+      if (m4.getTranslation(terrain.world)[2] <= -11.7) {
+        m4.translate(terrain.world, [0, 0, 23.4], terrain.world)
+      }
+    }
+  }
+
   protected render() {
     const gl = this.ctx
     const darkMode = document.documentElement.classList.contains('dark-theme')
 
     const now = performance.now()
+    const delta = (now - this.last) * 0.001
     this.update(this.last - now)
     this.last = now
+
+    this.update(delta)
 
     // Reset the canvas
     if (darkMode) {
@@ -168,16 +195,18 @@ export default class HeroScene extends Scene {
         gl.enable(gl.DEPTH_TEST)
       }
 
-      const world = m4.identity()
       const uniforms = {
         time,
         resolution: [this.canvas.width, this.canvas.height],
-        world,
         viewProjection,
-        worldViewProjection: m4.multiply(viewProjection, world),
         lightDirection: v3.normalize(v3.create(0.5, -0.2, 1)),
         shadowColor: darkMode ? [0.01, 0.03, 0.1] : [0.1, 0.3, 0.14],
         lightColor: darkMode ? [0.05, 0.14, 0.05] : [0.6, 0.87, 0.6],
+      }
+
+      if (object.world) {
+        uniforms.world = object.world
+        uniforms.worldViewProjection = m4.multiply(viewProjection, object.world)
       }
 
       drawObjectList(gl, [
@@ -194,6 +223,4 @@ export default class HeroScene extends Scene {
     // Wait for the next render loop
     this.animationFrame = requestAnimationFrame(this.boundRender)
   }
-
-  protected update(delta: number) {}
 }
