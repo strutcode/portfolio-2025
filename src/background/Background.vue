@@ -9,7 +9,7 @@
   const element = useTemplateRef('element')
 
   onMounted(() => {
-    const scene = new BackgroundRenderer(element.value!, 0.5)
+    const scene = new BackgroundRenderer(element.value!, 1.0)
 
     onBeforeUnmount(() => {
       scene.destroy()
@@ -32,6 +32,6 @@
   .background canvas {
     width: 100%;
     height: 100%;
-    filter: blur(8px);
+    /* filter: blur(8px); */
   }
 </style>

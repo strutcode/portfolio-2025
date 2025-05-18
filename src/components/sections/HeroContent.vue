@@ -36,9 +36,9 @@
     padding: 2rem;
     border-radius: 10px;
     overflow: hidden;
-    backdrop-filter: blur(8px);
+    backdrop-filter: none;
     background: var(--hero-contrast-color);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); */
   }
 
   :root:not(.dark-theme) .hero-content {
@@ -54,13 +54,13 @@
   h1,
   .subtitle,
   .tagline {
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    /* text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25); */
   }
 
   :root.dark-theme h1,
   :root.dark-theme .subtitle,
   :root.dark-theme .tagline {
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    /* text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); */
   }
 
   h1 {
@@ -105,21 +105,21 @@
   .primary-btn {
     background-color: var(--primary-color);
     color: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
   }
 
   .primary-btn:hover {
     background-color: var(--primary-color-dark, var(--primary-color));
     color: white;
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 8px rgba(0, 0, 0, 0.2);
   }
 
   .secondary-btn {
     background-color: transparent;
     color: var(--text-color);
     border: 2px solid var(--text-color);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
   }
 
   .secondary-btn:hover {
