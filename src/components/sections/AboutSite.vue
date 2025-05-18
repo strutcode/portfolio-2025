@@ -14,8 +14,8 @@
 
         <p>
           The landing section is a custom 3D scene built using the lovely twgl.js, a custom .obj
-          file loader and a few GLSL shaders. The scene is rendered using a custom WebGL renderer
-          that I built to be as lightweight as possible.
+          file loader and a few GLSL shaders. The scene is rendered using a custom renderer that I
+          built to be as lightweight as possible.
         </p>
 
         <p>
@@ -24,17 +24,14 @@
         </p>
 
         <p>
-          As a fun experiment I tried to add some skuemorphic elements to the design by giving card
-          elements a style evocative of panels of frosted glass.
+          As a fun experiment I tried to add a grounding aspect to the design by giving card
+          elements a style evocative of panels of frosted glass. This is done using a combination of
+          colors and CSS filters.
         </p>
       </div>
     </div>
   </section>
 </template>
-
-<script setup lang="ts">
-  import GlassCard from '../GlassCard.vue'
-</script>
 
 <style scoped>
   .about-section {
@@ -63,42 +60,8 @@
     /* display: flex; */
     gap: 2rem;
     align-items: center;
-  }
-
-  .about-image {
-    flex: 1 1 40%;
-    display: flex;
-  }
-
-  .image-container {
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px var(--shadow-color);
-  }
-
-  .image-container::before {
-    content: '';
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 100%;
-    height: 100%;
-    border: 3px solid var(--primary-color);
-    border-radius: 8px;
-    z-index: -1;
-  }
-
-  .image-container img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-  }
-
-  .image-container:hover img {
-    transform: scale(1.03);
+    max-width: 1200px;
+    margin: auto;
   }
 
   .about-text {
@@ -112,49 +75,9 @@
     margin-bottom: 1.5rem;
   }
 
-  .personal-interests {
-    margin-top: 2rem;
-  }
-
-  .personal-interests h3 {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-  }
-
-  .interests-list {
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-  }
-
-  .interests-list .interest {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem;
-    transition: transform 0.3s ease;
-  }
-
-  .interests-list .interest:hover {
-    transform: translateY(-5px);
-  }
-
-  .interest-icon {
-    font-size: 1.5rem;
-  }
-
   @media (max-width: 992px) {
     .about-content {
-      flex-direction: column;
-    }
-
-    .about-image {
-      margin-bottom: 2rem;
-    }
-
-    .interests-list {
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      max-width: 100%;
     }
   }
 </style>

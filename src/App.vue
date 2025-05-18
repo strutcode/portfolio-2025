@@ -2,8 +2,8 @@
   <Navigation :isDarkTheme="isDarkTheme" @toggleTheme="toggleTheme" />
   <Background />
   <HeroScene />
-  <AboutSite />
-  <About class="stripe" />
+  <About />
+  <AboutSite class="stripe" />
   <Experience />
   <Projects class="stripe" />
   <Skills />
@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { onMounted, ref } from 'vue'
 
   import Navigation from './components/Navigation.vue'
   import HeroScene from './components/sections/HeroSection.vue'
@@ -32,7 +32,6 @@
     if (userTheme === 'light') return false
 
     const userPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    console.log('User prefers dark mode:', userPrefersDark)
     return userPrefersDark
   }
 

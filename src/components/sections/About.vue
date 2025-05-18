@@ -7,7 +7,7 @@
         <div class="about-image">
           <div class="image-container">
             <!-- Professional developer profile image -->
-            <img src="/me.png" alt="Tristan Shelton" />
+            <img src="/me.jpg" alt="Tristan Shelton" />
           </div>
         </div>
 
@@ -103,25 +103,16 @@
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 10px 30px var(--shadow-color);
-  }
-
-  .image-container::before {
-    content: '';
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 100%;
-    height: 100%;
-    border: 3px solid var(--primary-color);
-    border-radius: 8px;
-    z-index: -1;
+    aspect-ratio: 9 / 12;
+    width: 80%;
+    margin: auto;
   }
 
   .image-container img {
     display: block;
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
+    /* border-radius: 8px; */
     transition: transform 0.3s ease;
   }
 
@@ -179,6 +170,11 @@
 
     .about-image {
       margin-bottom: 2rem;
+    }
+
+    .image-container {
+      aspect-ratio: 9 / 11;
+      width: 100%;
     }
 
     .interests-list {
