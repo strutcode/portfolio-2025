@@ -1,6 +1,7 @@
 precision mediump float;
 
 uniform sampler2D texture;
+uniform float darkModeValue;
 
 varying vec2 vUv;
 
@@ -10,4 +11,5 @@ float star() {
 
 void main() {
   gl_FragColor = texture2D(texture, vUv);
+  gl_FragColor.a *= 1.0 - darkModeValue;
 }

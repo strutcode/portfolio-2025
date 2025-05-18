@@ -1,7 +1,6 @@
 precision mediump float;
 
-uniform vec2 resolution;
-uniform float time;
+uniform float darkModeValue;
 
 varying vec2 vUv;
 
@@ -10,5 +9,5 @@ float star() {
 }
 
 void main() {
-  gl_FragColor = vec4(vec3(1.0), star());
+  gl_FragColor = vec4(vec3(1.0), star() * darkModeValue);
 }

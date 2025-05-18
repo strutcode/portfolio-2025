@@ -305,6 +305,7 @@ export default class HeroScene extends Scene {
         lightColor: this.lightColor,
         shadowColor: this.shadowColor,
         backgroundColor: this.backgroundColor,
+        darkModeValue: this.transitionT,
       }
 
       // If the shader wasn't just used and already active...
