@@ -5,6 +5,7 @@ uniform float time;
 uniform vec3 lightDirection;
 uniform vec3 lightColor;
 uniform vec3 shadowColor;
+uniform vec3 backgroundColor;
 
 varying vec3 vNormal;
 
@@ -16,4 +17,8 @@ void main() {
 
   // Calculate a final color based on material colors and the lighting amount
   gl_FragColor = vec4(mix(shadowColor, lightColor, light), 1.0);
+
+  // Add a fade to background color to simulate fog
+  float fogAmount = smoothstep(0.99, 0.997, gl_FragCoord.z);
+  gl_FragColor = mix(gl_FragColor, vec4(backgroundColor, 1.0), fogAmount);
 }

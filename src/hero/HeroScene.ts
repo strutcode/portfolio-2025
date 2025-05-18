@@ -217,6 +217,7 @@ export default class HeroScene extends Scene {
         lightDirection: v3.normalize(v3.create(0.5, -0.2, 1)),
         lightColor: this.lightColor,
         shadowColor: this.shadowColor,
+        backgroundColor: this.backgroundColor,
       }
 
       if (object.world) {
