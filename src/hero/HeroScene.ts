@@ -18,6 +18,7 @@ import WavefrontLoader from './WavefrontLoader'
 type GlObjectDescriptor =
   | {
       // Normal object
+      kind: 'mesh'
       programInfo: ProgramInfo
       bufferInfo: BufferInfo
       world: m4.Mat4
@@ -25,6 +26,7 @@ type GlObjectDescriptor =
     }
   | {
       // Instanced object
+      kind: 'instanced'
       programInfo: ProgramInfo
       bufferInfo: BufferInfo
       vertexArrayInfo: VertexArrayInfo
@@ -35,18 +37,24 @@ type GlObjectDescriptor =
 export default class HeroScene extends Scene {
   private objects: GlObjectDescriptor[] = []
   private terrain: GlObjectDescriptor[] = []
-  private backgroundColor = [1, 1, 1]
-  private lightColor = [1, 1, 1]
-  private shadowColor = [0, 0, 0]
+  private backgroundColor: v3.Vec3 = [1, 1, 1]
+  private lightColor: v3.Vec3 = [1, 1, 1]
+  private shadowColor: v3.Vec3 = [0, 0, 0]
   private transitionT = 0
+  private instancingAvailable = true
 
   protected async setup() {
     const gl = this.ctx
 
+    // Add available extensions to the WebGL context
     addExtensionsToContext(gl)
-    if (!gl.drawArraysInstanced || !gl.createVertexArray) {
-      alert('need drawArraysInstanced and createVertexArray') // eslint-disable-line
-      return
+
+    // If instanced rendering and VAOs, flag it
+    for (const method of ['drawArraysInstanced', 'createVertexArray']) {
+      if (!(method in gl)) {
+        this.instancingAvailable = false
+        break
+      }
     }
 
     // Load shaders
@@ -66,11 +74,13 @@ export default class HeroScene extends Scene {
     // Load the model from the server
     WavefrontLoader.load('/terrain.obj').then((data) => {
       const terrain1: GlObjectDescriptor = {
+        kind: 'mesh',
         programInfo: terrainShader,
         bufferInfo: createBufferInfoFromArrays(gl, data),
         world: m4.identity(),
       }
       const terrain2: GlObjectDescriptor = {
+        kind: 'mesh',
         programInfo: terrainShader,
         bufferInfo: createBufferInfoFromArrays(gl, data),
         world: m4.translation([0, 0, 11.7]),
@@ -113,6 +123,7 @@ export default class HeroScene extends Scene {
     })
 
     this.objects.push({
+      kind: 'instanced',
       programInfo: starShader,
       bufferInfo,
       vertexArrayInfo: createVertexArrayInfo(gl, starShader, bufferInfo),
@@ -155,13 +166,15 @@ export default class HeroScene extends Scene {
     this.lightColor = v3.lerp([0.6, 0.87, 0.6], [0.05, 0.14, 0.05], this.transitionT)
 
     for (const terrain of this.terrain) {
-      // Move the terrain toward the camera
-      m4.translate(terrain.world, [0, 0, -delta * 3], terrain.world)
+      if (terrain.kind === 'mesh') {
+        // Move the terrain toward the camera
+        m4.translate(terrain.world, [0, 0, -delta * 3], terrain.world)
 
-      // Wrap the terrain around if it moves too far
-      const z = m4.getTranslation(terrain.world)[2]
-      if (z <= -11.7) {
-        m4.translate(terrain.world, [0, 0, 23.4], terrain.world)
+        // Wrap the terrain around if it moves too far
+        const z = m4.getTranslation(terrain.world)[2]
+        if (z <= -11.7) {
+          m4.translate(terrain.world, [0, 0, 23.4], terrain.world)
+        }
       }
     }
   }
@@ -176,7 +189,7 @@ export default class HeroScene extends Scene {
     this.update(delta)
 
     // Reset the canvas
-    gl.clearColor(...this.backgroundColor, 1)
+    gl.clearColor(...(this.backgroundColor as [number, number, number]), 1)
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.viewport(0, 0, this.canvas.width, this.canvas.height)
 
@@ -193,7 +206,7 @@ export default class HeroScene extends Scene {
       100,
     )
     const vPos = document.documentElement.scrollTop / window.innerHeight
-    const camera = m4.lookAt([0, 1.2 - vPos, -8], [0, 1 + vPos, 0], [0, 1, 0])
+    const camera = m4.lookAt([0, 2.2 - vPos * 2, -8], [0, 1 + vPos, 0], [0, 1, 0])
     const view = m4.inverse(camera)
     const viewProjection = m4.multiply(projection, view)
 
@@ -220,20 +233,35 @@ export default class HeroScene extends Scene {
         backgroundColor: this.backgroundColor,
       }
 
-      if (object.world) {
-        uniforms.world = object.world
-        uniforms.worldViewProjection = m4.multiply(viewProjection, object.world)
-      }
+      if (object.kind === 'mesh') {
+        drawObjectList(gl, [
+          {
+            programInfo: object.programInfo,
+            bufferInfo: object.bufferInfo,
+            uniforms: {
+              ...uniforms,
+              world: object.world,
+              worldViewProjection: m4.multiply(viewProjection, object.world),
+            },
+          },
+        ])
+      } else if (object.kind === 'instanced') {
+        // Crude, but if instancing isn't available, skip the object
+        // At least this way we can still render the rest of the scene
+        if (!this.instancingAvailable) {
+          continue
+        }
 
-      drawObjectList(gl, [
-        {
-          programInfo: object.programInfo,
-          bufferInfo: object.bufferInfo,
-          vertexArrayInfo: object.vertexArrayInfo,
-          uniforms,
-          instanceCount: object.instanceCount,
-        },
-      ])
+        drawObjectList(gl, [
+          {
+            programInfo: object.programInfo,
+            bufferInfo: object.bufferInfo,
+            vertexArrayInfo: object.vertexArrayInfo,
+            uniforms,
+            instanceCount: object.instanceCount,
+          },
+        ])
+      }
     }
 
     // Wait for the next render loop
