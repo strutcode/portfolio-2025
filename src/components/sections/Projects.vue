@@ -102,7 +102,7 @@ The resulting project is a simple from-scratch emulator for the SM2 microprocess
       tags: ['TypeScript', 'Vite', 'Assembly', 'Hardware Emulation'],
       image:
         'https://images.unsplash.com/photo-1631896928992-90e5a2cc7a4e?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
-      link: 'https://gameboy.strutcode.dev',
+      link: 'https://github.com/strutcode/gameboy',
     },
     {
       title: 'Super Penguin Bros DX',
@@ -125,7 +125,7 @@ I chose Godot as an engine for its free and open source nature and used WebRTC f
       tags: ['Typescript', 'x86 Assembly'],
       image:
         'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
-      link: 'https://tscript.strutcode.dev',
+      link: 'https://github.com/strutcode/lang-dev',
     },
     {
       title: 'tOS',
@@ -139,7 +139,7 @@ The project is still in its early stages, but I am excited to see where it goes!
       tags: ['x86 Assembly', 'Hardware', 'C/C++'],
       image:
         'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
-      link: 'https://tos.strutcode.dev',
+      link: 'https://github.com/strutcode/os-dev',
     },
   ])
 </script>
