@@ -1,20 +1,14 @@
 <template>
   <section id="contact" class="section contact-section">
     <div class="container">
-      <h2 class="section-title">Get In Touch</h2>
+      <h2 class="section-title">Contact Information</h2>
       <p class="section-description">
-        Have a question or want to work together? Feel free to reach out using the form below.
+        I'm open to freelance opportunities, contract roles, and full-time positions. If you have a
+        project that needs some creative development or just want to say hello, get in touch!
       </p>
 
       <div class="contact-container">
         <GlassCard>
-          <h3>Contact Information</h3>
-          <p>
-            I'm open to freelance opportunities, contract roles, and full-time positions. If you
-            have a project that needs some creative development or just want to say hello, get in
-            touch!
-          </p>
-
           <div class="contact-methods">
             <div class="contact-method">
               <div class="method-icon"><Icon icon="solar:map-arrow-down-bold-duotone" /></div>
@@ -28,7 +22,7 @@
               <div class="method-icon"><Icon icon="solar:mailbox-bold" /></div>
               <div class="method-details">
                 <h4>Email</h4>
-                <p v-html="obfuscate('tristan.m.shelton@gmail.com')"></p>
+                <a href="mailto:tristan.m.shelton@gmail.com">tristan.m.shelton@gmail.com</a>
               </div>
             </div>
 
@@ -37,7 +31,7 @@
               <div class="method-details">
                 <h4>LinkedIn</h4>
                 <p>
-                  <a href="https://www.linkedin.com/in/tristan-shelton-b3779793/">
+                  <a href="https://www.linkedin.com/in/tristan-shelton-b3779793/" target="_blank">
                     linkedin.com/in/tristan-shelton-b3779793
                   </a>
                 </p>
@@ -49,7 +43,9 @@
               <div class="method-details">
                 <h4>GitHub</h4>
                 <p>
-                  <a href="https://www.github.com/strutcode"> github.com/strutcode </a>
+                  <a href="https://www.github.com/strutcode" target="_blank">
+                    github.com/strutcode
+                  </a>
                 </p>
               </div>
             </div>
@@ -59,72 +55,13 @@
               <div class="method-details">
                 <h4>Discord</h4>
                 <p>
-                  <a href="https://discord.com/users/311604135860371468">@tristans4007</a>
+                  <a href="https://discord.com/users/311604135860371468" target="_blank">
+                    @tristans4007
+                  </a>
                 </p>
               </div>
             </div>
           </div>
-        </GlassCard>
-
-        <GlassCard>
-          <form @submit.prevent="submitForm">
-            <div class="form-alert success" v-if="formSubmitted">
-              Message sent successfully! I'll get back to you soon.
-            </div>
-
-            <div class="form-alert error" v-if="formError">
-              Something went wrong. Please try again later.
-            </div>
-
-            <div class="form-group">
-              <label for="name">Your Name</label>
-              <input
-                type="text"
-                id="name"
-                v-model="formData.name"
-                placeholder="Your Name"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="email">Your Email</label>
-              <input
-                type="email"
-                id="email"
-                v-model="formData.email"
-                placeholder="Your Email"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="subject">Subject</label>
-              <input
-                type="text"
-                id="subject"
-                v-model="formData.subject"
-                placeholder="Subject"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="message">Message</label>
-              <textarea
-                id="message"
-                v-model="formData.message"
-                placeholder="Your Message"
-                rows="5"
-                required
-              ></textarea>
-            </div>
-
-            <button type="submit" class="submit-btn" :disabled="isSubmitting">
-              <span v-if="isSubmitting">Sending...</span>
-              <span v-else>Send Message</span>
-            </button>
-          </form>
         </GlassCard>
       </div>
     </div>
@@ -221,10 +158,12 @@
   }
 
   .contact-container {
-    display: grid;
+    max-width: 800px;
+    margin: auto;
+    /* display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
-    align-items: stretch;
+    align-items: stretch; */
   }
 
   .contact-info {

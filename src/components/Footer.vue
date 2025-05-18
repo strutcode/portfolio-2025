@@ -8,7 +8,7 @@
         </div>
 
         <div class="footer-social">
-          <h4>Connect With Me</h4>
+          <h4>Find Me On</h4>
           <div class="social-icons">
             <a href="https://www.github.com/strutcode" class="social-icon" aria-label="GitHub">
               <Icon icon="cib:github" />
