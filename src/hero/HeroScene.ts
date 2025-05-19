@@ -48,6 +48,13 @@ export default class HeroScene extends Scene {
   private shadowColor: v3.Vec3 = [0, 0, 0]
   private transitionT = 0
   private instancingAvailable = true
+  private lightDirection = v3.normalize(v3.create(0.5, -0.2, 1))
+  private matrices = {
+    projection: m4.create(),
+    view: m4.create(),
+    camera: m4.create(),
+    viewProjection: m4.create(),
+  }
 
   protected async setup() {
     const gl = this.ctx
@@ -115,7 +122,7 @@ export default class HeroScene extends Scene {
     // Set some constants that will be used to create the stars
     const instanceCount = 200
     const instanceWorlds = new Float32Array(16 * instanceCount)
-    const spread = [20, 20]
+    const spread = [25, 20]
     const scale = [0.1, 0.33]
 
     /** A small helper function that returns a random numnber in a range */
@@ -272,16 +279,7 @@ export default class HeroScene extends Scene {
 
     // Calculate all global data
     const time = performance.now() / 1000
-    const projection = m4.perspective(
-      (30 * Math.PI) / 180,
-      this.canvas.width / this.canvas.height,
-      0.1,
-      100,
-    )
-    const vPos = document.documentElement.scrollTop / window.innerHeight
-    const camera = m4.lookAt([0, 2.2 - vPos * 2, -8], [0, 1 + vPos, 0], [0, 1, 0])
-    const view = m4.inverse(camera)
-    const viewProjection = m4.multiply(projection, view)
+    const viewProjection = this.calculateViewProjectionMatrix()
 
     // Draw everything
     let lastObject: GlObjectDescriptor | null = null
@@ -301,7 +299,7 @@ export default class HeroScene extends Scene {
         time,
         resolution: [this.canvas.width, this.canvas.height],
         viewProjection,
-        lightDirection: v3.normalize(v3.create(0.5, -0.2, 1)),
+        lightDirection: this.lightDirection,
         lightColor: this.lightColor,
         shadowColor: this.shadowColor,
         backgroundColor: this.backgroundColor,
@@ -359,5 +357,24 @@ export default class HeroScene extends Scene {
 
     // Wait for the next render loop
     this.animationFrame = requestAnimationFrame(this.boundRender)
+  }
+
+  private calculateViewProjectionMatrix() {
+    const vPos = document.documentElement.scrollTop / window.innerHeight
+
+    // All of these operations are performed on pre-allocated arrays to avoid
+    // unneccesary garbage collection events
+    m4.perspective(
+      (30 * Math.PI) / 180,
+      this.canvas.width / this.canvas.height,
+      0.1,
+      100,
+      this.matrices.projection,
+    )
+    m4.lookAt([0, 2.2 - vPos * 2, -8], [0, 1 + vPos, 0], [0, 1, 0], this.matrices.camera)
+    m4.inverse(this.matrices.camera, this.matrices.view)
+    m4.multiply(this.matrices.projection, this.matrices.view, this.matrices.viewProjection)
+
+    return this.matrices.viewProjection
   }
 }
