@@ -54,6 +54,7 @@ export default class HeroScene extends Scene {
     view: m4.create(),
     camera: m4.create(),
     viewProjection: m4.create(),
+    worldViewProjection: m4.create(),
   }
 
   protected async setup() {
@@ -227,9 +228,9 @@ export default class HeroScene extends Scene {
       }
     }
 
-    this.backgroundColor = v3.lerp([0.7, 0.8, 1.0], [0.03, 0.03, 0.1], this.transitionT)
-    this.shadowColor = v3.lerp([0.1, 0.3, 0.14], [0.01, 0.03, 0.1], this.transitionT)
-    this.lightColor = v3.lerp([0.6, 0.87, 0.6], [0.05, 0.14, 0.05], this.transitionT)
+    v3.lerp([0.7, 0.8, 1.0], [0.03, 0.03, 0.1], this.transitionT, this.backgroundColor)
+    v3.lerp([0.1, 0.3, 0.14], [0.01, 0.03, 0.1], this.transitionT, this.shadowColor)
+    v3.lerp([0.6, 0.87, 0.6], [0.05, 0.14, 0.05], this.transitionT, this.lightColor)
 
     for (const object of this.objects) {
       if (object.kind === 'mesh') {
@@ -323,11 +324,14 @@ export default class HeroScene extends Scene {
       }
 
       if (object.kind === 'mesh') {
+        // Use pre-allocated memory to calculate a complete transformation matrix
+        m4.multiply(viewProjection, object.world, this.matrices.worldViewProjection)
+
         // Set all uniforms including the optional ones for this type
         setUniforms(object.programInfo, {
           ...uniforms,
           world: object.world,
-          worldViewProjection: m4.multiply(viewProjection, object.world),
+          worldViewProjection: this.matrices.worldViewProjection,
         })
 
         drawBufferInfo(gl, object.bufferInfo)
@@ -359,20 +363,35 @@ export default class HeroScene extends Scene {
     this.animationFrame = requestAnimationFrame(this.boundRender)
   }
 
+  /*
+   * Calculates the view projection matrix for the scene. This includes the
+   * location of the camera and its perspective to the scne.
+   *
+   * All of these operations are performed on pre-allocated arrays to avoid
+   * unneccesary garbage collection events
+   */
   private calculateViewProjectionMatrix() {
     const vPos = document.documentElement.scrollTop / window.innerHeight
 
-    // All of these operations are performed on pre-allocated arrays to avoid
-    // unneccesary garbage collection events
+    // Create a perspective camera matrix, meaning objects further from the
+    // eye are transformed more
     m4.perspective(
-      (30 * Math.PI) / 180,
-      this.canvas.width / this.canvas.height,
-      0.1,
-      100,
+      (30 * Math.PI) / 180, // 30 degree FOV
+      this.canvas.width / this.canvas.height, // width/height aspect ratio
+      0.1, // near plane
+      100, // far plane
       this.matrices.projection,
     )
+
+    // Create a camera matrix that looks at the center of the scene from a
+    // position relative to the vertical scroll
     m4.lookAt([0, 2.2 - vPos * 2, -8], [0, 1 + vPos, 0], [0, 1, 0], this.matrices.camera)
+
+    // Create a view matrix that transforms the camera space to clip space
     m4.inverse(this.matrices.camera, this.matrices.view)
+
+    // Create a view projection matrix that combines the view and projection
+    // matrices. This is used to transform vertices from view space to clip space
     m4.multiply(this.matrices.projection, this.matrices.view, this.matrices.viewProjection)
 
     return this.matrices.viewProjection
