@@ -18,9 +18,10 @@ import {
 } from 'twgl.js'
 import WavefrontLoader from './WavefrontLoader'
 
+/** An object saved to the rendering list */
 type GlObjectDescriptor =
+  // Normal object
   | {
-      // Normal object
       kind: 'mesh'
       name?: string
       uniforms?: Record<string, any>
@@ -29,8 +30,8 @@ type GlObjectDescriptor =
       world: m4.Mat4
       transparent?: boolean
     }
+  // Instanced object
   | {
-      // Instanced object
       kind: 'instanced'
       name?: string
       programInfo: ProgramInfo
@@ -40,15 +41,30 @@ type GlObjectDescriptor =
       transparent?: boolean
     }
 
+/**
+ * A simple scene that renders a scrolling terrain to display in the landing section.
+ */
 export default class HeroScene extends Scene {
+  /** A list of objects to render next frame */
   private objects: GlObjectDescriptor[] = []
-  private terrain: GlObjectDescriptor[] = []
+  /** The color used to clear the canvas before drawing */
   private backgroundColor: v3.Vec3 = [1, 1, 1]
-  private lightColor: v3.Vec3 = [1, 1, 1]
-  private shadowColor: v3.Vec3 = [0, 0, 0]
-  private transitionT = 0
-  private instancingAvailable = true
+  /** The direction the global "sun" light is pointing */
   private lightDirection = v3.normalize(v3.create(0.5, -0.2, 1))
+  /** The 'lit' color of the terrain material */
+  private lightColor: v3.Vec3 = [1, 1, 1]
+  /** The 'unlit' color of the terrain material */
+  private shadowColor: v3.Vec3 = [0, 0, 0]
+  /** The "amount" of dark mode in the range 0..1. Used for smoothly transitioning */
+  private transitionT = 0
+  /** Whether or not the drawInstanced test passed */
+  private instancingAvailable = true
+
+  /**
+   * Pre-allocated storage for 4x4 matrices used at render time.
+   *
+   * Re-using them prevents a lot of frame by frame allocations and eventual garbage collection events.
+   */
   private matrices = {
     projection: m4.create(),
     view: m4.create(),
@@ -57,6 +73,7 @@ export default class HeroScene extends Scene {
     worldViewProjection: m4.create(),
   }
 
+  /** Sets up the rendering context and initializes the scene. */
   protected async setup() {
     const gl = this.ctx
 
@@ -80,6 +97,7 @@ export default class HeroScene extends Scene {
     this.createSun()
   }
 
+  /** Loads the terrain visual from a model file. */
   protected async loadTerrain() {
     const gl = this.ctx
 
@@ -94,12 +112,14 @@ export default class HeroScene extends Scene {
 
     const terrain1: GlObjectDescriptor = {
       kind: 'mesh',
+      name: 'terrain0',
       programInfo: terrainShader,
       bufferInfo: createBufferInfoFromArrays(gl, data),
       world: m4.identity(),
     }
     const terrain2: GlObjectDescriptor = {
       kind: 'mesh',
+      name: 'terrain1',
       programInfo: terrainShader,
       bufferInfo: createBufferInfoFromArrays(gl, data),
       world: m4.translation([0, 0, 11.7]),
@@ -107,10 +127,9 @@ export default class HeroScene extends Scene {
 
     this.objects.push(terrain1)
     this.objects.push(terrain2)
-    this.terrain.push(terrain1)
-    this.terrain.push(terrain2)
   }
 
+  /** Creates the stars in the background as an instanced array. */
   protected async createStars() {
     const gl = this.ctx
 
@@ -146,6 +165,8 @@ export default class HeroScene extends Scene {
       m4.scale(mat, [s, s, s], mat)
     }
 
+    // Create a buffer from generated vertex info (position, normal, texcoord)
+    // and the the instance-based transformation matrices
     const bufferInfo = createBufferInfoFromArrays(gl, {
       ...primitives.createXYQuadVertices(1),
       instanceWorld: {
@@ -155,6 +176,7 @@ export default class HeroScene extends Scene {
       },
     })
 
+    // Add the star cluster to the render list
     this.objects.push({
       kind: 'instanced',
       programInfo: starShader,
@@ -165,6 +187,7 @@ export default class HeroScene extends Scene {
     })
   }
 
+  /** Creates the "sun" visual in the background */
   protected async createSun() {
     const gl = this.ctx
 
@@ -181,10 +204,13 @@ export default class HeroScene extends Scene {
       src: '/sun.svg',
     })
 
+    // Create three copies, we'll animate them later to give it a bit more character
     for (let i = 0; i < 3; i++) {
+      // Create a unqieu matrix for each instance using the same data
       const world = m4.translation([-1.2, 3.2, 14])
       m4.rotateY(world, Math.PI, world)
 
+      // Add it to the render list
       this.objects.push({
         kind: 'mesh',
         name: 'sun' + i,
@@ -215,47 +241,55 @@ export default class HeroScene extends Scene {
     this.animationFrame = requestAnimationFrame(this.boundRender)
   }
 
+  /** Runs all time-based logic for this scene before rendering */
   protected update(delta: number) {
     const darkMode = document.documentElement.classList.contains('dark-theme')
+    const amount = delta / 0.2 // Speed up delta seconds so that 1.0 units takes 0.2s
 
     if (darkMode) {
+      // If dark mode is active, move toward 1.0
       if (this.transitionT < 1) {
-        this.transitionT = Math.min(1, this.transitionT + delta / 0.2)
+        this.transitionT = Math.min(1, this.transitionT + amount)
       }
     } else {
+      // If dark mode is not active, move toward 0.0
       if (this.transitionT > 0) {
-        this.transitionT = Math.max(0, this.transitionT - delta / 0.2)
+        this.transitionT = Math.max(0, this.transitionT - amount)
       }
     }
 
+    // Transition all colors values in place based on the time value
     v3.lerp([0.7, 0.8, 1.0], [0.03, 0.03, 0.1], this.transitionT, this.backgroundColor)
     v3.lerp([0.1, 0.3, 0.14], [0.01, 0.03, 0.1], this.transitionT, this.shadowColor)
     v3.lerp([0.6, 0.87, 0.6], [0.05, 0.14, 0.05], this.transitionT, this.lightColor)
 
+    // Update the state of all objects
     for (const object of this.objects) {
-      if (object.kind === 'mesh') {
-        if (object.name === 'sun0') {
-          m4.rotateZ(object.world, delta * 0.5, object.world)
-        }
-        if (object.name === 'sun1') {
-          m4.rotateZ(object.world, -delta * 0.5, object.world)
-        }
-        if (object.name === 'sun2') {
-          m4.rotateZ(object.world, delta * 0.2, object.world)
-        }
+      if (object.kind !== 'mesh') {
+        continue
       }
-    }
 
-    for (const terrain of this.terrain) {
-      if (terrain.kind === 'mesh') {
+      // If the object is a terrain, perform scrolling logic
+      if (object.name === 'terrain0' || object.name === 'terrain1') {
         // Move the terrain toward the camera
-        m4.translate(terrain.world, [0, 0, -delta * 3], terrain.world)
+        m4.translate(object.world, [0, 0, -delta * 3], object.world)
 
         // Wrap the terrain around if it moves too far
-        const z = m4.getTranslation(terrain.world)[2]
+        const z = m4.getTranslation(object.world)[2]
         if (z <= -11.7) {
-          m4.translate(terrain.world, [0, 0, 23.4], terrain.world)
+          m4.translate(object.world, [0, 0, 23.4], object.world)
         }
+      }
+
+      // If the object is a sun, perform rotation logic separately for each one
+      if (object.name === 'sun0') {
+        m4.rotateZ(object.world, delta * 0.5, object.world)
+      }
+      if (object.name === 'sun1') {
+        m4.rotateZ(object.world, -delta * 0.5, object.world)
+      }
+      if (object.name === 'sun2') {
+        m4.rotateZ(object.world, delta * 0.2, object.world)
       }
     }
   }
@@ -263,10 +297,12 @@ export default class HeroScene extends Scene {
   protected render() {
     const gl = this.ctx
 
+    // Time update
     const now = performance.now()
-    const delta = (now - this.last) * 0.001
+    const delta = (now - this.last) / 1000
     this.last = now
 
+    // Run the logic update function
     this.update(delta)
 
     // Reset the canvas
