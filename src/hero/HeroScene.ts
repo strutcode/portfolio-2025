@@ -99,6 +99,7 @@ export default class HeroScene extends Scene {
     this.loadTerrain()
     this.createStars()
     this.createSun()
+    this.createMoon()
   }
 
   /** Loads the terrain visual from a model file. */
@@ -211,8 +212,10 @@ export default class HeroScene extends Scene {
 
     // Create three copies, we'll animate them later to give it a bit more character
     for (let i = 0; i < 3; i++) {
-      // Create a unqieu matrix for each instance using the same data
+      // Create a unique matrix for each instance using the same data
       const world = m4.translation([-1.2, 3.2, 14])
+
+      // Rotate it to face the camera
       m4.rotateY(world, Math.PI, world)
 
       // Add it to the render list
@@ -229,6 +232,45 @@ export default class HeroScene extends Scene {
         world,
       })
     }
+  }
+
+  /** Creates the moon shape in the background */
+  protected async createMoon() {
+    const gl = this.ctx
+
+    // Load the shader
+    const moonShader = createProgramInfo(gl, [
+      (await import('./shaders/sun.vs.glsl')).default,
+      (await import('./shaders/sun.fs.glsl')).default,
+    ])
+
+    // Create the moon
+    const bufferInfo = primitives.createXYQuadBufferInfo(gl, 1.5)
+
+    // Load the texture from the server
+    const texture = createTexture(gl, {
+      src: '/moon.svg',
+    })
+
+    // Set the world position matrix for the moon
+    const world = m4.translation([-1.2, 3.2, 14])
+
+    // Rotate it to face the camera
+    m4.rotateX(world, Math.PI, world)
+
+    // Add it to the render list
+    this.objects.push({
+      kind: 'mesh',
+      name: 'moon',
+      transparent: true,
+      premulAlpha: true,
+      programInfo: moonShader,
+      uniforms: {
+        texture,
+      },
+      bufferInfo,
+      world,
+    })
   }
 
   /** Pauses the render loop. */
@@ -288,7 +330,7 @@ export default class HeroScene extends Scene {
       }
 
       // If the object is the sun or moon, update it
-      if (object.name?.startsWith('sun')) {
+      if (object.name?.startsWith('sun') || object.name === 'moon') {
         // Give it a little bob for fun
         m4.setTranslation(
           object.world,
@@ -306,6 +348,11 @@ export default class HeroScene extends Scene {
         if (object.name === 'sun2') {
           m4.rotateZ(object.world, delta * 0.1, object.world)
         }
+      }
+
+      // For the moon, we'll invert the dark mode value to be able to re-use the shader
+      if (object.name === 'moon') {
+        object.uniforms.darkModeValue = 1 - this.transitionT
       }
     }
   }
@@ -386,6 +433,7 @@ export default class HeroScene extends Scene {
         // Set all uniforms including the optional ones for this type
         setUniforms(object.programInfo, {
           ...uniforms,
+          ...object.uniforms,
           world: object.world,
           worldViewProjection: this.matrices.worldViewProjection,
         })
