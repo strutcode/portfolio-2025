@@ -332,11 +332,13 @@ export default class HeroScene extends Scene {
       // If the object is the sun or moon, update it
       if (object.name?.startsWith('sun') || object.name === 'moon') {
         // Give it a little bob for fun
-        m4.setTranslation(
-          object.world,
-          [-1.2, 3.2 + Math.sin(this.time * 0.75) * 0.25, 14],
-          object.world,
-        )
+        const bob = Math.sin(this.time * 0.75) * 0.25
+
+        // Make the sun and moon rise or set when changing to light or dark mode
+        const transition = object.name === 'moon' ? 1 - this.transitionT : this.transitionT
+
+        // Set the final translation
+        m4.setTranslation(object.world, [-1.2, 3.2 + bob - 2 * transition, 14], object.world)
 
         // Perform rotation logic separately for each one
         if (object.name === 'sun0') {
@@ -351,7 +353,7 @@ export default class HeroScene extends Scene {
       }
 
       // For the moon, we'll invert the dark mode value to be able to re-use the shader
-      if (object.name === 'moon') {
+      if (object.name === 'moon' && object.uniforms) {
         object.uniforms.darkModeValue = 1 - this.transitionT
       }
     }
