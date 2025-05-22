@@ -42,7 +42,13 @@
               <div class="project-popup-tags">
                 <span v-for="tag in selectedProject.tags" class="tag">{{ tag }}</span>
               </div>
-              <a :href="selectedProject.link" target="_blank" class="view-project">View Project</a>
+              <a
+                v-if="selectedProject.link"
+                :href="selectedProject.link"
+                target="_blank"
+                class="view-project"
+                >View Project</a
+              >
             </div>
             <Icon class="close-popup" icon="solar:close-square-bold-duotone" @click="closePopup" />
           </div>
@@ -77,18 +83,28 @@
   // Sample project data
   const projects = ref<Project[]>([
     {
-      title: 'CableCode',
+      title: 'Tizz',
       short:
-        'Dynamic website builder that allows users to visually design websites and bring them to life by connecting nodes.',
-      description: `I created CableCode to help users build websites without needing to know how to code. It allows users to visually design their website using an interface inspired by existing design tools, and then add functionality by connecting nodes.
-      
-The backend is built on a Node server that handles user authentication, data storage, and parsing of the connected nodes to generate code. I used MongoDB as a scalable data store and containerized the application using Docker for easy deployment to various environments.
-
-The frontend is entirely custom-built using Vue 3 and Vite, providing a fast and responsive user experience.`,
-      tags: ['Vue 3', 'TypeScript', 'Vite', 'MongoDB', 'Docker'],
+        'My pet programming language built from the ground up using my own lexer, parser, interpreter and compiler.',
+      description: `I thought it would be fun to build my own programming language from the ground up. I started with a simple lexer and parser, and then built an interpreter and compiler for the language.`,
+      tags: ['Typescript', 'x86 Assembly'],
       image:
-        'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
-      link: 'https://cable.strutcode.dev',
+        'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
+      link: 'https://github.com/strutcode/lang-dev',
+    },
+    {
+      title: 'OS Dev',
+      short:
+        'My personal operating system project starting from the boot loader all the way up to a GUI.',
+      description: `While exploring the web, I encountered a fascinating resource that explained the basics of how to create an operating system from scratch.
+      
+I was immediately intrigued and decided to embark on my own journey to create a simple operating system. I started with a simple bootloader and then built up from there, adding features like a simple file system.
+
+The project is still in its early stages, but I am excited to see where it goes!`,
+      tags: ['x86 Assembly', 'Hardware', 'C/C++'],
+      image:
+        'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
+      link: 'https://github.com/strutcode/os-dev',
     },
     {
       title: 'Gameboy Emulator',
@@ -118,28 +134,18 @@ I chose Godot as an engine for its free and open source nature and used WebRTC f
       link: 'https://pengiunbros.io',
     },
     {
-      title: 'TristanScript',
+      title: 'CableCode',
       short:
-        'My pet programming language built from the ground up using my own lexer, parser, interpreter and compiler.',
-      description: `I thought it would be fun to build my own programming language from the ground up. I started with a simple lexer and parser, and then built an interpreter and compiler for the language.`,
-      tags: ['Typescript', 'x86 Assembly'],
-      image:
-        'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
-      link: 'https://github.com/strutcode/lang-dev',
-    },
-    {
-      title: 'tOS',
-      short:
-        'My personal operating system project starting from the boot loader all the way up to a GUI.',
-      description: `While exploring the web, I encountered a fascinating resource that explained the basics of how to create an operating system from scratch.
+        'Dynamic website builder that allows users to visually design websites and bring them to life by connecting nodes.',
+      description: `I created CableCode to help users build websites without needing to know how to code. It allows users to visually design their website using an interface inspired by existing design tools, and then add functionality by connecting nodes.
       
-I was immediately intrigued and decided to embark on my own journey to create a simple operating system. I started with a simple bootloader and then built up from there, adding features like a simple file system.
+The backend is built on a Node server that handles user authentication, data storage, and parsing of the connected nodes to generate code. I used MongoDB as a scalable data store and containerized the application using Docker for easy deployment to various environments.
 
-The project is still in its early stages, but I am excited to see where it goes!`,
-      tags: ['x86 Assembly', 'Hardware', 'C/C++'],
+The frontend is entirely custom-built using Vue 3 and Vite, providing a fast and responsive user experience.`,
+      tags: ['Vue 3', 'TypeScript', 'Vite', 'MongoDB', 'Docker'],
       image:
-        'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
-      link: 'https://github.com/strutcode/os-dev',
+        'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.0&auto=format&fit=crop&w=600&h=400&q=80',
+      link: '',
     },
   ])
 </script>

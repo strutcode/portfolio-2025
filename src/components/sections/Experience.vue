@@ -86,7 +86,7 @@
 Using cutting edge technology, we created a sleek and modern web application that allows ISPs to manage their operations efficiently. I later transitioned into more senior roles including Frontend Architect and Staff Engineer where my responsibilities expanded to include mentoring new developers, conducting code reviews, and collaborating with cross-functional teams to ensure the successful delivery new features.
 
 Major contributions on my part included building key componets, architectural projects such as transitioning the existing code base from Flow types to TypeScript, and contributing original ideas that became well-received features. I played an important role in elevating Sonar to one of the top OSS/BSS platforms in the world for ISPs.`,
-      tags: ['Vue.js', 'TypeScript', 'Webpack', 'PHP', 'Laravel', 'ElasticSearch'],
+      tags: ['Vue.js', 'TypeScript', 'GraphQL', 'PHP', 'Laravel', 'ElasticSearch'],
       image: '/portfolio-image/sonar-software.png',
       link: 'https://sonar.software',
     },
