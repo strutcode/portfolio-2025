@@ -61,6 +61,8 @@ export default class HeroScene extends Scene {
   private transitionT = 0
   /** Whether or not the drawInstanced test passed */
   private instancingAvailable = true
+  /** The total elapsed time of the scene */
+  private time = 0
 
   /**
    * Pre-allocated storage for 4x4 matrices used at render time.
@@ -200,8 +202,9 @@ export default class HeroScene extends Scene {
     ])
 
     // Create the sun
-    const bufferInfo = primitives.createXYQuadBufferInfo(gl, 3.3)
+    const bufferInfo = primitives.createXYQuadBufferInfo(gl, 2.8)
 
+    // Load the texture from the server
     const texture = createTexture(gl, {
       src: '/sun.svg',
     })
@@ -284,15 +287,25 @@ export default class HeroScene extends Scene {
         }
       }
 
-      // If the object is a sun, perform rotation logic separately for each one
-      if (object.name === 'sun0') {
-        m4.rotateZ(object.world, delta * 0.5, object.world)
-      }
-      if (object.name === 'sun1') {
-        m4.rotateZ(object.world, -delta * 0.5, object.world)
-      }
-      if (object.name === 'sun2') {
-        m4.rotateZ(object.world, delta * 0.2, object.world)
+      // If the object is the sun or moon, update it
+      if (object.name?.startsWith('sun')) {
+        // Give it a little bob for fun
+        m4.setTranslation(
+          object.world,
+          [-1.2, 3.2 + Math.sin(this.time * 0.75) * 0.25, 14],
+          object.world,
+        )
+
+        // Perform rotation logic separately for each one
+        if (object.name === 'sun0') {
+          m4.rotateZ(object.world, delta * 0.18, object.world)
+        }
+        if (object.name === 'sun1') {
+          m4.rotateZ(object.world, delta * 0.05, object.world)
+        }
+        if (object.name === 'sun2') {
+          m4.rotateZ(object.world, delta * 0.1, object.world)
+        }
       }
     }
   }
@@ -303,6 +316,7 @@ export default class HeroScene extends Scene {
     // Time update
     const now = performance.now()
     const delta = (now - this.last) / 1000
+    this.time = performance.now() / 1000
     this.last = now
 
     // Run the logic update function
@@ -318,7 +332,6 @@ export default class HeroScene extends Scene {
     gl.enable(gl.CULL_FACE)
 
     // Calculate all global data
-    const time = performance.now() / 1000
     const viewProjection = this.calculateViewProjectionMatrix()
 
     // Draw everything
@@ -340,7 +353,7 @@ export default class HeroScene extends Scene {
       }
 
       const uniforms = {
-        time,
+        time: this.time,
         resolution: [this.canvas.width, this.canvas.height],
         viewProjection,
         lightDirection: this.lightDirection,
