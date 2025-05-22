@@ -11,5 +11,5 @@ float star() {
 
 void main() {
   gl_FragColor = texture2D(texture, vUv);
-  gl_FragColor.a *= 1.0 - darkModeValue;
+  gl_FragColor *= 1.0 - darkModeValue;
 }

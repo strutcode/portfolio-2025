@@ -29,6 +29,7 @@ type GlObjectDescriptor =
       bufferInfo: BufferInfo
       world: m4.Mat4
       transparent?: boolean
+      premulAlpha?: boolean
     }
   // Instanced object
   | {
@@ -39,6 +40,7 @@ type GlObjectDescriptor =
       vertexArrayInfo: VertexArrayInfo
       instanceCount: number
       transparent?: boolean
+      premulAlpha?: boolean
     }
 
 /**
@@ -215,6 +217,7 @@ export default class HeroScene extends Scene {
         kind: 'mesh',
         name: 'sun' + i,
         transparent: true,
+        premulAlpha: true,
         programInfo: sunShader,
         uniforms: {
           texture,
@@ -325,8 +328,12 @@ export default class HeroScene extends Scene {
         gl.enable(gl.BLEND)
         gl.disable(gl.DEPTH_TEST)
 
-        // Assume straight alpha
-        gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
+        // Choose a blend func based on transparency type
+        if (object.premulAlpha) {
+          gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
+        } else {
+          gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
+        }
       } else {
         gl.disable(gl.BLEND)
         gl.enable(gl.DEPTH_TEST)
