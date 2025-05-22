@@ -491,7 +491,7 @@ export default class HeroScene extends Scene {
 
     // Create a camera matrix that looks at the center of the scene from a
     // position relative to the vertical scroll
-    m4.lookAt([0, 2.2 - vPos * 2, -8], [0, 1 + vPos, 0], [0, 1, 0], this.matrices.camera)
+    m4.lookAt([0, 2.5 - vPos * 2, -8], [0, 1 + 2 * vPos, 0], [0, 1, 0], this.matrices.camera)
 
     // Create a view matrix that transforms the camera space to clip space
     m4.inverse(this.matrices.camera, this.matrices.view)
